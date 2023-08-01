@@ -5,6 +5,8 @@ import { AuthActions } from "../../store/actions/auth";
 import { connect } from 'react-redux';
 import { Dispatch, bindActionCreators } from 'redux';
 import { RootState } from '../../store/reducers';
+import { PAGE_PATHS } from '../../config';
+import { Navigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 360px;
@@ -29,6 +31,8 @@ const LoginContainer : React.FC<Props>  = (props) => {
         loginFailuerMsg,
         loggingIn
     };
+    
+    if (token) return <Navigate to={PAGE_PATHS.FRIENDS}></Navigate>;
     return (
         <Wrapper>
             <Header/>

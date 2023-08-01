@@ -5,6 +5,7 @@ import App from './App';
 import reportWebVitals from './reportWebVitals';
 import { Provider } from 'react-redux';
 import createStore from './store';
+import GlobalStyle from './styles/GlobalStyle';
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement
@@ -12,9 +13,10 @@ const root = ReactDOM.createRoot(
 const store = createStore();
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
-      <App />
-    </Provider>
+    <GlobalStyle/>
+      <Provider store={store}>
+        <App />
+      </Provider>
     
   </React.StrictMode>
 );

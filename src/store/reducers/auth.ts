@@ -26,6 +26,12 @@ export interface AuthState {
 
   const authReducer = (state = initialState, action: AuthActionTypes) => {
     switch (action.type) {
+      case AuthTypes.LOGOUT:
+        return {
+          ...state,
+          token: null,
+          auth: undefined,
+        };
       case AuthTypes.LOGIN_REQUEST:
         return {
           ...state,

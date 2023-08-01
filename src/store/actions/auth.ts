@@ -48,6 +48,7 @@ export const changeMessage = (message: string): ChangeMessageAction => ({
 export type AuthActionTypes =
 | LoginAction
 | LoginSuccessAction
+| LogoutAction
 
 export const AuthActions = {
   login,
