@@ -1,5 +1,9 @@
-import React, {useState}  from "react";
+import React, {useState, ChangeEvent, FormEvent}  from "react";
 import styled from 'styled-components';
+import Box from '@mui/material/Box';
+import TextField from '@mui/material/TextField';
+import Button from '@mui/material/Button';
+import { LoginData } from "../../dto/auth";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -68,10 +72,61 @@ const Wrapper = styled.main`
   }
 `;
 
-const Content :React.FC  = ()  => {
+interface Props {
+  login(loginData: LoginData): void;
+  changeMessage(message: string): void;
+  loginFailuerMsg: string;
+  loggingIn: boolean;
+}
+
+const Content :React.FC<Props>  = (props)  => {
+
+  const { login, changeMessage, loginFailuerMsg, loggingIn } = props;
+  const [user_id, setUserId] = useState('');
+  const [password, setPassword] = useState('');
+
+  const onUserIdChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    if (!loggingIn) {
+      const value = event.target.value;
+      setUserId(value);
+    }
+  };
+
+  const onPasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
+    event.preventDefault();
+    if (!loggingIn) {
+      const value = event.target.value;
+      setPassword(value);
+      if (value.length >= 5) {
+        changeMessage('');
+      }
+    }
+  };
+  const onSubmit = (event: any) => {
+    event.preventDefault();
+    if (!loggingIn && password.length >= 5) {
+      login({ user_id, password });
+      //setPassword('');
+    }
+  };
     return (
        <Wrapper>
-        로그인 콘텐츠
+     <Box
+        component="form"
+        sx={{
+          display: 'flex',
+          flexDirection: 'column',
+          alignItems: 'center',
+          '& > :not(style)': { m: 1, width: '25ch' },
+        }}
+        noValidate
+        autoComplete="off"
+      >
+      <TextField id="standard-basic" label="아이디" variant="standard" onChange={onUserIdChange} />
+      <TextField id="standard-basic" label="패스워드" type="password" variant="standard" onChange={onPasswordChange} />
+      <Button variant="contained" sx={{ width: '25ch' }} onClick={onSubmit}>로그인</Button>
+    </Box>
        </Wrapper>
     )
 }

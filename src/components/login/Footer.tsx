@@ -14,7 +14,7 @@ const Wrapper = styled.header`
 const Footer : React.FC  = ()  => {
     return (
        <Wrapper>
-        Login Footer
+        
        </Wrapper>
     )
 }
