@@ -16,7 +16,7 @@ const Wrapper = styled.header`
 const Footer : React.FC  = ()  => {
     return (
        <Wrapper>
-        <Link to={PAGE_PATHS.SIGNUP}>회원 가입</Link>
+        <Link to={PAGE_PATHS.LOGIN}>뒤로이동</Link>
        </Wrapper>
     )
 }

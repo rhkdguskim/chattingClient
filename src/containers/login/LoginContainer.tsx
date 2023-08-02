@@ -22,8 +22,8 @@ interface Props {
 const LoginContainer : React.FC<Props>  = (props) => {
 
 
-    const { login, changeMessage } = props.authActions;
-    const { token, loginFailuerMsg, loggingIn } = props.authState;
+    const { token, loginFailuerMsg, loggingIn } = props.authState; // store에서 state를 가져옴.
+    const { login, changeMessage } = props.authActions; // store에서 dispatch를 가져옴.
 
     const contentProps = {
         login,
@@ -42,11 +42,11 @@ const LoginContainer : React.FC<Props>  = (props) => {
     )
 }
 
-const mapStateToProps = (state: RootState) => ({
+const mapStateToProps = (state: RootState) => ({ // store로부터 state를 가져와서 컴포넌트에 props로 보내준다.
     authState: state.auth,
   });
   
-  const mapDispatchToProps = (dispatch: Dispatch) => ({
+  const mapDispatchToProps = (dispatch: Dispatch) => ({ // dispacth를 props로 보내준다.
     authActions: bindActionCreators(AuthActions, dispatch),
   });
 

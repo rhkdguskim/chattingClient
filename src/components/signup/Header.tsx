@@ -16,7 +16,7 @@ const Wrapper = styled.header`
 const Header : React.FC  = ()  => {
     return (
        <Wrapper>
-            <Link to={PAGE_PATHS.LOGIN}>로그인 페이지</Link>
+        
        </Wrapper>
     )
 }

@@ -2,7 +2,7 @@ import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
 
-import { Header, Content, } from "../../components/signup";
+import { Header, Content, Footer, } from "../../components/signup";
 import { RootState } from '../../store/reducers';
 import { AuthState } from "../../store/reducers/auth";
 
@@ -29,6 +29,7 @@ class SignupContainer extends Component<Props> {
       <Wrapper>
         <Header />
         <Content />
+        <Footer />
       </Wrapper>
     );
   }
