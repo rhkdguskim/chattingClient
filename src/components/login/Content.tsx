@@ -10,16 +10,15 @@ const Wrapper = styled.main`
   height: 330px;
   padding-top: 30px;
   & input {
-    display: block;
-    margin: 0 auto;
-    padding: 10px 5px;
-    width: 230px;
+    margin: 0.5rem 0;
+    padding: 0.5rem;
+    border-radius: 5px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
     border: 1px solid #dcdcdc;
-    &:first-child {
-      border-bottom: none;
-    }
-    &::placeholder {
-      color: #a2a2a2;
+    transition: box-shadow 0.3s, border 0.3s;
+    &:focus {
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      border-color: #a2a2a2;
     }
   }
   & button {
@@ -123,8 +122,8 @@ const Content :React.FC<Props>  = (props)  => {
         noValidate
         autoComplete="off"
       >
-      <TextField id="standard-basic" label="아이디" variant="standard" onChange={onUserIdChange} />
-      <TextField id="standard-basic" label="패스워드" type="password" variant="standard" onChange={onPasswordChange} />
+      <TextField id="standard-basic" label="아이디" variant="outlined" onChange={onUserIdChange} />
+      <TextField id="standard-basic" label="패스워드" type="password" variant="outlined" onChange={onPasswordChange} />
       <Button variant="contained" sx={{ width: '25ch' }} onClick={onSubmit}>로그인</Button>
     </Box>
        </Wrapper>

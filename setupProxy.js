@@ -6,5 +6,21 @@ module.exports = (app) => {
       target: 'http://localhost:3000/',
       changeOrigin: true,
     }),
+    createProxyMiddleware('/users', {
+      target: 'http://localhost:3000/',
+      changeOrigin: true,
+    }),
+    createProxyMiddleware('/friend', {
+      target: 'http://localhost:3000/',
+      changeOrigin: true,
+    }),
+    createProxyMiddleware('/chatting', {
+      target: 'http://localhost:3000/',
+      changeOrigin: true,
+    }),
+    createProxyMiddleware('/file', {
+      target: 'http://localhost:3000/',
+      changeOrigin: true,
+    }),
   );
   };

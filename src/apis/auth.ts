@@ -31,7 +31,8 @@ export const login = async (loginData: LoginData) => {
   };
   const response = await axios.post(
     `${API_HOST}/auth/login`,
-    request
+    request,
+    { withCredentials: true },
   );
   console.log(response.data)
   const token = response.data.access_token;

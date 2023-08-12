@@ -15,6 +15,7 @@ const Wrapper = styled.header`
 const Header : React.FC  = ()  => {
     return (
        <Wrapper>
+        <img src="/asset/kakao_logo.png" alt="logo" />
        </Wrapper>
     )
 }

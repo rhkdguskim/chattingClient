@@ -1,11 +1,12 @@
 import React, { Component } from 'react';
 import styled from 'styled-components';
 import { connect } from 'react-redux';
+import { Navigate } from 'react-router';
 
 import { Header, Content, Footer, } from "../../components/signup";
 import { RootState } from '../../store/reducers';
 import { AuthState } from "../../store/reducers/auth";
-
+import { PAGE_PATHS } from '../../config';
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 50%;
@@ -23,7 +24,7 @@ interface Props {
 class SignupContainer extends Component<Props> {
   render() {
     const { token } = this.props.authState;
-    // if (token) return <Redirect to={PAGE_PATHS.FRIENDS} />;
+    if (token) return <Navigate to={PAGE_PATHS.FRIENDS} />;
 
     return (
       <Wrapper>

@@ -1,12 +1,16 @@
 import jwtDecode from 'jwt-decode'
 import { AuthTypes, AuthActionTypes } from '../actions/auth'
 import { Auth } from '../../dto/auth';
+import { Socket } from 'socket.io-client';
+import * as socketio from 'socket.io-client';
+import { HOST } from '../../config';
 
 export interface AuthState {
     auth: Auth | undefined;
     token: string | null;
     loginFailuerMsg: string;
     loggingIn: boolean;
+    socket: Socket | undefined;
   }
 
    // 초기상태
@@ -16,12 +20,14 @@ export interface AuthState {
     token: window.sessionStorage.getItem('jwt'),
     loginFailuerMsg: '',
     // 로그인 중인지 여부
-    loggingIn: false
+    loggingIn: false,
+    socket: undefined,
   };
 
   if (initialState.token) {
     // token에서 회원 정보를 얻습니다.
     initialState.auth = jwtDecode(initialState.token) as Auth;
+    initialState.socket = socketio.connect(`${HOST}?token=${initialState.token}`)
   }
 
   const authReducer = (state = initialState, action: AuthActionTypes) => {
