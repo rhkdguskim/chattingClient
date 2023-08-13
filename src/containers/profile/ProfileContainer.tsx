@@ -70,11 +70,6 @@ class ProfileContainer extends Component<Props> {
     if (!profileState.isProfileShown) return null;
 
     const onChatClick = async () => {
-      const myId = userState.id;
-      const friendId = profileState.id;
-      const identifier =
-        myId < friendId ? `${myId}-${friendId}` : `${friendId}-${myId}`;
-
       const roomObj: CreateRoomRequestDto = {
         room_name: '',
         participant: [profileState]

@@ -101,14 +101,12 @@ export const fetchUser = (userId: string) => ({
     payload: friend
   });
   
-  export const fetchFriends = (id: number) => ({
+  export const fetchFriends = () => ({
     type: UserTypes.FETCH_FRIENDS_REQUEST,
-    payload: id
   });
   
-  export const fetchRoomList = (id: number) => ({
+  export const fetchRoomList = () => ({
     type: UserTypes.FETCH_ROOMLIST_REQUEST,
-    payload: id
   });
   
   // 안 읽은 채팅 수, 마지막 채팅 등 채팅 목록의 방 정보를 변경합니다.

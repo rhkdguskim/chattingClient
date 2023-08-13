@@ -254,11 +254,9 @@ const NewChattingWindow: React.FC<Props> = props => {
       if (confirmChatting) {
         const myId = userState.id;
         const friendId = selectedFriend.id;
-        const identifier =
-          myId < friendId ? `${myId}-${friendId}` : `${friendId}-${myId}`;
         const roomObj: CreateRoomRequestDto = {
           room_name: '',
-          participant: [selectedFriend]
+          participant: [selectedFriend, userState]
         };
         showChattingRoom(roomObj);
         onClose();

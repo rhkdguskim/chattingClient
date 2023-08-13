@@ -30,36 +30,47 @@ interface Props {
 
 const MenuContainer :React.FC<Props> = (props) => {
   const { authActions, chatActions, userActions } = props;
+  const chatState = props.rootState.chat;
+
   const [currentView, setCurrentView] = useState("Friend");
   const [prevChatRoomId, setPrevChatRoomId] = useState(0);
 
+  // 초기 연결시에만 들어옴.
   useEffect(() => {
     const auth = props.rootState.auth.auth;
     if (auth) {
       const socket = props.rootState.auth.socket;
       props.userActions.fetchUser(auth.user_id);
-      props.userActions.fetchFriends(auth.id);
-      props.userActions.fetchRoomList(auth.id);
+      props.userActions.fetchFriends();
+      props.userActions.fetchRoomList();
       if (socket)
       {
         socket.emit('Join');
+        console.log("SendMessage 1")
         socket.on('SendMessage', (response: ChattingResponseDto) => {
           updateRooms(response);
         });
       }
     }
+
+    // useEffect의 반환값으로 해제 함수를 반환
+    return () => {
+      console.log("클라이언트 반환1")
+      if (socket) {
+        socket.off('SendMessage');
+      }
+    };
+
   }, []);
 
   useEffect(() => {
-    console.log("여기에 들어오니??!!")
-    const chatState = props.rootState.chat;
     if (prevChatRoomId !== chatState.id) {
       setPrevChatRoomId(chatState.id);
       const socket = props.rootState.auth.socket;
       const { addChatting } = props.chatActions;
       if(socket) {
+        console.log("SendMessage 2")
         socket.on('SendMessage', async (response : ChattingResponseDto) => {
-          console.log(response.room_id, chatState.id)
           if (response.room_id === chatState.id) {
             await addChatting(response);
           }
@@ -68,7 +79,15 @@ const MenuContainer :React.FC<Props> = (props) => {
       }
 
     }
-  }, [props.rootState.chat.id]);
+    // useEffect의 반환값으로 해제 함수를 반환
+    return () => {
+      console.log("클라이언트 반환2")
+      if (socket) {
+        socket.off('SendMessage');
+      }
+    };
+    
+  }, [chatState.id]);
 
   const onShowView = (view : string) => {
     setCurrentView(view);
@@ -76,7 +95,6 @@ const MenuContainer :React.FC<Props> = (props) => {
 
   const updateRooms = async (response : ChattingResponseDto) => {
     const userState = props.rootState.user;
-    const chatState = props.rootState.chat;
     const roomList = userState.room_list;
     const { fetchRoomList, updateRoomList } = props.userActions;
 
@@ -85,10 +103,10 @@ const MenuContainer :React.FC<Props> = (props) => {
       const haveReadChat = response.room_id === chatState.id;
       const notReadChat = haveReadChat ? 0 : findRoom.not_read_chat + 1;
       const lastReadChatId = haveReadChat
-        ? response.room_id
+        ? response.id
         : findRoom.last_read_chat_id;
       const updateRoomObj = {
-        room_id: response.room_id,
+        id: response.room_id,
         last_chat: response.message,
         updatedAt: response.createdAt,
         not_read_chat: notReadChat,
@@ -96,14 +114,13 @@ const MenuContainer :React.FC<Props> = (props) => {
       };
       updateRoomList(updateRoomObj);
     } else {
-      await fetchRoomList(userState.id);
+      await fetchRoomList();
     }
   };
 
   const authState = props.rootState.auth;
   const token = authState.auth;
   const socket = authState.socket;
-  const chatState = props.rootState.chat;
   const userState = props.rootState.user;
   const roomList = userState.room_list;
 

@@ -12,12 +12,12 @@ const root = ReactDOM.createRoot(
 );
 const store = createStore();
 root.render(
-  <React.StrictMode>
-    <GlobalStyle/>
+  <>
+      <GlobalStyle/>
       <Provider store={store}>
         <App />
       </Provider>
-  </React.StrictMode>
+  </>
 );
 
 // If you want to start measuring performance in your app, pass a function

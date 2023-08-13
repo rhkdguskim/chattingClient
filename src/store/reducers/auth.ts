@@ -27,6 +27,7 @@ export interface AuthState {
   if (initialState.token) {
     // token에서 회원 정보를 얻습니다.
     initialState.auth = jwtDecode(initialState.token) as Auth;
+    initialState.socket?.disconnect()
     initialState.socket = socketio.connect(`${HOST}?token=${initialState.token}`)
   }
 
@@ -49,7 +50,8 @@ export interface AuthState {
           loginFailuerMsg: '',
           loggingIn: false,
           auth: action.payload.auth,
-          token: action.payload.token
+          token: action.payload.token,
+          socket : socketio.connect(`${HOST}?token=${action.payload.token}`)
         };
       default:
         return state;

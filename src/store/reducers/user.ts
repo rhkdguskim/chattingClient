@@ -1,7 +1,9 @@
 import { UserTypes, UserActionTypes } from '../actions/user';
 import { UserDataDto } from '../../dto/user';
 
-export interface UserState extends UserDataDto {}
+export interface UserState extends UserDataDto {
+  
+}
 
 const initialState: UserState = {
   id: -1,

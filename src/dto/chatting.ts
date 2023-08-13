@@ -10,7 +10,6 @@ export enum RoomType {
 export interface ChattingDto {
   id: number;
   type: RoomType | undefined;
-  identifier: string;
   room_name: string;
   participant: Array<UserResponseDto>;
   chatting: Array<ChattingResponseDto>;
@@ -48,7 +47,7 @@ export interface RoomListResponseDto {
 
   // 채팅방 리스트의 채팅방들 정보를 바꿀 때 요청
 export interface UpdateRoomListDto {
-  room_id: number;
+  id: number;
   room_name?: string;
   last_chat?: string;
   not_read_chat?: number;
@@ -63,7 +62,6 @@ export interface ChattingRequestDto {
   participant: Array<UserResponseDto>;
   user_id: number;
   message: string;
-  not_read: number;
 }
 
 // 채팅 수신

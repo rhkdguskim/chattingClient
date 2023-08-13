@@ -139,6 +139,11 @@ export const FriendChat: React.FC<ChatProps> = props => {
 // 다른 사람이 보냈으며, 프로필 사진을 포함하는 채팅
 export const FriendChatWithThumbnail: React.FC<FriendChatProps> = props => {
   const { user, content, onImgClick } = props;
+  
+  if (!user) {
+    return null; // 사용자가 없을 때 아무것도 렌더링하지 않음
+  }
+  
   return (
     <React.Fragment>
       {content ? <SeparationBlock content={content} /> : null}

@@ -8,17 +8,16 @@ export const findUser = async (userId: string) : Promise<UserResponseDto> => {
     `${API_HOST}/users/search${userId}`
     ,{ withCredentials: true }
   );
-  console.log(foundUser)
   return foundUser.data;
 };
 
 // UID를 이용하여 유저 정보를 찾는다. 채팅방 참가자의 정보를 가져오기 위해 사용
 export const findUserUsingId = async (id: number) => {
-  const foundUser: UserResponseDto = await axios.get(
-    `${API_HOST}/users/find/${id}`
+  const foundUser: ApiResponse<UserResponseDto> = await axios.get(
+    `${API_HOST}/users/find${id}`
     ,{ withCredentials: true }
   );
-  return foundUser;
+  return foundUser.data;
 };
 
 // 프로필 변경(사진, 배경, 이름 등등)
@@ -31,11 +30,12 @@ export const changeProfile = async (profileData: ProfileChangeRequestDto) => {
 export const uploadImageFile = async (image: File) => {
   const formData = new FormData();
   formData.append('image', image);
-  console.log("file upload")
-  const imageUrl: string = await axios.post(
-    `${API_HOST}/file/upload`,
+  const imageUrl: ApiResponse<string> = await axios.post(
+    `${API_HOST}/file/upload/`,
     formData
     , { withCredentials: true }
   );
-  return `${HOST}/${imageUrl}`;
+  console.log(imageUrl.data)
+  return `${HOST}/${imageUrl.data}`;
+
 };

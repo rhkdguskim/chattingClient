@@ -9,7 +9,6 @@ export interface ChatState extends ChattingDto {
 const initialState: ChatState = {
   id: -1,
   type: undefined,
-  identifier: '',
   room_name: '',
   participant: [],
   chatting: [],
@@ -31,7 +30,6 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
         ...state,
         room_id: -1,
         type: undefined,
-        identifier: '',
         participant: [],
         chatting: [],
         isChattingRoomShown: false,

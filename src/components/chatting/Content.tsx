@@ -86,11 +86,11 @@ const RoomRow: React.FC<RoomRowProps> = props => {
   return (
     <li onDoubleClick={onDoubleClick}>
       <img src={roomImg} alt="profile Image" onClick={onImgClick} />
-      <p className="room-block-top">
+      <p className="room-block-top" style={{ textAlign: 'left' }}>
         <b>{room_name}</b>
         <span>{getUpdatetAt(updatedAt)}</span>
       </p>
-      <p className="preview">
+      <p className="preview" style={{ textAlign: 'left' }}>
         {last_chat}
         {showNotReadChat}
       </p>
@@ -151,31 +151,36 @@ const Content: React.FC<Props> = props => {
     intoRoom({ ...room });
   };
   const renderRoomList = rooms.map(room => {
-    if (room.type === RoomType.Individual) {
-      const participant : UserResponseDto[] =
-        room.participant.length > 0 ? room.participant : [userState];
-      // 채팅 참가자 중, 찾는 사람이 있는 방만 보여줍니다. 검색을 안하면 채팅방 전부 보여줌
-      const reg_exp = new RegExp(`^.*${search}.*$`);
-      const findRoom = participant.find(person => {
-        return person.name.replace(/ /g, '').match(reg_exp);
-      });
-      if (!findRoom && !room.room_name.replace(/ /g, '').match(reg_exp)) {
-        return null;
-      }
-      return (
-        <RoomRow
-          room_name={room.room_name || participant[0].name}
-          roomImg={participant[0].profile_img_url || BASE_IMG_URL}
-          updatedAt={room.updatedAt}
-          last_chat={room.last_chat}
-          not_read_chat={room.not_read_chat}
-          onImgClick={() => showProfile(participant[0])}
-          onDoubleClick={() => onDoubleClick(room)}
-          key={room.id}
-        />
-      );
-    }
+  const participant : UserResponseDto[] =
+    room.participant.length > 0 ? room.participant : [userState];
+  // 채팅 참가자 중, 찾는 사람이 있는 방만 보여줍니다. 검색을 안하면 채팅방 전부 보여줌
+  const reg_exp = new RegExp(`^.*${search}.*$`);
+  const findRoom = participant.find(person => {
+    return person.name.replace(/ /g, '').match(reg_exp);
+  });
+  if (!findRoom && !room.room_name.replace(/ /g, '').match(reg_exp)) {
     return null;
+  }
+  let room_name: string = '';
+  if(room.room_name) {
+    room_name = room.room_name;
+  } else {
+      const participantNames = participant.map(user => user.name).join(' ');
+      room_name +=  participantNames + ' ';
+  }
+  
+  return (
+    <RoomRow
+      room_name={room_name}
+      roomImg={participant[0].profile_img_url || BASE_IMG_URL}
+      updatedAt={room.updatedAt}
+      last_chat={room.last_chat}
+      not_read_chat={room.not_read_chat}
+      onImgClick={() => showProfile(participant[0])}
+      onDoubleClick={() => onDoubleClick(room)}
+      key={room.id}
+    />
+  );
   });
 
   return <Wrapper>{renderRoomList}</Wrapper>;

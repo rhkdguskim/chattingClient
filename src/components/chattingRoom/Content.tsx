@@ -28,10 +28,9 @@ interface Props {
 }
 
 const Content: React.FC<Props> = props => {
-  const { myId, chattingList, participant, children, messageRef } = props;
-  const { showProfile } = props;
-  const renderChatting = chattingList.map((chat, idx) => {
-
+    const { myId, chattingList, participant, children, messageRef } = props;
+    const { showProfile } = props;
+    const renderChatting = chattingList.map((chat, idx) => {
     const createdAt = new Date(chat.createdAt);
     const localeTime = createdAt.toLocaleTimeString();
     const localeDate = createdAt.toLocaleDateString();
@@ -71,7 +70,6 @@ const Content: React.FC<Props> = props => {
     };
     // 지금 채팅 날짜가 이전에 채팅 날짜와 다르면 날짜 표시
     const date = isSameDate ? '' : getDate();
-    console.log("채팅아이디확인", senderId, myId)
     // 마지막 채팅인 경우
     if (idx === chattingList.length - 1) {
       // 내가 보낸 채팅인 경우
@@ -98,6 +96,7 @@ const Content: React.FC<Props> = props => {
           />
         );
       }
+
       return (
         <FriendChatWithThumbnail
           msg={chat.message}

@@ -6,6 +6,8 @@ import { MainContent } from '../../styles/BaseStyle';
 import { BASE_IMG_URL } from '../../config';
 import { UserDataDto, UserResponseDto} from '../../dto/user';
 import { CreateRoomRequestDto } from '../../dto/chatting';
+import { createRoom } from '../../apis/chatting';
+import { changeChattingRoomInfo } from '../../store/actions/chatting';
 
 
 const MyProfileBlock = styled.div`
@@ -102,22 +104,30 @@ const Content: React.FC<Props> = ({
   const renderFriends = searchedFriends.map(friend => {
     const roomObj: CreateRoomRequestDto = {
       room_name: '',
-      participant: [{ ...friend }]
+      participant: [userData, { ...friend }]
     };
-
     return (
       <FriendRow
         {...friend}
         key={friend.id}
         profileImgClick={() => showProfile(friend)}
-        onDoubleClick={() => showChattingRoom(roomObj)}
+        onDoubleClick={ () => {
+            createRoom(roomObj).then(room => {
+              if(room) {
+                showChattingRoom(roomObj)
+                changeChattingRoomInfo(room)
+              }
+            })
+            
+          }
+        }
       />
     );
   });
 
   const onMyBlockDoubleClick = () => {
     const roomObj: CreateRoomRequestDto = {
-      room_name: '',
+      room_name: '나와의 채팅',
       participant: [userData]
     };
     showChattingRoom(roomObj);

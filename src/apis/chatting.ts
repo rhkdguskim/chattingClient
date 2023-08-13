@@ -20,22 +20,21 @@ export const createRoom = async (param: CreateRoomRequestDto) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async (userId: number) => {
+export const fetchRoomList = async () => {
   const roomList: ApiResponse<Array<RoomListResponseDto>> = await axios.get(
     `${API_HOST}/chatting/`
     ,{ withCredentials: true }
   );
+  console.log("룸정보 출력",roomList)
   return roomList.data;
 };
 
 // 채팅방의 채팅 데이터를 가져옴
 export const fetchChatting = async (param: ChattingRequestByCursorDto) => {
   const { room_id, cursor } = param;
-  console.log("채팅 리케스트", room_id)
   const chatting: ApiResponse<Array<ChattingResponseDto>> = await axios.get(
-    `${API_HOST}/chatting/chattings${room_id}`
+    `${API_HOST}/chatting/chattings/${room_id}?cursor=${cursor}`
     ,{ withCredentials: true }
   );
-  console.log(chatting.data)
   return chatting.data;
 };

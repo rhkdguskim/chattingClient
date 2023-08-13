@@ -73,7 +73,7 @@ class ChattingRoomContainer extends Component<Props> {
       const { updateRoomList } = props.userActions;
       // 해당 채팅방의 모든 채팅을 읽었다고 표시합니다.
       const updateRoomObj: UpdateRoomListDto = {
-        room_id: findRoom.id,
+        id: findRoom.id,
         not_read_chat: 0
       };
       updateRoomList(updateRoomObj);
@@ -110,7 +110,10 @@ class ChattingRoomContainer extends Component<Props> {
   componentWillUnmount() {
     const socket = this.props.rootState.auth.socket;
     this.messageRef.current!.removeEventListener('scroll', this.handleScroll);
-    socket?.off('readChat');
+    if(socket) {
+      socket?.off('readChat');
+    }
+
     this.updateRoom();
   }
   componentDidUpdate(prevProps: Props) {
@@ -119,7 +122,7 @@ class ChattingRoomContainer extends Component<Props> {
     this.readChat(prevProps);
   }
 
-  // 스크롤 변롸에 따른 action
+  // 스크롤 변화에 따른 action
   handleScroll = () => {
     const messageRef = this.messageRef.current!;
     const scrollTop = messageRef.scrollTop;
@@ -258,7 +261,10 @@ class ChattingRoomContainer extends Component<Props> {
           };
 
           // 채팅 참가자들에게 채팅을 읽었다는 신호를 보냅니다.
-          socket!.emit('readChat', obj);
+          if (socket) {
+            socket!.emit('readChat', obj);
+          }
+
         } else {
           // 마지막 채팅이 내가 보낸 거라면, 마지막으로 읽은 채팅 id만 변경
           const roomObj: ChangeChattingRoomDto = {
@@ -268,13 +274,15 @@ class ChattingRoomContainer extends Component<Props> {
         }
 
         // 다른 대화 상대가 메시지를 읽었다는 신호가 오면, 해당 메시지의 안 읽은 채팅 수를 줄입니다.
-        socket!.off('readChat');
-        socket!.on('readChat', (res: ReadChatResponseDto) => {
-          if (chatState.id === res.room_id) {
-            const range = res.last_read_chat_id_range;
-            readChatting(range);
-          }
-        });
+        if(socket) {
+          socket!.off('readChat');
+          socket!.on('readChat', (res: ReadChatResponseDto) => {
+            if (chatState.id === res.room_id) {
+              const range = res.last_read_chat_id_range;
+              readChatting(range);
+            }
+          });
+        }
       }
     }
   };
@@ -287,7 +295,7 @@ class ChattingRoomContainer extends Component<Props> {
     const chattingLen = chatting.length;
     if (chattingLen > 0) {
       updateRoomList({
-        room_id: chatState.id,
+        id: chatState.id,
         last_read_chat_id: chatting[chattingLen - 1].id
       });
     }
@@ -316,10 +324,14 @@ class ChattingRoomContainer extends Component<Props> {
         participant: chatState.participant,
         user_id: userState.id,
         message: msg,
-        not_read: !isGroup && isMe ? 0 : chatState.participant.length
       };
       // 채팅방 참여자들에게 해당 메시지를 보냅니다.
-      authState.socket?.emit('SendMessage', chattingRequset);
+      if(authState.socket) {
+        authState.socket.emit('SendMessage', chattingRequset);
+      }
+      else {
+        console.log("Socket Error")
+      }
     };
 
     const isFriend: boolean =

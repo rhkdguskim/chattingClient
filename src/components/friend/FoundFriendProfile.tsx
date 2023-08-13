@@ -8,8 +8,9 @@ import { addFriendRequest } from '../../apis/friend';
 import { AddFriendRequestDto } from '../../dto/friend';
 import { UserActions } from '../../store/actions/user';
 import { RootState } from '../../store/reducers';
-import { CreateRoomRequestDto, RoomType } from '../../dto/chatting';
-import { ChatActions } from '../../store/actions/chatting';
+import { ChangeChattingRoomDto, CreateRoomRequestDto, RoomType } from '../../dto/chatting';
+import { ChatActions, changeChattingRoomInfo, fetchChatting } from '../../store/actions/chatting';
+import { createRoom } from '../../apis/chatting';
 
 const FoundUserProfile = styled.div`
   margin-top: 50px;
@@ -90,14 +91,25 @@ const FoundFriendProfile: React.FC<Props> = props => {
     };
 
     const onChatClick = () => {
-      const myId = userData.id;
-      const friendId = foundUser.id;
       const roomObj: CreateRoomRequestDto = {
-        room_name: '',
-        participant: existFriend ? [existFriend] : [userData]
+        room_name: foundUser.name,
+        participant: existFriend ? [existFriend, userData] : [userData]
       };
-      console.log(roomObj)
-      showChattingRoom(roomObj);
+      createRoom(roomObj).then(room => {
+        if(room) {
+          const createRoomObj: CreateRoomRequestDto = {
+            room_name: room.room_name,
+            participant : existFriend ? [existFriend, userData] : [userData]
+          };
+          const roomObj: ChangeChattingRoomDto = {
+            ...room,
+            participant : existFriend ? [existFriend, userData] : [userData]
+          };
+          showChattingRoom(createRoomObj);
+          changeChattingRoomInfo(roomObj);
+        }
+      }
+      );
       onClose();
     };
 
