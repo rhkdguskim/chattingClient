@@ -5,7 +5,7 @@ import { MainContent } from '../../styles/BaseStyle';
 // import { CreateRoomRequest } from '~/types/chatting';
 import { BASE_IMG_URL } from '../../config';
 import { UserDataDto, UserResponseDto} from '../../dto/user';
-import { CreateRoomRequestDto } from '../../dto/chatting';
+import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
 import { createRoom } from '../../apis/chatting';
 import { changeChattingRoomInfo } from '../../store/actions/chatting';
 
@@ -55,7 +55,7 @@ interface Props {
   search: string;
   userData: UserDataDto;
   showProfile(userData: UserResponseDto): void;
-  showChattingRoom(param: CreateRoomRequestDto): void;
+  showChattingRoom(param: RoomListResponseDto): void;
 }
 
 interface FriendRowProps {
@@ -111,26 +111,31 @@ const Content: React.FC<Props> = ({
         {...friend}
         key={friend.id}
         profileImgClick={() => showProfile(friend)}
-        onDoubleClick={ () => {
-            createRoom(roomObj).then(room => {
-              if(room) {
-                showChattingRoom(roomObj)
-                changeChattingRoomInfo(room)
-              }
-            })
-            
+        onDoubleClick={ async () => {
+          const room = await createRoom(roomObj)
+          const roomObjChange : RoomListResponseDto = {
+            ...room,
+            room_name: friend.name,
+            participant: [userData, { ...friend }]
+          }
+          showChattingRoom(roomObjChange)
           }
         }
       />
     );
   });
 
-  const onMyBlockDoubleClick = () => {
+  const onMyBlockDoubleClick = async () => {
     const roomObj: CreateRoomRequestDto = {
-      room_name: '나와의 채팅',
+      room_name: userData.name,
       participant: [userData]
     };
-    showChattingRoom(roomObj);
+    const room = await createRoom(roomObj)
+    const roomObjChange : RoomListResponseDto = {
+      ...room,
+      participant: [userData]
+    }
+    showChattingRoom(roomObjChange);
   };
   return (
     <MainContent>

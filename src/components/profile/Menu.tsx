@@ -21,7 +21,7 @@ const Wrapper = styled.section`
 interface Props {
   isMe: boolean;
   isFriend: boolean;
-  onChatClick(): void;
+  onChatClick(isSingle : boolean): void;
   onAddFriendClick(): void;
 }
 
@@ -30,7 +30,7 @@ const Menu: React.FC<Props> = props => {
   return (
     <Wrapper>
       {isFriend || isMe ? (
-        <div onClick={onChatClick}>
+        <div onClick={() => onChatClick(isMe)}>
           <i className="fas fa-comment" />
           <p>{isMe ? '나와의 채팅' : '1:1 채팅'}</p>
         </div>

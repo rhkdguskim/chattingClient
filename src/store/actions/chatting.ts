@@ -3,7 +3,8 @@ import {
     ChattingResponseDto,
     ChattingRequestByCursorDto,
     ChattingRequestDto,
-    ChangeChattingRoomDto
+    ChangeChattingRoomDto,
+    RoomListResponseDto
   } from '../../dto/chatting';
   
   export enum ChatTypes {
@@ -61,7 +62,7 @@ import {
     | FectchChattingSuccessAction;
   
   export const showChattingRoom = (
-    param: CreateRoomRequestDto
+    param: RoomListResponseDto
   ): ShowChattingRoomAction => ({
     type: ChatTypes.SHOW_CHATTING_ROOM,
     payload: param

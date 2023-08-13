@@ -8,7 +8,7 @@ import { addFriendRequest } from '../../apis/friend';
 import { AddFriendRequestDto } from '../../dto/friend';
 import { UserActions } from '../../store/actions/user';
 import { RootState } from '../../store/reducers';
-import { ChangeChattingRoomDto, CreateRoomRequestDto, RoomType } from '../../dto/chatting';
+import { ChangeChattingRoomDto, CreateRoomRequestDto, RoomListResponseDto, RoomType } from '../../dto/chatting';
 import { ChatActions, changeChattingRoomInfo, fetchChatting } from '../../store/actions/chatting';
 import { createRoom } from '../../apis/chatting';
 
@@ -101,12 +101,11 @@ const FoundFriendProfile: React.FC<Props> = props => {
             room_name: room.room_name,
             participant : existFriend ? [existFriend, userData] : [userData]
           };
-          const roomObj: ChangeChattingRoomDto = {
+          const roomObj: RoomListResponseDto = {
             ...room,
             participant : existFriend ? [existFriend, userData] : [userData]
           };
-          showChattingRoom(createRoomObj);
-          changeChattingRoomInfo(roomObj);
+          showChattingRoom(roomObj);
         }
       }
       );

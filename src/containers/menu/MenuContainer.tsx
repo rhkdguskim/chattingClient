@@ -31,7 +31,6 @@ interface Props {
 const MenuContainer :React.FC<Props> = (props) => {
   const { authActions, chatActions, userActions } = props;
   const chatState = props.rootState.chat;
-
   const [currentView, setCurrentView] = useState("Friend");
   const [prevChatRoomId, setPrevChatRoomId] = useState(0);
 
@@ -46,7 +45,6 @@ const MenuContainer :React.FC<Props> = (props) => {
       if (socket)
       {
         socket.emit('Join');
-        console.log("SendMessage 1")
         socket.on('SendMessage', (response: ChattingResponseDto) => {
           updateRooms(response);
         });

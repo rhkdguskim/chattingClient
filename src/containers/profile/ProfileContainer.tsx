@@ -8,9 +8,10 @@ import { ProfileActions } from '../..//store/actions/profile';
 import { UserActions } from '../..//store/actions/user';
 import { ChatActions } from '../../store/actions/chatting';
 import Modal from '../../page/Modal';
-import { CreateRoomRequestDto } from '../../dto/chatting';
+import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
 import { AddFriendRequestDto } from '../../dto/friend';
 import { addFriendRequest } from '../../apis/friend';
+import { createRoom } from '../../apis/chatting';
 
 const Wrapper = styled.main`
   width: 360px;
@@ -69,16 +70,23 @@ class ProfileContainer extends Component<Props> {
     );
     if (!profileState.isProfileShown) return null;
 
-    const onChatClick = async () => {
+    const onChatClick = async (isSingle : boolean) => {
+      const participant = isSingle ? [profileState] : [profileState, userState];
       const roomObj: CreateRoomRequestDto = {
         room_name: '',
-        participant: [profileState]
+        participant,
       };
+      const room = await createRoom(roomObj);
+      const roomObjChanged : RoomListResponseDto = {
+        ...room,
+        participant
+      } 
+
       await hideProfile();
       if (chatState.isChattingRoomShown) {
         await hideChattingRoom();
       }
-      await showChattingRoom(roomObj);
+      await showChattingRoom(roomObjChanged);
     };
 
     const onAddFriendClick = async () => {

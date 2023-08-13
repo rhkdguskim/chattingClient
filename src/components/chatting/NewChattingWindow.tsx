@@ -4,7 +4,8 @@ import Modal from '../../page/Modal';
 import { MainContent } from '../../styles/BaseStyle';
 import { BASE_IMG_URL } from '../../config';
 import { UserDataDto, UserResponseDto } from '../../dto/user';
-import { CreateRoomRequestDto } from '../../dto/chatting';
+import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
+import { createRoom } from '../../apis/chatting';
 
 // 새로운 채팅창 => 친구 목록에서 대화할 상대를 골라 채팅하도록 하는 컴포넌트입니다.
 const Wrapper = styled.div`
@@ -125,7 +126,7 @@ const CancelIcon = styled.i`
 interface Props {
   userState: UserDataDto;
   onClose(): void;
-  showChattingRoom(param: CreateRoomRequestDto): void;
+  showChattingRoom(param: RoomListResponseDto): void;
 }
 
 interface HeaderProps {
@@ -246,19 +247,23 @@ const NewChattingWindow: React.FC<Props> = props => {
   const onSelectedFriendChange = (friend: UserResponseDto) => {
     setSelectedFriend(friend);
   };
-  const onSubmit = () => {
+  const onSubmit = async () => {
     if (selectedFriend) {
       const confirmChatting = window.confirm(
         `${selectedFriend.name}님과 대화 하시겠습니까?`
       );
       if (confirmChatting) {
-        const myId = userState.id;
-        const friendId = selectedFriend.id;
         const roomObj: CreateRoomRequestDto = {
-          room_name: '',
+          room_name: selectedFriend.name,
           participant: [selectedFriend, userState]
         };
-        showChattingRoom(roomObj);
+
+        const room = await createRoom(roomObj)
+        const roomObjChanged : RoomListResponseDto = {
+          ...room,
+          participant: [selectedFriend, userState]
+        }
+        showChattingRoom(roomObjChanged);
         onClose();
       }
     }
