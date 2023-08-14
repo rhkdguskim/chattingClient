@@ -311,7 +311,7 @@ class ChattingRoomContainer extends Component<Props> {
     const userState = this.props.rootState.user;
     const chatState = this.props.rootState.chat;
     const authState = this.props.rootState.auth;
-    const roomName = chatState.room_name || chatState.participant[0].name;
+    const roomName = chatState.room_name;
     const isMe = chatState.participant[0].id === userState.id;
     const isGroup = chatState.type === RoomType.Group;
     const { hideChattingRoom } = this.props.chatActions;

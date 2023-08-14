@@ -53,7 +53,6 @@ const MenuContainer :React.FC<Props> = (props) => {
 
     // useEffect의 반환값으로 해제 함수를 반환
     return () => {
-      console.log("클라이언트 반환1")
       if (socket) {
         socket.off('SendMessage');
       }
@@ -67,7 +66,7 @@ const MenuContainer :React.FC<Props> = (props) => {
       const socket = props.rootState.auth.socket;
       const { addChatting } = props.chatActions;
       if(socket) {
-        console.log("SendMessage 2")
+        socket.emit('Join'); // 채팅방생성시에 리로딩
         socket.on('SendMessage', async (response : ChattingResponseDto) => {
           if (response.room_id === chatState.id) {
             await addChatting(response);
@@ -75,11 +74,8 @@ const MenuContainer :React.FC<Props> = (props) => {
           await updateRooms(response);
         });
       }
-
     }
-    // useEffect의 반환값으로 해제 함수를 반환
     return () => {
-      console.log("클라이언트 반환2")
       if (socket) {
         socket.off('SendMessage');
       }
