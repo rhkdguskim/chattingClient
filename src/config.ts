@@ -8,8 +8,8 @@ export enum PAGE_PATHS {
     CHATTING_ROOM = '/room'
   }
   
-  export const HOST = process.env.HOST || 'https://port-0-kakaotalk-backend-eu1k2lllawv5vy.sel3.cloudtype.app';
+  export const HOST = 'http://localhost:3000';
   
-  export const API_HOST = process.env.API_HOST || `${HOST}`;
+  export const API_HOST = "http://localhost:3000"
   
   export const BASE_IMG_URL = '/asset/base_profile.jpg';

@@ -3,6 +3,7 @@ import jwtDecode from 'jwt-decode';
 import { AuthTypes, LoginAction } from '../actions/auth';
 import * as authApi from '../../apis/auth'
 import { LoginData } from '../../dto/auth';
+import { UserTypes } from '../actions/user';
 
 export default function* authSaga() {
   yield all([
@@ -34,4 +35,7 @@ function* login$(action: LoginAction) : Generator<any, void, any> {
 
 function* logout$() {
   yield call(authApi.logout);
+  yield put({
+    type: UserTypes.RESET_USER
+  });
 }

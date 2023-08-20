@@ -125,6 +125,7 @@ const Content :React.FC<Props>  = (props)  => {
       <TextField id="standard-basic" label="아이디" variant="outlined" onChange={onUserIdChange} />
       <TextField id="standard-basic" label="패스워드" type="password" variant="outlined" onChange={onPasswordChange} />
       <Button variant="contained" sx={{ width: '25ch' }} onClick={onSubmit}>로그인</Button>
+      <p>{loginFailuerMsg}</p>
     </Box>
        </Wrapper>
     )

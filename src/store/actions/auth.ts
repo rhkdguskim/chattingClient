@@ -21,18 +21,14 @@ export interface LoginSuccessAction {
     }
 }
 
-export const login = (loginData: LoginData): LoginAction => ({
-    type: AuthTypes.LOGIN_REQUEST,
-    payload: loginData
-  });
+export interface LoginFailureAction {
+  type: AuthTypes.LOGIN_FAILURE;
+  payload: string;
+}
 
 export interface LogoutAction {
   type: AuthTypes.LOGOUT;
 }
-
-export const logout = (): LogoutAction => ({
-  type: AuthTypes.LOGOUT
-});
 
 // 로그인 실패 등에 따른 message
 export interface ChangeMessageAction {
@@ -40,15 +36,26 @@ export interface ChangeMessageAction {
   payload: string;
 }
 
+export type AuthActionTypes =
+| LoginAction
+| LoginSuccessAction
+| LoginFailureAction
+| LogoutAction
+| ChangeMessageAction;
+
+export const login = (loginData: LoginData): LoginAction => ({
+    type: AuthTypes.LOGIN_REQUEST,
+    payload: loginData
+  });
+
+export const logout = (): LogoutAction => ({
+  type: AuthTypes.LOGOUT
+});
+
 export const changeMessage = (message: string): ChangeMessageAction => ({
   type: AuthTypes.CHANGE_MESSAGE,
   payload: message
 });
-
-export type AuthActionTypes =
-| LoginAction
-| LoginSuccessAction
-| LogoutAction
 
 export const AuthActions = {
   login,

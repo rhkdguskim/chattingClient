@@ -24,10 +24,12 @@ export interface AuthState {
     socket: undefined,
   };
 
+
   if (initialState.token) {
     // token에서 회원 정보를 얻습니다.
     initialState.auth = jwtDecode(initialState.token) as Auth;
     initialState.socket?.disconnect()
+    console.log(`${HOST}?token=${initialState.token}`)
     initialState.socket = socketio.connect(`${HOST}?token=${initialState.token}`)
   }
 

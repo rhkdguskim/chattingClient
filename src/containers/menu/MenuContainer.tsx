@@ -40,10 +40,14 @@ const MenuContainer :React.FC<Props> = (props) => {
     if (auth) {
       const socket = props.rootState.auth.socket;
       props.userActions.fetchUser(auth.user_id);
-      props.userActions.fetchFriends();
-      props.userActions.fetchRoomList();
+      props.userActions.fetchFriends(auth.id);
+      props.userActions.fetchRoomList(auth.id);
       if (socket)
       {
+        socket.on('connect', ()=> {
+          console.log("소켓이 재 연결되어 다시 Join 합니다.")
+          socket.emit('Join');
+        })
         socket.emit('Join');
         socket.on('SendMessage', (response: ChattingResponseDto) => {
           updateRooms(response);
@@ -108,7 +112,7 @@ const MenuContainer :React.FC<Props> = (props) => {
       };
       updateRoomList(updateRoomObj);
     } else {
-      await fetchRoomList();
+      await fetchRoomList(userState.id);
     }
   };
 

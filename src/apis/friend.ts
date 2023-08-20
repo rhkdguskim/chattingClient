@@ -6,7 +6,7 @@ import { ApiResponse } from '../dto/base';
 // 친구 추가 요청
 export const addFriendRequest = async (request: AddFriendRequestDto) => {
   const addedFriend: boolean = await axios.post(
-    `${API_HOST}/friend/add`,
+    `${API_HOST}/friend/`,
     request
     ,{ withCredentials: true }
   );
@@ -16,7 +16,7 @@ export const addFriendRequest = async (request: AddFriendRequestDto) => {
 // 친구 목록 가져옴
 export const fecthFriendsRequest = async (id: number) => {
   const friends: ApiResponse<Array<UserResponseDto>> = await axios.get(
-    `${API_HOST}/friend/`
+    `${API_HOST}/friend/${id}`
     ,{ withCredentials: true }
   );
   console.log(friends)
