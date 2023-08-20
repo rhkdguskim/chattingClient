@@ -76,7 +76,7 @@ class ProfileContainer extends Component<Props> {
         room_name: '',
         participant,
       };
-      const room = await createRoom(roomObj);
+      const room = await createRoom(roomObj, userState.id);
       const roomObjChanged : RoomListResponseDto = {
         ...room,
         participant

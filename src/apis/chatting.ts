@@ -10,9 +10,9 @@ import {
 import { ApiResponse } from '../dto/base';
 
 // 채팅방 입장 시, 채팅방 정보를 얻음
-export const createRoom = async (param: CreateRoomRequestDto) => {
+export const createRoom = async (param: CreateRoomRequestDto, id : number) => {
   const room: ApiResponse<CreateRoomResponseDto> = await axios.post(
-    `${API_HOST}/chatting/add`,
+    `${API_HOST}/room/${id}`,
     param
     ,{ withCredentials: true }
   );
@@ -20,12 +20,11 @@ export const createRoom = async (param: CreateRoomRequestDto) => {
 };
 
 // 현재 채팅방 목록을 가져옴
-export const fetchRoomList = async () => {
+export const fetchRoomList = async (id : number) => {
   const roomList: ApiResponse<Array<RoomListResponseDto>> = await axios.get(
-    `${API_HOST}/chatting/`
+    `${API_HOST}/room/${id}`
     ,{ withCredentials: true }
   );
-  console.log("룸정보 출력",roomList)
   return roomList.data;
 };
 
@@ -33,7 +32,7 @@ export const fetchRoomList = async () => {
 export const fetchChatting = async (param: ChattingRequestByCursorDto) => {
   const { room_id, cursor } = param;
   const chatting: ApiResponse<Array<ChattingResponseDto>> = await axios.get(
-    `${API_HOST}/chatting/chattings/${room_id}?cursor=${cursor}`
+    `${API_HOST}/chatting/${room_id}?cursor=${cursor}`
     ,{ withCredentials: true }
   );
   return chatting.data;

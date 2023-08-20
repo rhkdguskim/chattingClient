@@ -95,7 +95,7 @@ const FoundFriendProfile: React.FC<Props> = props => {
         room_name: foundUser.name,
         participant: existFriend ? [existFriend, userData] : [userData]
       };
-      createRoom(roomObj).then(room => {
+      createRoom(roomObj, userData.id).then(room => {
         if(room) {
           const createRoomObj: CreateRoomRequestDto = {
             room_name: room.room_name,

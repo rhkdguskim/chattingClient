@@ -55,6 +55,17 @@ export interface AuthState {
           token: action.payload.token,
           socket : socketio.connect(`${HOST}?token=${action.payload.token}`)
         };
+        case AuthTypes.LOGIN_FAILURE:
+          return {
+            ...state,
+            loggingIn: false,
+            loginFailuerMsg: action.payload
+          };
+        case AuthTypes.CHANGE_MESSAGE:
+          return {
+            ...state,
+            loginFailuerMsg: action.payload
+          };
       default:
         return state;
     }

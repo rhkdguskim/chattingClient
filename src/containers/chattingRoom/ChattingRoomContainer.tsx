@@ -94,7 +94,7 @@ class ChattingRoomContainer extends Component<Props> {
         room_name: '',
         participant
       };
-      createRoom(createRoomObj).then(room => {
+      createRoom(createRoomObj, userState.id).then(room => {
         const roomObj: ChangeChattingRoomDto = {
           ...room,
           participant
