@@ -3,7 +3,7 @@ import { AuthTypes, AuthActionTypes } from '../actions/auth'
 import { Auth } from '../../dto/auth';
 import { Socket } from 'socket.io-client';
 import * as socketio from 'socket.io-client';
-import { HOST } from '../../config';
+import { API_HOST } from '../../config';
 import Cookies from 'js-cookie';
 
 export interface AuthState {
@@ -30,8 +30,8 @@ export interface AuthState {
     // token에서 회원 정보를 얻습니다.
     initialState.auth = jwtDecode(initialState.token) as Auth;
     initialState.socket?.disconnect()
-    console.log(`${HOST}?token=${initialState.token}`)
-    initialState.socket = socketio.connect(`${HOST}?token=${initialState.token}`)
+    console.log(`${API_HOST}?token=${initialState.token}`)
+    initialState.socket = socketio.connect(`${API_HOST}?token=${initialState.token}`)
   }
 
   const authReducer = (state = initialState, action: AuthActionTypes) => {
@@ -54,7 +54,7 @@ export interface AuthState {
           loggingIn: false,
           auth: action.payload.auth,
           token: action.payload.token,
-          socket : socketio.connect(`${HOST}?token=${action.payload.token}`)
+          socket : socketio.connect(`${API_HOST}?token=${action.payload.token}`)
         };
         case AuthTypes.LOGIN_FAILURE:
           return {

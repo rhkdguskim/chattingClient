@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { HOST, API_HOST } from '../config';
+import { API_HOST } from '../config';
 import { UserResponseDto, ProfileChangeRequestDto } from '../dto/user';
 import { ApiResponse } from '../dto/base';
 // 서버에서 User ID를 통해 해당 유저의 정보를 가져옴, 회원 가입 여부 등에 사용
@@ -36,6 +36,6 @@ export const uploadImageFile = async (image: File) => {
     , { withCredentials: true }
   );
   console.log(imageUrl.data)
-  return `${HOST}/${imageUrl.data}`;
+  return `${API_HOST}/${imageUrl.data}`;
 
 };

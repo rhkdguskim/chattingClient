@@ -8,8 +8,6 @@ export enum PAGE_PATHS {
     CHATTING_ROOM = '/room'
   }
   
-  export const HOST = 'http://localhost:3000';
-  
   export const API_HOST = "http://localhost:3000"
   
   export const BASE_IMG_URL = '/asset/base_profile.jpg';
