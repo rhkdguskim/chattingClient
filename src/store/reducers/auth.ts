@@ -4,6 +4,7 @@ import { Auth } from '../../dto/auth';
 import { Socket } from 'socket.io-client';
 import * as socketio from 'socket.io-client';
 import { HOST } from '../../config';
+import Cookies from 'js-cookie';
 
 export interface AuthState {
     auth: Auth | undefined;
@@ -16,8 +17,8 @@ export interface AuthState {
    // 초기상태
   const initialState: AuthState = {
     auth: undefined,
-    // session storage에 jwt가 있는 지 확인
-    token: window.sessionStorage.getItem('jwt'),
+    // 쿠키로 변경
+    token: Cookies.get('jwt') || null,
     loginFailuerMsg: '',
     // 로그인 중인지 여부
     loggingIn: false,

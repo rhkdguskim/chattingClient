@@ -24,7 +24,6 @@ function* login$(action: LoginAction) : Generator<any, void, any> {
         auth
       }
     });
-    yield window.sessionStorage.setItem('jwt', token);
   } catch {
     yield put({
       type: AuthTypes.LOGIN_FAILURE,
