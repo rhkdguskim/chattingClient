@@ -20,12 +20,17 @@ jobs:
           token: ${{ secrets.CLOUDTYPE_TOKEN }}
           project: rhkdguskim/kakaotalk-backend
           stage: main
-          yaml: |
+          yaml: >
             name: kakaotalk-frontend
+
             app: web
+
             options:
               nodeversion: "18"
               spa: true
+              buildenv:
+                - name: REACT_APP_API_HOST
+                  value: https://port-0-kakaotalk-backend-eu1k2lllawv5vy.sel3.cloudtype.app
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
