@@ -31,7 +31,7 @@ export const uploadImageFile = async (image: File) => {
   const formData = new FormData();
   formData.append('image', image);
   const imageUrl: ApiResponse<string> = await axios.post(
-    `${API_HOST}/file/upload/`,
+    `${API_HOST}/file/`,
     formData
     , { withCredentials: true }
   );
