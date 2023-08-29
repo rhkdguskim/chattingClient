@@ -1,6 +1,6 @@
-import React, {useState}  from "react";
+import React, { useState, useEffect } from "react";
 import styled from 'styled-components';
-import { Link } from 'react-router-dom';
+import { Link, useNavigate } from 'react-router-dom';
 import { PAGE_PATHS, API_HOST } from '../../config';
 import axios from "axios";
 
@@ -14,39 +14,41 @@ const Wrapper = styled.header`
   }
 `;
 
-const requestAPI = async () => {
-  // 카카오, 네이버, 구글의 각각의 소셜 로그인 요청 데이터 생성
-  const socialLoginUrl = `http://localhost:3000/auth/kakao/login/`;
+const Footer: React.FC = () => {
+  const navigate = useNavigate();
 
-  if (!socialLoginUrl) {
-    throw new Error('Invalid provider');
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    console.log(window.location.href)
+    const receivedAccessToken = urlParams.get('access_token');
+    const receivedRefreshToken = urlParams.get('refresh_token');
+    console.log(receivedAccessToken)
+    console.log(receivedRefreshToken)
+    if (receivedAccessToken && receivedRefreshToken) {
+      // 로그인 처리를 여기에 추가 (토큰 저장 등)
+      // ...
+      // 로그인 처리 후에 홈페이지로 리다이렉트
+      navigate('/');
+    }
+  }, [navigate]);
+
+  const handleLoginClick = (authProvider: string) => {
+    window.location.href = `${API_HOST}/auth/${authProvider}/login`;
+    console.log(window.location.href)
   }
-  
-  try {
-    const response = await axios.get(socialLoginUrl, { withCredentials: true });
-    
-    // 서버에서 리다이렉트할 URL을 받아옴
-    const redirectUrl = response.data.redirectUrl;
 
-    // 받아온 리다이렉트 URL로 프론트엔드에서 리다이렉트
-    window.location.href = redirectUrl;
-  } catch (error) {
-    console.error('Social login error:', error);
-    throw error;
-  }
-}
-
-const Footer : React.FC  = ()  => {
-    return (
-       <Wrapper>
-        <ul>
+  return (
+    <Wrapper>
+      <ul>
         <li>
-        <Link to={PAGE_PATHS.SIGNUP}>회원 가입</Link>
+          <Link to={PAGE_PATHS.SIGNUP}>회원 가입</Link>
         </li>
-        </ul>
-        <button onClick={requestAPI}>소셜 로그인</button>
-       </Wrapper>
-    )
+      </ul>
+      <button onClick={() => handleLoginClick('kakao')}>카카오 로그인</button>
+      <button onClick={() => handleLoginClick('naver')}>네이버 로그인</button>
+      <button onClick={() => handleLoginClick('google')}>구글 로그인</button>
+    </Wrapper>
+  );
 }
 
 export default Footer;
