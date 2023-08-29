@@ -23,11 +23,12 @@ const LoginContainer : React.FC<Props>  = (props) => {
 
 
     const { token, loginFailuerMsg, loggingIn } = props.authState; // store에서 state를 가져옴.
-    const { login, changeMessage } = props.authActions; // store에서 dispatch를 가져옴.
+    const { login, Sociallogin, changeMessage } = props.authActions; // store에서 dispatch를 가져옴.
 
     const contentProps = {
         login,
         changeMessage,
+        Sociallogin,
         loginFailuerMsg,
         loggingIn
     };

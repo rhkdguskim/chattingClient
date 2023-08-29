@@ -1,9 +1,11 @@
-import React, {useState, ChangeEvent, FormEvent}  from "react";
+import React, {useState, ChangeEvent, useEffect}  from "react";
 import styled from 'styled-components';
 import Box from '@mui/material/Box';
 import TextField from '@mui/material/TextField';
 import Button from '@mui/material/Button';
 import { LoginData } from "../../dto/auth";
+import { Link, useNavigate } from 'react-router-dom';
+import { API_HOST } from "../../config";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -74,13 +76,30 @@ const Wrapper = styled.main`
 interface Props {
   login(loginData: LoginData): void;
   changeMessage(message: string): void;
+  Sociallogin(token: string): void;
   loginFailuerMsg: string;
   loggingIn: boolean;
 }
 
 const Content :React.FC<Props>  = (props)  => {
+  const { login, changeMessage, Sociallogin, loginFailuerMsg, loggingIn } = props;
 
-  const { login, changeMessage, loginFailuerMsg, loggingIn } = props;
+  const handleLoginClick = (authProvider: string) => {
+    window.location.href = `${API_HOST}/auth/${authProvider}/login`;
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const receivedAccessToken = urlParams.get('access_token');
+    const receivedRefreshToken = urlParams.get('refresh_token');
+    
+    if (receivedAccessToken && receivedRefreshToken && !loggingIn) {
+      console.log("몇번이냐?")
+      Sociallogin(receivedAccessToken);
+      window.sessionStorage.setItem('jwt', receivedAccessToken);
+    }
+  }, [loggingIn, Sociallogin]);
+
   const [user_id, setUserId] = useState('');
   const [password, setPassword] = useState('');
 
@@ -108,6 +127,9 @@ const Content :React.FC<Props>  = (props)  => {
       login({ user_id, password });
       //setPassword('');
     }
+    else{
+      changeMessage('패스워드의 길이를 5자 이상으로 해주세요.')
+    }
   };
     return (
        <Wrapper>
@@ -122,9 +144,18 @@ const Content :React.FC<Props>  = (props)  => {
         noValidate
         autoComplete="off"
       >
-      <TextField id="standard-basic" label="아이디" variant="outlined" onChange={onUserIdChange} />
-      <TextField id="standard-basic" label="패스워드" type="password" variant="outlined" onChange={onPasswordChange} />
+      <TextField id="user-id" label="아이디" variant="outlined" onChange={onUserIdChange} />
+      <TextField id="user-password" label="패스워드" type="password" variant="outlined" onChange={onPasswordChange} />
       <Button variant="contained" sx={{ width: '25ch' }} onClick={onSubmit}>로그인</Button>
+      <Button variant="contained" sx={{ width: '25ch' }} onClick={() => handleLoginClick('kakao')}>
+        카카오 로그인
+      </Button>
+      <Button variant="contained" sx={{ width: '25ch' }} onClick={() => handleLoginClick('naver')}>
+        네이버 로그인
+      </Button>
+      <Button variant="contained" sx={{ width: '25ch' }} onClick={() => handleLoginClick('google')}>
+        구글 로그인
+      </Button>
       <p>{loginFailuerMsg}</p>
     </Box>
        </Wrapper>

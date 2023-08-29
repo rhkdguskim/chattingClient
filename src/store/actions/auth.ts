@@ -2,6 +2,7 @@ import { LoginData, Auth } from "../../dto/auth";
 
 export enum AuthTypes {
     LOGIN_REQUEST = 'auth/LOGIN_REQUEST',
+    SOCIAL_LOGIN_REQUEST = 'auth/SOCIAL_LOGIN_REQUEST',
     LOGIN_SUCCESS = 'auth/LOGIN_SUCCESS',
     LOGIN_FAILURE = 'auth/LOGIN_FAILURE',
     LOGOUT = 'auth/LOGOUT',
@@ -11,6 +12,11 @@ export enum AuthTypes {
 export interface LoginAction {
     type: AuthTypes.LOGIN_REQUEST;
     payload: LoginData;
+}
+
+export interface SocialLoginAction {
+    type: AuthTypes.SOCIAL_LOGIN_REQUEST;
+    payload: string;
 }
 
 export interface LoginSuccessAction {
@@ -38,6 +44,7 @@ export interface ChangeMessageAction {
 
 export type AuthActionTypes =
 | LoginAction
+| SocialLoginAction
 | LoginSuccessAction
 | LoginFailureAction
 | LogoutAction
@@ -46,6 +53,12 @@ export type AuthActionTypes =
 export const login = (loginData: LoginData): LoginAction => ({
     type: AuthTypes.LOGIN_REQUEST,
     payload: loginData
+  });
+
+
+export const Sociallogin = (token: string): SocialLoginAction => ({
+    type: AuthTypes.SOCIAL_LOGIN_REQUEST,
+    payload: token
   });
 
 export const logout = (): LogoutAction => ({
@@ -59,6 +72,7 @@ export const changeMessage = (message: string): ChangeMessageAction => ({
 
 export const AuthActions = {
   login,
+  Sociallogin,
   logout,
   changeMessage
 };

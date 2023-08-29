@@ -18,7 +18,7 @@ export interface AuthState {
   const initialState: AuthState = {
     auth: undefined,
     // 쿠키로 변경
-    token: Cookies.get('jwt') || null,
+    token: window.sessionStorage.getItem('jwt') || null,
     loginFailuerMsg: '',
     // 로그인 중인지 여부
     loggingIn: false,
@@ -46,6 +46,12 @@ export interface AuthState {
         return {
           ...state,
           loggingIn: true
+        };
+      case AuthTypes.SOCIAL_LOGIN_REQUEST:
+        return {
+          ...state,
+          token: action.payload,
+          loggingIn: false
         };
       case AuthTypes.LOGIN_SUCCESS:
         return {
