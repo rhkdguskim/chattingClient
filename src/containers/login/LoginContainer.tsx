@@ -38,7 +38,7 @@ const LoginContainer : React.FC<Props>  = (props) => {
         <Wrapper>
             <Header/>
             <Content {...contentProps}/>
-            <Footer/>
+            <Footer {...contentProps}/>
         </Wrapper>
     )
 }

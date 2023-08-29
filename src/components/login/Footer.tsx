@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
-import { Link, useNavigate } from 'react-router-dom';
+import { Link } from 'react-router-dom';
 import { PAGE_PATHS, API_HOST } from '../../config';
 
 const Wrapper = styled.header`
@@ -19,16 +19,47 @@ const Wrapper = styled.header`
   }
 `;
 
-const Footer: React.FC = () => {
+interface Props {
+  Sociallogin(token: string): void;
+}
 
+const Footer: React.FC<Props> = (props) => {
+  const { Sociallogin } = props;
+
+  const handleLoginClick = (authProvider: string) => {
+    window.location.href = `${API_HOST}/auth/${authProvider}/login`;
+  };
+
+  useEffect(() => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const receivedAccessToken = urlParams.get('access_token');
+    const receivedRefreshToken = urlParams.get('refresh_token');
+    
+    if (receivedAccessToken && receivedRefreshToken) {
+      window.sessionStorage.setItem('jwt', receivedAccessToken);
+      Sociallogin(receivedAccessToken)
+    }
+  }, []);
 
   return (
     <Wrapper>
+      <button onClick={() => handleLoginClick('kakao')}>
+        카카오 로그인
+      </button>
+      <button onClick={() => handleLoginClick('naver')}>
+        네이버 로그인
+      </button>
+      <button onClick={() => handleLoginClick('google')}>
+        구글 로그인
+      </button>
+
       <ul>
         <li>
         <Link to={PAGE_PATHS.SIGNUP}>회원 가입</Link>
         </li>
       </ul>
+
+      
     </Wrapper>
   );
 };
