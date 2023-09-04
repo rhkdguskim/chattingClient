@@ -9,8 +9,14 @@ interface SignupRequestDto {
   name: string;
 }
 
-interface LoginResponseDto {
+interface LoginRequestDto {
+  user_id: string;
+  password: string;
+}
+
+interface TokenResponseDto {
   access_token: string;
+  refresh_token: string;
 }
 
 // 서버에 회원가입 요청
@@ -23,21 +29,27 @@ export const signup = async (signupData: SignupData) => {
   await axios.post(`${API_HOST}/auth/signup`, signupRequest);
 };
 
+
+// 서버에 refresh token으로 token을 다시 재발급 받기
+export const refreshtoken = async (refresh_token : string) : Promise<TokenResponseDto> => {
+  return await axios.post(`${API_HOST}/auth/refreshtoken`, refresh_token); 
+}
+
 // 서버에 로그인 요청
-export const login = async (loginData: LoginData) => {
-  const request = {
+export const login = async (loginData: LoginData) : Promise<TokenResponseDto> => {
+  const request : LoginRequestDto = {
     user_id: loginData.user_id,
     password: loginData.password
   };
-  const response = await axios.post(
+  const response : ApiResponse<TokenResponseDto> = await axios.post(
     `${API_HOST}/auth/login`,
     request,
     { withCredentials: true },
   );
-  const token = response.data.access_token;
-  return token;
+  return response.data;
 };
 
+// 로그아웃 요청
 export const logout = () => {
   window.sessionStorage.removeItem('jwt');
 };

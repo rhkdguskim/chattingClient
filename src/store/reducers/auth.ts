@@ -8,7 +8,8 @@ import Cookies from 'js-cookie';
 
 export interface AuthState {
     auth: Auth | undefined;
-    token: string | null;
+    access_token: string | null;
+    refresh_token: string | null;
     loginFailuerMsg: string;
     loggingIn: boolean;
     socket: Socket | undefined;
@@ -18,7 +19,8 @@ export interface AuthState {
   const initialState: AuthState = {
     auth: undefined,
     // 쿠키로 변경
-    token: window.sessionStorage.getItem('jwt') || null,
+    access_token: window.sessionStorage.getItem('jwt') || null,
+    refresh_token: window.sessionStorage.getItem('rjwt') || null,
     loginFailuerMsg: '',
     // 로그인 중인지 여부
     loggingIn: false,
@@ -26,12 +28,12 @@ export interface AuthState {
   };
 
 
-  if (initialState.token) {
+  if (initialState.access_token) {
     // token에서 회원 정보를 얻습니다.
-    initialState.auth = jwtDecode(initialState.token) as Auth;
+    initialState.auth = jwtDecode(initialState.access_token) as Auth;
     initialState.socket?.disconnect()
-    console.log(`${API_HOST}?token=${initialState.token}`)
-    initialState.socket = socketio.connect(`${API_HOST}?token=${initialState.token}`)
+    console.log(`${API_HOST}?token=${initialState.access_token}`)
+    initialState.socket = socketio.connect(`${API_HOST}?token=${initialState.access_token}`)
   }
 
   const authReducer = (state = initialState, action: AuthActionTypes) => {
@@ -59,8 +61,9 @@ export interface AuthState {
           loginFailuerMsg: '',
           loggingIn: false,
           auth: action.payload.auth,
-          token: action.payload.token,
-          socket : socketio.connect(`${API_HOST}?token=${action.payload.token}`)
+          access_token: action.payload.access_token,
+          refresh_token:action.payload.refresh_token,
+          socket : socketio.connect(`${API_HOST}?token=${action.payload.access_token}`)
         };
         case AuthTypes.LOGIN_FAILURE:
           return {

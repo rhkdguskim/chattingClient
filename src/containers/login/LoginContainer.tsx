@@ -22,7 +22,7 @@ interface Props {
 const LoginContainer : React.FC<Props>  = (props) => {
 
 
-    const { token, loginFailuerMsg, loggingIn } = props.authState; // store에서 state를 가져옴.
+    const { access_token, loginFailuerMsg, loggingIn } = props.authState; // store에서 state를 가져옴.
     const { login, Sociallogin, changeMessage } = props.authActions; // store에서 dispatch를 가져옴.
 
     const contentProps = {
@@ -33,7 +33,7 @@ const LoginContainer : React.FC<Props>  = (props) => {
         loggingIn
     };
     
-    if (token) return <Navigate to={PAGE_PATHS.FRIENDS}></Navigate>;
+    if (access_token) return <Navigate to={PAGE_PATHS.FRIENDS}></Navigate>;
     return (
         <Wrapper>
             <Header/>

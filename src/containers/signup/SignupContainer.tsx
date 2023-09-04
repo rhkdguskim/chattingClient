@@ -23,8 +23,8 @@ interface Props {
 
 class SignupContainer extends Component<Props> {
   render() {
-    const { token } = this.props.authState;
-    if (token) return <Navigate to={PAGE_PATHS.FRIENDS} />;
+    const { access_token } = this.props.authState;
+    if (access_token) return <Navigate to={PAGE_PATHS.FRIENDS} />;
 
     return (
       <Wrapper>

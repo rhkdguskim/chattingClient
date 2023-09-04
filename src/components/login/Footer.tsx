@@ -37,6 +37,7 @@ const Footer: React.FC<Props> = (props) => {
     
     if (receivedAccessToken && receivedRefreshToken) {
       window.sessionStorage.setItem('jwt', receivedAccessToken);
+      window.sessionStorage.setItem('rjwt', receivedRefreshToken);
       Sociallogin(receivedAccessToken)
     }
   }, []);

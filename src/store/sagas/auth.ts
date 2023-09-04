@@ -4,6 +4,7 @@ import { AuthTypes, LoginAction } from '../actions/auth';
 import * as authApi from '../../apis/auth'
 import { LoginData } from '../../dto/auth';
 import { UserTypes } from '../actions/user';
+import { ApiErrorResponse } from '../../dto/base';
 
 export default function* authSaga() {
   yield all([
@@ -25,9 +26,10 @@ function* login$(action: LoginAction) : Generator<any, void, any> {
       }
     });
   } catch(err : any) {
+    const result : ApiErrorResponse = err;
     yield put({
       type: AuthTypes.LOGIN_FAILURE,
-      payload: err.response.data.message
+      payload: result.response?.data.message
     });
   }
 }

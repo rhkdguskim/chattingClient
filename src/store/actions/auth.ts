@@ -22,7 +22,8 @@ export interface SocialLoginAction {
 export interface LoginSuccessAction {
     type: AuthTypes.LOGIN_SUCCESS;
     payload: {
-        token: string;
+        access_token: string;
+        refresh_token: string;
         auth: Auth;
     }
 }
