@@ -348,7 +348,7 @@ class ChattingRoomContainer extends Component<Props> {
       const { addFriend } = this.props.userActions;
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
-        await addFriendRequest(request);
+        await addFriendRequest(my_id, request);
         await addFriend(friend);
       } catch (err) {
         alert('친구 추가 실패');

@@ -24,10 +24,10 @@ function* login$(action: LoginAction) : Generator<any, void, any> {
         auth
       }
     });
-  } catch {
+  } catch(err : any) {
     yield put({
       type: AuthTypes.LOGIN_FAILURE,
-      payload: '계정 또는 비밀번호를 다시 확인해주세요.'
+      payload: err.response.data.message
     });
   }
 }

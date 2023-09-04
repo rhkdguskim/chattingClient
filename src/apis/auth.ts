@@ -34,7 +34,6 @@ export const login = async (loginData: LoginData) => {
     request,
     { withCredentials: true },
   );
-  console.log(response.data)
   const token = response.data.access_token;
   return token;
 };

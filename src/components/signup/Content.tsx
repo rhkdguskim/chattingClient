@@ -158,8 +158,8 @@ const Content :React.FC  = ()  => {
         await signup({ user_id, password: pw, name });
         await alert('회원 가입 되었습니다.');
         //await history.replace(PAGE_PATHS.LOGIN);
-      } catch (err) {
-        alert('회원 가입에 실패하였습니다.');
+      } catch (err : any) {
+        alert(err.response.data.message);
       }
     }
   };

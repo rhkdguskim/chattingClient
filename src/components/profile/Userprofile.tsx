@@ -90,7 +90,9 @@ const UserProfile: React.FC<Props> = props => {
         if (isMe) {
           await changeProfile({ id: user_profile_id, name });
         } else {
-          await changeFriendName({
+          await changeFriendName(
+            {
+            my_id:loginUserData.id,
             friend_id: user_profile_id,
             friend_name: name
           });

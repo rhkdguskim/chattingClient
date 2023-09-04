@@ -33,6 +33,7 @@ export interface ProfileChangeRequestDto {
   
   // 친구 이름 변경 요청 시
   export interface ChangeFriendNameRequestDto {
+    my_id:number;
     friend_id: number;
     friend_name: string;
   }

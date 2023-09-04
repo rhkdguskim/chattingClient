@@ -82,7 +82,7 @@ const FoundFriendProfile: React.FC<Props> = props => {
       event.preventDefault();
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
-        await addFriendRequest(request);
+        await addFriendRequest(my_id, request);
         await addFriend(foundUser);
         await onClose();
       } catch (err) {
