@@ -1,4 +1,4 @@
-import { LoginData, Auth } from "../../dto/auth";
+import { SocialLoginData, LoginData, Auth } from "../../dto/auth";
 
 export enum AuthTypes {
     LOGIN_REQUEST = 'auth/LOGIN_REQUEST',
@@ -16,7 +16,7 @@ export interface LoginAction {
 
 export interface SocialLoginAction {
     type: AuthTypes.SOCIAL_LOGIN_REQUEST;
-    payload: string;
+    payload: SocialLoginData;
 }
 
 export interface LoginSuccessAction {
@@ -57,9 +57,9 @@ export const login = (loginData: LoginData): LoginAction => ({
   });
 
 
-export const Sociallogin = (token: string): SocialLoginAction => ({
+export const Sociallogin = (socialloinData: SocialLoginData): SocialLoginAction => ({
     type: AuthTypes.SOCIAL_LOGIN_REQUEST,
-    payload: token
+    payload: socialloinData
   });
 
 export const logout = (): LogoutAction => ({

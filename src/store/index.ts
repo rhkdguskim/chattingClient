@@ -4,7 +4,12 @@ import createSagaMiddleware from "redux-saga";
 import rootSaga from "./sagas";
 import rootReducer from "./reducers";
 
-const sagaMiddleware = createSagaMiddleware();
+const sagaMiddleware = createSagaMiddleware({
+  onError: (error) => {
+    console.error('Saga error:', error);
+  },
+});
+
 const logger = createLogger({
   collapsed: true
 });

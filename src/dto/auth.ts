@@ -3,6 +3,11 @@ export interface LoginData {
     password : string;
 }
 
+export interface SocialLoginData {
+    type : string;
+    code : string;
+}
+
 export interface SignupData {
     user_id: string;
     password : string;

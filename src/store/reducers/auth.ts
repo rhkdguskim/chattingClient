@@ -42,7 +42,8 @@ export interface AuthState {
       case AuthTypes.LOGOUT:
         return {
           ...state,
-          token: null,
+          access_token: null,
+          refresh_token: null,
           auth: undefined,
         };
       case AuthTypes.LOGIN_REQUEST:
@@ -53,8 +54,7 @@ export interface AuthState {
       case AuthTypes.SOCIAL_LOGIN_REQUEST:
         return {
           ...state,
-          token: action.payload,
-          loggingIn: false
+          loggingIn: true
         };
       case AuthTypes.LOGIN_SUCCESS:
         return {

@@ -10,7 +10,7 @@ import { Navigate } from 'react-router-dom';
 
 const Wrapper = styled.div`
   width: 360px;
-  height: 800px;
+  height: 700px;
   background-color: #ffeb33;
 `;
 
