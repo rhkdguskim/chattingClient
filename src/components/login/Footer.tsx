@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
-import { PAGE_PATHS, API_HOST } from '../../config';
+import { PAGE_PATHS, API_HOST, NAVER_IMG_URL, KAKAO_IMG_URL, GOOGLE_IMG_URL } from '../../config';
 
 const Wrapper = styled.header`
   text-align: center; /* Center align the child elements */
@@ -17,6 +17,32 @@ const Wrapper = styled.header`
   li {
     margin: 0 10px;
   }
+`;
+
+const LoginButton = styled.button`
+  width: 200px;  // 원하는 크기로 조정
+  height: 50px; // 원하는 크기로 조정
+  background-size: cover;
+  border: none;
+  cursor: pointer;
+  color: transparent; // 버튼의 텍스트를 숨깁니다.
+  transition: opacity 0.3s;
+
+  &:hover {
+    opacity: 0.8;
+  }
+`;
+
+const KakaoLoginButton = styled(LoginButton)`
+  background-image: url(${KAKAO_IMG_URL});
+`;
+
+const NaverLoginButton = styled(LoginButton)`
+  background-image: url(${NAVER_IMG_URL});
+`;
+
+const GoogleLoginButton = styled(LoginButton)`
+  background-image: url(${GOOGLE_IMG_URL});
 `;
 
 interface Props {
@@ -44,15 +70,15 @@ const Footer: React.FC<Props> = (props) => {
 
   return (
     <Wrapper>
-      <button onClick={() => handleLoginClick('kakao')}>
-        카카오 로그인
-      </button>
-      <button onClick={() => handleLoginClick('naver')}>
-        네이버 로그인
-      </button>
-      <button onClick={() => handleLoginClick('google')}>
-        구글 로그인
-      </button>
+  <KakaoLoginButton onClick={() => handleLoginClick('kakao')}>
+      카카오 로그인
+    </KakaoLoginButton>
+    <NaverLoginButton onClick={() => handleLoginClick('naver')}>
+      네이버 로그인
+    </NaverLoginButton>
+    <GoogleLoginButton onClick={() => handleLoginClick('google')}>
+      구글 로그인
+    </GoogleLoginButton>
 
       <ul>
         <li>
