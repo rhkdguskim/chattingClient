@@ -16,7 +16,8 @@ import {
   ChattingRequestByCursorDto,
   ReadChatRequestDto,
   ReadChatResponseDto,
-  UpdateRoomListDto
+  UpdateRoomListDto,
+  ChatType
 } from '../../dto/chatting';
 import { createRoom } from '../../apis/chatting';
 import { AddFriendRequestDto } from '../../dto/friend';
@@ -324,6 +325,7 @@ class ChattingRoomContainer extends Component<Props> {
         participant: chatState.participant,
         user_id: userState.id,
         message: msg,
+        messageType : ChatType.text,
       };
       // 채팅방 참여자들에게 해당 메시지를 보냅니다.
       if(authState.socket) {

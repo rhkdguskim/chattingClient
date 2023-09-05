@@ -6,6 +6,12 @@ export enum RoomType {
     Group
 }
 
+export enum ChatType {
+  text,
+  image,
+  video,
+}
+
 // chat state
 export interface ChattingDto {
   id: number;
@@ -62,6 +68,7 @@ export interface ChattingRequestDto {
   participant: Array<UserResponseDto>;
   user_id: number;
   message: string;
+  messageType : ChatType;
 }
 
 // 채팅 수신
