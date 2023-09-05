@@ -5,6 +5,7 @@ import { Socket } from 'socket.io-client';
 import * as socketio from 'socket.io-client';
 import { API_HOST } from '../../config';
 import Cookies from 'js-cookie';
+import { getAccessToken, getRefreshToken, setAccessToken } from '../../apis/base';
 
 export interface AuthState {
     auth: Auth | undefined;
@@ -19,8 +20,8 @@ export interface AuthState {
   const initialState: AuthState = {
     auth: undefined,
     // 쿠키로 변경
-    access_token: window.sessionStorage.getItem('jwt') || null,
-    refresh_token: window.sessionStorage.getItem('rjwt') || null,
+    access_token: getAccessToken() || null,
+    refresh_token: getRefreshToken() || null,
     loginFailuerMsg: '',
     // 로그인 중인지 여부
     loggingIn: false,

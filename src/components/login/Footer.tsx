@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import styled from 'styled-components';
 import { Link } from 'react-router-dom';
 import { PAGE_PATHS, API_HOST } from '../../config';
+import { setAccessToken, setRefreshToken } from '../../apis/base';
 
 const Wrapper = styled.header`
   text-align: center; /* Center align the child elements */
@@ -36,8 +37,8 @@ const Footer: React.FC<Props> = (props) => {
     const receivedRefreshToken = urlParams.get('refresh_token');
     
     if (receivedAccessToken && receivedRefreshToken) {
-      window.sessionStorage.setItem('jwt', receivedAccessToken);
-      window.sessionStorage.setItem('rjwt', receivedRefreshToken);
+      setAccessToken(receivedAccessToken);
+      setRefreshToken(receivedRefreshToken)
       Sociallogin(receivedAccessToken)
     }
   }, []);

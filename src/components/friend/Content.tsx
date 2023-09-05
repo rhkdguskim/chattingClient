@@ -112,7 +112,7 @@ const Content: React.FC<Props> = ({
         key={friend.id}
         profileImgClick={() => showProfile(friend)}
         onDoubleClick={ async () => {
-          const room = await createRoom(roomObj, userData.id)
+          const room = await createRoom(roomObj)
           const roomObjChange : RoomListResponseDto = {
             ...room,
             room_name: friend.name,
@@ -130,7 +130,7 @@ const Content: React.FC<Props> = ({
       room_name: userData.name,
       participant: [userData]
     };
-    const room = await createRoom(roomObj, userData.id)
+    const room = await createRoom(roomObj)
     const roomObjChange : RoomListResponseDto = {
       ...room,
       participant: [userData]

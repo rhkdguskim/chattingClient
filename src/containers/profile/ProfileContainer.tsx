@@ -76,7 +76,7 @@ class ProfileContainer extends Component<Props> {
         room_name: '',
         participant,
       };
-      const room = await createRoom(roomObj, userState.id);
+      const room = await createRoom(roomObj);
       const roomObjChanged : RoomListResponseDto = {
         ...room,
         participant
@@ -96,7 +96,7 @@ class ProfileContainer extends Component<Props> {
       const { addFriend } = this.props.userActions;
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
-        await addFriendRequest(my_id, request);
+        await addFriendRequest(request);
         await addFriend({ ...profileState });
       } catch (err) {
         alert('친구 추가 실패');

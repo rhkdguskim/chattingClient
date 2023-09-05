@@ -2,6 +2,7 @@ import axios from 'axios';
 import { API_HOST } from '../config';
 import { LoginData, SignupData } from '../dto/auth';
 import { ApiResponse } from '../dto/base';
+import { removeAccessToken, removeRefreshToken } from './base';
 
 interface SignupRequestDto {
   user_id: string;
@@ -14,7 +15,7 @@ interface LoginRequestDto {
   password: string;
 }
 
-interface TokenResponseDto {
+export interface TokenResponseDto {
   access_token: string;
   refresh_token: string;
 }
@@ -28,12 +29,6 @@ export const signup = async (signupData: SignupData) => {
   };
   await axios.post(`${API_HOST}/auth/signup`, signupRequest);
 };
-
-
-// 서버에 refresh token으로 token을 다시 재발급 받기
-export const refreshtoken = async (refresh_token : string) : Promise<TokenResponseDto> => {
-  return await axios.post(`${API_HOST}/auth/refreshtoken`, refresh_token); 
-}
 
 // 서버에 로그인 요청
 export const login = async (loginData: LoginData) : Promise<TokenResponseDto> => {
@@ -51,7 +46,8 @@ export const login = async (loginData: LoginData) : Promise<TokenResponseDto> =>
 
 // 로그아웃 요청
 export const logout = () => {
-  window.sessionStorage.removeItem('jwt');
+  removeAccessToken();
+  removeRefreshToken();
 };
 
 // 서버에 소셜 로그인 요청

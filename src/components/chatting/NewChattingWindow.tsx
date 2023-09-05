@@ -258,7 +258,7 @@ const NewChattingWindow: React.FC<Props> = props => {
           participant: [selectedFriend, userState]
         };
 
-        const room = await createRoom(roomObj, userState.id)
+        const room = await createRoom(roomObj)
         const roomObjChanged : RoomListResponseDto = {
           ...room,
           participant: [selectedFriend, userState]

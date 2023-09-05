@@ -5,6 +5,7 @@ import * as authApi from '../../apis/auth'
 import { LoginData } from '../../dto/auth';
 import { UserTypes } from '../actions/user';
 import { ApiErrorResponse } from '../../dto/base';
+import { setAccessToken, setRefreshToken } from '../../apis/base';
 
 export default function* authSaga() {
   yield all([
@@ -16,12 +17,15 @@ export default function* authSaga() {
 function* login$(action: LoginAction) : Generator<any, void, any> {
   try {
     const loginData : LoginData = action.payload;
-    const token = yield call(authApi.login, loginData);
-    const auth = yield call(jwtDecode, token);
+    const token : authApi.TokenResponseDto = yield call(authApi.login, loginData);
+    setAccessToken(token.access_token);
+    setRefreshToken(token.refresh_token);
+    const auth = yield call(jwtDecode, token.access_token);
     yield put({
       type: AuthTypes.LOGIN_SUCCESS,
       payload: {
-        token,
+        access_token : token.access_token,
+        refresh_token : token.refresh_token,
         auth
       }
     });

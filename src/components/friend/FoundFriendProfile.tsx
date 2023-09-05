@@ -82,7 +82,7 @@ const FoundFriendProfile: React.FC<Props> = props => {
       event.preventDefault();
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
-        await addFriendRequest(my_id, request);
+        await addFriendRequest(request);
         await addFriend(foundUser);
         await onClose();
       } catch (err) {
@@ -95,7 +95,7 @@ const FoundFriendProfile: React.FC<Props> = props => {
         room_name: foundUser.name,
         participant: existFriend ? [existFriend, userData] : [userData]
       };
-      createRoom(roomObj, userData.id).then(room => {
+      createRoom(roomObj).then(room => {
         if(room) {
           const createRoomObj: CreateRoomRequestDto = {
             room_name: room.room_name,

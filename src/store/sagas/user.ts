@@ -53,7 +53,7 @@ function* fetchFriends$(action: FetchFriendsAction) : any {
 function* fetchRoomList$(action: FetchRoomListAction) : any {
   try {
     const id = action.payload
-    const roomList = yield call(chatApi.fetchRoomList, id);
+    const roomList = yield call(chatApi.fetchRoomList as any);
     yield put({
       type: UserTypes.FETCH_ROOMLIST_SUCCESS,
       payload: roomList

@@ -94,7 +94,7 @@ class ChattingRoomContainer extends Component<Props> {
         room_name: '',
         participant
       };
-      createRoom(createRoomObj, userState.id).then(room => {
+      createRoom(createRoomObj).then(room => {
         const roomObj: ChangeChattingRoomDto = {
           ...room,
           participant
@@ -342,13 +342,12 @@ class ChattingRoomContainer extends Component<Props> {
       );
 
     const onAddFriendClick = async (friend: UserResponseDto) => {
-      const my_id = userState.id;
       const friend_id = friend.id;
       const friend_name = friend.name;
       const { addFriend } = this.props.userActions;
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
-        await addFriendRequest(my_id, request);
+        await addFriendRequest(request);
         await addFriend(friend);
       } catch (err) {
         alert('친구 추가 실패');
