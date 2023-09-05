@@ -31,6 +31,8 @@ jobs:
               buildenv:
                 - name: REACT_APP_API_HOST
                   value: https://port-0-kakaotalk-backend-eu1k2lllawv5vy.sel3.cloudtype.app
+                - name: REACT_APP_OAUTH_REDIRECT_URL
+                  value: https://web-kakaotalk-frontend-eu1k2lllawv5vy.sel3.cloudtype.app/oauth
             context:
               git:
                 url: git@github.com:${{ github.repository }}.git
