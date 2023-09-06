@@ -1,9 +1,9 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import styled from 'styled-components';
-import { findUser } from '../../apis/user';
-import { UserResponseDto } from '../../dto/user';
-import Modal, {ModalProps} from '../../page/Modal';
-import FoundFriendProfile from './FoundFriendProfile';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import styled from "styled-components";
+import { findUser } from "../../apis/user";
+import { UserResponseDto } from "../../dto/user";
+import Modal, { ModalProps } from "../../page/Modal";
+import FoundFriendProfile from "./FoundFriendProfile";
 
 const Wrapper = styled.div`
   width: 360px;
@@ -59,20 +59,17 @@ const CancelIcon = styled.i`
   cursor: pointer;
 `;
 
-
-interface Props extends ModalProps {
-    
-}
+interface Props extends ModalProps {}
 
 // 친구를 찾는 창
-const FindFriendWindow: React.FC<Props> = props => {
+const FindFriendWindow: React.FC<Props> = (props) => {
   const { overlayClose, onClose } = props;
   const MAX_LEN = 20;
-  const [userId, setUserId] = useState('');
+  const [userId, setUserId] = useState("");
   const [foundUser, setFoundUser] = useState<
     UserResponseDto | undefined | null
   >();
-  const [findUserId, setFindUserId] = useState('');
+  const [findUserId, setFindUserId] = useState("");
 
   const onIdInputChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();

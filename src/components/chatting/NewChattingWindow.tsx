@@ -1,11 +1,11 @@
-import React, { useState, ChangeEvent } from 'react';
-import styled from 'styled-components';
-import Modal from '../../page/Modal';
-import { MainContent } from '../../styles/BaseStyle';
-import { BASE_IMG_URL } from '../../config';
-import { UserDataDto, UserResponseDto } from '../../dto/user';
-import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
-import { createRoom } from '../../apis/chatting';
+import React, { useState, ChangeEvent } from "react";
+import styled from "styled-components";
+import Modal from "../../page/Modal";
+import { MainContent } from "../../styles/BaseStyle";
+import { BASE_IMG_URL } from "../../config";
+import { UserDataDto, UserResponseDto } from "../../dto/user";
+import { CreateRoomRequestDto, RoomListResponseDto } from "../../dto/chatting";
+import { createRoom } from "../../apis/chatting";
 
 // 새로운 채팅창 => 친구 목록에서 대화할 상대를 골라 채팅하도록 하는 컴포넌트입니다.
 const Wrapper = styled.div`
@@ -151,13 +151,13 @@ interface FriendRowProps {
   onSelectedFriendChange(): void;
 }
 
-const FriendRow: React.FC<FriendRowProps> = props => {
+const FriendRow: React.FC<FriendRowProps> = (props) => {
   const { name, profile_img_url } = props.friend;
   const { isSelected, onSelectedFriendChange } = props;
 
   return (
     <React.Fragment>
-      <label className={isSelected ? 'selected' : ''}>
+      <label className={isSelected ? "selected" : ""}>
         <li>
           <img src={profile_img_url || BASE_IMG_URL} alt="profile Image" />
           <p>
@@ -175,12 +175,12 @@ const FriendRow: React.FC<FriendRowProps> = props => {
   );
 };
 
-const Header: React.FC<HeaderProps> = props => {
+const Header: React.FC<HeaderProps> = (props) => {
   const { setSearch } = props;
   // 친구 찾기
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {
     event.preventDefault();
-    const searchRemoveBlank = event.target.value.replace(/ /g, '');
+    const searchRemoveBlank = event.target.value.replace(/ /g, "");
     setSearch(searchRemoveBlank);
   };
   return (
@@ -191,7 +191,7 @@ const Header: React.FC<HeaderProps> = props => {
   );
 };
 
-const Content: React.FC<ContentProps> = props => {
+const Content: React.FC<ContentProps> = (props) => {
   const { search, userState, selectedFriend } = props;
   const { onSelectedFriendChange } = props;
   const reg_exp = new RegExp(`^.*${search}.*$`);
@@ -199,10 +199,10 @@ const Content: React.FC<ContentProps> = props => {
     return a.name.localeCompare(b.name);
   });
   // 검색한 친구만 나타냅니다. 만약 검색한 것이 없다면 모든 친구를 나타냅니다.
-  const searchedFriends = friendsList.filter(friend => {
-    return friend.name.replace(/ /g, '').match(reg_exp);
+  const searchedFriends = friendsList.filter((friend) => {
+    return friend.name.replace(/ /g, "").match(reg_exp);
   });
-  const renderFriends = searchedFriends.map(friend => {
+  const renderFriends = searchedFriends.map((friend) => {
     const isSelected = selectedFriend ? friend.id === selectedFriend.id : false;
     return (
       <FriendRow
@@ -215,7 +215,7 @@ const Content: React.FC<ContentProps> = props => {
   });
   return (
     <ContentWrapper>
-      <h6>{renderFriends.length > 0 ? `친구 ${renderFriends.length}` : ''}</h6>
+      <h6>{renderFriends.length > 0 ? `친구 ${renderFriends.length}` : ""}</h6>
       <form>
         <ul>{renderFriends}</ul>
       </form>
@@ -223,9 +223,9 @@ const Content: React.FC<ContentProps> = props => {
   );
 };
 
-const Footer: React.FC<FooterProps> = props => {
+const Footer: React.FC<FooterProps> = (props) => {
   const { isCanSubmit, onSubmit, onClose } = props;
-  const buttonClassName = isCanSubmit ? 'confirm' : 'disabled';
+  const buttonClassName = isCanSubmit ? "confirm" : "disabled";
   return (
     <FooterWrapper>
       <button className={buttonClassName} onClick={onSubmit}>
@@ -238,11 +238,11 @@ const Footer: React.FC<FooterProps> = props => {
   );
 };
 
-const NewChattingWindow: React.FC<Props> = props => {
+const NewChattingWindow: React.FC<Props> = (props) => {
   const { userState, onClose, showChattingRoom } = props;
-  const [search, setSearch] = useState('');
+  const [search, setSearch] = useState("");
   const [selectedFriend, setSelectedFriend] = useState(
-    undefined as undefined | UserResponseDto
+    undefined as undefined | UserResponseDto,
   );
   const onSelectedFriendChange = (friend: UserResponseDto) => {
     setSelectedFriend(friend);
@@ -250,19 +250,19 @@ const NewChattingWindow: React.FC<Props> = props => {
   const onSubmit = async () => {
     if (selectedFriend) {
       const confirmChatting = window.confirm(
-        `${selectedFriend.name}님과 대화 하시겠습니까?`
+        `${selectedFriend.name}님과 대화 하시겠습니까?`,
       );
       if (confirmChatting) {
         const roomObj: CreateRoomRequestDto = {
           room_name: selectedFriend.name,
-          participant: [selectedFriend, userState]
+          participant: [selectedFriend, userState],
         };
 
-        const room = await createRoom(roomObj)
-        const roomObjChanged : RoomListResponseDto = {
+        const room = await createRoom(roomObj);
+        const roomObjChanged: RoomListResponseDto = {
           ...room,
-          participant: [selectedFriend, userState]
-        }
+          participant: [selectedFriend, userState],
+        };
         showChattingRoom(roomObjChanged);
         onClose();
       }

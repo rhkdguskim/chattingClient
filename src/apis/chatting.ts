@@ -1,23 +1,25 @@
-import axios from 'axios';
-import { API_HOST } from '../config';
+import axios from "axios";
+import { API_HOST } from "../config";
 import {
   CreateRoomRequestDto,
   CreateRoomResponseDto,
   RoomListResponseDto,
   ChattingResponseDto,
   ChattingRequestByCursorDto,
-} from '../dto/chatting';
-import { ApiResponse } from '../dto/base';
-import { RequestAuthAPI, getUserID } from './base';
+} from "../dto/chatting";
+import { ApiResponse } from "../dto/base";
+import { RequestAuthAPI, getUserID } from "./base";
 
 // 채팅방 입장 시, 채팅방 정보를 얻음
-export const createRoom = RequestAuthAPI<CreateRoomRequestDto, CreateRoomResponseDto>(async (param: CreateRoomRequestDto) => {
+export const createRoom = RequestAuthAPI<
+  CreateRoomRequestDto,
+  CreateRoomResponseDto
+>(async (param: CreateRoomRequestDto) => {
   const id = await getUserID();
   const room: ApiResponse<CreateRoomResponseDto> = await axios.post(
-    
     `${API_HOST}/room/${id}`,
-    param
-    ,{ withCredentials: true }
+    param,
+    { withCredentials: true },
   );
   return room.data;
 });
@@ -25,8 +27,8 @@ export const createRoom = RequestAuthAPI<CreateRoomRequestDto, CreateRoomRespons
 export const fetchRoomList = RequestAuthAPI(async () => {
   const id = await getUserID();
   const roomList: ApiResponse<Array<RoomListResponseDto>> = await axios.get(
-    `${API_HOST}/room/${id}`
-    ,{ withCredentials: true }
+    `${API_HOST}/room/${id}`,
+    { withCredentials: true },
   );
   return roomList.data;
 });
@@ -35,8 +37,8 @@ export const fetchRoomList = RequestAuthAPI(async () => {
 export const fetchChatting = async (param: ChattingRequestByCursorDto) => {
   const { room_id, cursor } = param;
   const chatting: ApiResponse<Array<ChattingResponseDto>> = await axios.get(
-    `${API_HOST}/chatting/${room_id}?cursor=${cursor}`
-    ,{ withCredentials: true }
+    `${API_HOST}/chatting/${room_id}?cursor=${cursor}`,
+    { withCredentials: true },
   );
   return chatting.data;
 };

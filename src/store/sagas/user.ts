@@ -1,67 +1,67 @@
-import { all, put, call, takeLatest } from 'redux-saga/effects';
+import { all, put, call, takeLatest } from "redux-saga/effects";
 import {
   UserTypes,
   FetchUserAction,
   FetchFriendsAction,
-  FetchRoomListAction
-} from '../actions/user';
-import * as userApi from '../../apis/user';
-import * as friendApi from '../../apis/friend';
-import * as chatApi from '../../apis/chatting';
-import { UserResponseDto } from '../../dto/user';
+  FetchRoomListAction,
+} from "../actions/user";
+import * as userApi from "../../apis/user";
+import * as friendApi from "../../apis/friend";
+import * as chatApi from "../../apis/chatting";
+import { UserResponseDto } from "../../dto/user";
 
 export default function* userSaga() {
   yield all([
     takeLatest(UserTypes.FETCH_USER_REQUEST, fetchUser$),
     takeLatest(UserTypes.FETCH_FRIENDS_REQUEST, fetchFriends$),
-    takeLatest(UserTypes.FETCH_ROOMLIST_REQUEST, fetchRoomList$)
+    takeLatest(UserTypes.FETCH_ROOMLIST_REQUEST, fetchRoomList$),
   ]);
 }
 
-function* fetchUser$(action: FetchUserAction) : any {
+function* fetchUser$(action: FetchUserAction): any {
   try {
     const userId = action.payload;
-    const user : UserResponseDto = yield call(userApi.findUser, userId);
+    const user: UserResponseDto = yield call(userApi.findUser, userId);
     yield put({
       type: UserTypes.FETCH_USER_SUCCESS,
-      payload: user
+      payload: user,
     });
   } catch {
     yield put({
       type: UserTypes.FETCH_USER_FAILUER,
-      payload: '유저 정보를 불러오지 못했습니다.'
+      payload: "유저 정보를 불러오지 못했습니다.",
     });
   }
 }
 
-function* fetchFriends$(action: FetchFriendsAction) : any {
+function* fetchFriends$(action: FetchFriendsAction): any {
   try {
     const id = action.payload;
     const friends = yield call(friendApi.fecthFriendsRequest, id);
     yield put({
       type: UserTypes.FETCH_FRIENDS_SUCCESS,
-      payload: friends
+      payload: friends,
     });
   } catch {
     yield put({
       type: UserTypes.FETCH_FRIENDS_FAILUER,
-      payload: '친구 목록을 불러오지 못했습니다.'
+      payload: "친구 목록을 불러오지 못했습니다.",
     });
   }
 }
 
-function* fetchRoomList$(action: FetchRoomListAction) : any {
+function* fetchRoomList$(action: FetchRoomListAction): any {
   try {
-    const id = action.payload
+    const id = action.payload;
     const roomList = yield call(chatApi.fetchRoomList as any);
     yield put({
       type: UserTypes.FETCH_ROOMLIST_SUCCESS,
-      payload: roomList
+      payload: roomList,
     });
   } catch (err) {
     yield put({
       type: UserTypes.FETCH_ROOMLIST_FAILUER,
-      payload: '채팅방 목록을 불러오지 못했습니다.'
+      payload: "채팅방 목록을 불러오지 못했습니다.",
     });
   }
 }

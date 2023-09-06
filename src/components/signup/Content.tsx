@@ -1,8 +1,8 @@
-import React, {useState, ChangeEvent, FocusEvent}  from "react";
-import styled from 'styled-components';
-import Box from '@mui/material/Box';
-import TextField from '@mui/material/TextField';
-import Button from '@mui/material/Button';
+import React, { useState, ChangeEvent, FocusEvent } from "react";
+import styled from "styled-components";
+import Box from "@mui/material/Box";
+import TextField from "@mui/material/TextField";
+import Button from "@mui/material/Button";
 import { LoginData } from "../../dto/auth";
 import { signup } from "../../apis/auth";
 
@@ -49,19 +49,18 @@ const Wrapper = styled.main`
   }
 `;
 
-const Content :React.FC  = ()  => {
-
+const Content: React.FC = () => {
   const MAX_LEN = 20;
   //const { history } = props;
-  const [user_id, setUserId] = useState('');
-  const [pw, setPw] = useState('');
-  const [checkPw, setCheckPw] = useState('');
-  const [name, setName] = useState('');
+  const [user_id, setUserId] = useState("");
+  const [pw, setPw] = useState("");
+  const [checkPw, setCheckPw] = useState("");
+  const [name, setName] = useState("");
 
-  const [userIdWarningMsg, setUserIdWarningMsg] = useState('');
-  const [pwWarningMsg, setPwWarningMsg] = useState('');
-  const [checkPwWarningMsg, setCheckPwWarningMsg] = useState('');
-  const [nameWarningMsg, setNameWarningMsg] = useState('');
+  const [userIdWarningMsg, setUserIdWarningMsg] = useState("");
+  const [pwWarningMsg, setPwWarningMsg] = useState("");
+  const [checkPwWarningMsg, setCheckPwWarningMsg] = useState("");
+  const [nameWarningMsg, setNameWarningMsg] = useState("");
 
   const onUserIdChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
@@ -93,39 +92,39 @@ const Content :React.FC  = ()  => {
   const isValidUserId = async () => {
     const len = user_id.length;
     if (len < 5 || !isMatchUserId()) {
-      setUserIdWarningMsg('5 ~ 20자의 영문 소문자, 숫자만 사용 가능합니다.');
+      setUserIdWarningMsg("5 ~ 20자의 영문 소문자, 숫자만 사용 가능합니다.");
       return false;
-    // } else if (await findUser(userId)) {
-    //   await setUserIdWarningMsg('이미 사용중이거나 탈퇴한 아이디입니다.');
-    //   return false;
+      // } else if (await findUser(userId)) {
+      //   await setUserIdWarningMsg('이미 사용중이거나 탈퇴한 아이디입니다.');
+      //   return false;
     }
-    setUserIdWarningMsg('');
+    setUserIdWarningMsg("");
     return true;
   };
   const isValidPw = (): boolean => {
     const len = pw.length;
     if (len < 5) {
-      setPwWarningMsg('5 ~ 20자 입력해주세요.');
+      setPwWarningMsg("5 ~ 20자 입력해주세요.");
       return false;
     }
-    setPwWarningMsg('');
+    setPwWarningMsg("");
     return true;
   };
   const isValidCheckPw = (): boolean => {
     if (checkPw !== pw) {
-      setCheckPwWarningMsg('비밀번호가 일치하지 않습니다.');
+      setCheckPwWarningMsg("비밀번호가 일치하지 않습니다.");
       return false;
     }
-    setCheckPwWarningMsg('');
+    setCheckPwWarningMsg("");
     return true;
   };
   const isValidName = (): boolean => {
     const len = name.length;
     if (len === 0) {
-      setNameWarningMsg('필수 정보입니다.');
+      setNameWarningMsg("필수 정보입니다.");
       return false;
     }
-    setNameWarningMsg('');
+    setNameWarningMsg("");
     return true;
   };
 
@@ -156,36 +155,63 @@ const Content :React.FC  = ()  => {
     if (validId && validPw && validCheckPw && validName) {
       try {
         await signup({ user_id, password: pw, name });
-        await alert('회원 가입 되었습니다.');
+        await alert("회원 가입 되었습니다.");
         //await history.replace(PAGE_PATHS.LOGIN);
-      } catch (err : any) {
+      } catch (err: any) {
         alert(err.response.data.message);
       }
     }
   };
 
-    return (
-       <Wrapper>
-     <Box
+  return (
+    <Wrapper>
+      <Box
         component="form"
         sx={{
-          display: 'flex',
-          flexDirection: 'column',
-          alignItems: 'center',
-          '& > :not(style)': { m: 1, width: '25ch' },
+          display: "flex",
+          flexDirection: "column",
+          alignItems: "center",
+          "& > :not(style)": { m: 1, width: "25ch" },
         }}
         noValidate
         autoComplete="off"
       >
-      <TextField id="standard-basic" label="아이디" variant="standard" onChange={onUserIdChange} />
-      <TextField id="standard-basic" label="비밀번호" type="password" variant="standard" onChange={onPasswordChange} onBlur={onPwBlur}/>
-      <TextField id="standard-basic" label="비밀번호 재확인" type="password" variant="standard" onChange={onCheckPwChange} onBlur={onCheckPwBlur} />
+        <TextField
+          id="standard-basic"
+          label="아이디"
+          variant="standard"
+          onChange={onUserIdChange}
+        />
+        <TextField
+          id="standard-basic"
+          label="비밀번호"
+          type="password"
+          variant="standard"
+          onChange={onPasswordChange}
+          onBlur={onPwBlur}
+        />
+        <TextField
+          id="standard-basic"
+          label="비밀번호 재확인"
+          type="password"
+          variant="standard"
+          onChange={onCheckPwChange}
+          onBlur={onCheckPwBlur}
+        />
 
-      <TextField id="standard-basic" label="이름" variant="standard" onChange={onNameChange} onBlur={onNameBlur} />
-      <Button variant="contained" sx={{ width: '25ch' }} onClick={onSubmit}>회원가입</Button>
-    </Box>
-       </Wrapper>
-    )
-}
+        <TextField
+          id="standard-basic"
+          label="이름"
+          variant="standard"
+          onChange={onNameChange}
+          onBlur={onNameBlur}
+        />
+        <Button variant="contained" sx={{ width: "25ch" }} onClick={onSubmit}>
+          회원가입
+        </Button>
+      </Box>
+    </Wrapper>
+  );
+};
 
 export default Content;

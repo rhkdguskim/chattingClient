@@ -1,5 +1,5 @@
-import React from 'react';
-import styled from 'styled-components';
+import React from "react";
+import styled from "styled-components";
 
 const Wrapper = styled.section`
   border-top: 1px solid #fff;
@@ -21,18 +21,18 @@ const Wrapper = styled.section`
 interface Props {
   isMe: boolean;
   isFriend: boolean;
-  onChatClick(isSingle : boolean): void;
+  onChatClick(isSingle: boolean): void;
   onAddFriendClick(): void;
 }
 
-const Menu: React.FC<Props> = props => {
+const Menu: React.FC<Props> = (props) => {
   const { isMe, isFriend, onChatClick, onAddFriendClick } = props;
   return (
     <Wrapper>
       {isFriend || isMe ? (
         <div onClick={() => onChatClick(isMe)}>
           <i className="fas fa-comment" />
-          <p>{isMe ? '나와의 채팅' : '1:1 채팅'}</p>
+          <p>{isMe ? "나와의 채팅" : "1:1 채팅"}</p>
         </div>
       ) : (
         <div onClick={onAddFriendClick}>

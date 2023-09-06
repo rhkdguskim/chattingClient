@@ -1,12 +1,12 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Navigate } from 'react-router';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { Navigate } from "react-router";
 
-import { Header, Content, Footer, } from "../../components/signup";
-import { RootState } from '../../store/reducers';
+import { Header, Content, Footer } from "../../components/signup";
+import { RootState } from "../../store/reducers";
 import { AuthState } from "../../store/reducers/auth";
-import { PAGE_PATHS } from '../../config';
+import { PAGE_PATHS } from "../../config";
 const Wrapper = styled.div`
   margin: 0 auto;
   width: 50%;
@@ -37,7 +37,7 @@ class SignupContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  authState: state.auth
+  authState: state.auth,
 });
 
 const mapDispatchToProps = () => ({});

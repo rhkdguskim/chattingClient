@@ -1,11 +1,11 @@
-import React, { Component } from 'react';
-import { Main } from '../../styles/BaseStyle';
-import { Header, Content } from '../../components/chatting';
-import { Dispatch, bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { RootState } from '../../store/reducers';
-import { ChatActions } from '../../store/actions/chatting';
-import { ProfileActions } from '../../store/actions/profile';
+import React, { Component } from "react";
+import { Main } from "../../styles/BaseStyle";
+import { Header, Content } from "../../components/chatting";
+import { Dispatch, bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { RootState } from "../../store/reducers";
+import { ChatActions } from "../../store/actions/chatting";
+import { ProfileActions } from "../../store/actions/profile";
 
 interface Props {
   rootState: RootState;
@@ -15,7 +15,7 @@ interface Props {
 
 class ChattingContainer extends Component<Props> {
   state = {
-    search: ''
+    search: "",
   };
   constructor(props: Props) {
     super(props);
@@ -30,10 +30,10 @@ class ChattingContainer extends Component<Props> {
     const changeSearch = (param: string) => {
       this.setState({
         ...this.state,
-        search: param
+        search: param,
       });
     };
-    const search = this.state.search.replace(/ /g, '');
+    const search = this.state.search.replace(/ /g, "");
     return (
       <Main>
         <Header
@@ -53,12 +53,12 @@ class ChattingContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   profileActions: bindActionCreators(ProfileActions, dispatch),
-  chatActions: bindActionCreators(ChatActions, dispatch)
+  chatActions: bindActionCreators(ChatActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ChattingContainer);

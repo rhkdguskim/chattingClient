@@ -1,9 +1,9 @@
-import React, {useState, ChangeEvent}  from "react";
-import styled from 'styled-components';
+import React, { useState, ChangeEvent } from "react";
+import styled from "styled-components";
 import { MainHeader, TitleBlock } from "../../styles/BaseStyle";
-import { Link } from 'react-router-dom';
-import { PAGE_PATHS } from '../../config';
-import FindFriendWindow from './FindFriendWindow'
+import { Link } from "react-router-dom";
+import { PAGE_PATHS } from "../../config";
+import FindFriendWindow from "./FindFriendWindow";
 const Wrapper = styled.header`
   width: 100%;
   height: 200px;

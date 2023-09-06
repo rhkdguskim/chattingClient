@@ -1,5 +1,5 @@
-import React, { MouseEvent } from 'react';
-import styled from 'styled-components';
+import React, { MouseEvent } from "react";
+import styled from "styled-components";
 const Wrapper = styled.header`
   width: 100%;
   background-color: #a9bdce;
@@ -28,7 +28,7 @@ interface Props {
   hideRoom(): void;
 }
 
-const Header: React.FC<Props> = props => {
+const Header: React.FC<Props> = (props) => {
   const { room_name, hideRoom } = props;
   const onBackBtnClick = (event: MouseEvent<HTMLButtonElement>) => {
     event.preventDefault();

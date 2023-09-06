@@ -1,8 +1,8 @@
-import React, { useState, ChangeEvent } from 'react';
-import { MainHeader, TitleBlock } from '../../styles/BaseStyle';
-import NewChattingWindow from './NewChattingWindow';
-import { UserDataDto } from '../../dto/user';
-import { CreateRoomRequestDto } from '../../dto/chatting';
+import React, { useState, ChangeEvent } from "react";
+import { MainHeader, TitleBlock } from "../../styles/BaseStyle";
+import NewChattingWindow from "./NewChattingWindow";
+import { UserDataDto } from "../../dto/user";
+import { CreateRoomRequestDto } from "../../dto/chatting";
 
 interface Props {
   userState: UserDataDto;
@@ -10,7 +10,7 @@ interface Props {
   showChattingRoom(param: CreateRoomRequestDto): void;
 }
 
-const Header: React.FC<Props> = props => {
+const Header: React.FC<Props> = (props) => {
   const { userState, changeSearch, showChattingRoom } = props;
   const [isOpenNewChatting, openNewChatting] = useState(false);
   const onSearchChange = (event: ChangeEvent<HTMLInputElement>) => {

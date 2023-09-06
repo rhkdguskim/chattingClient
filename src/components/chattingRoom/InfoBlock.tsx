@@ -1,7 +1,7 @@
-import React from 'react';
-import styled from 'styled-components';
-import { BASE_IMG_URL } from '../../config';
-import { UserResponseDto } from '../../dto/user';
+import React from "react";
+import styled from "styled-components";
+import { BASE_IMG_URL } from "../../config";
+import { UserResponseDto } from "../../dto/user";
 
 const BorderBlock = styled.div`
   position: relative;
@@ -15,7 +15,7 @@ const BorderBlock = styled.div`
     padding: 0 10px;
   }
   &:before {
-    content: '';
+    content: "";
     display: block;
     position: absolute;
     left: 2%;
@@ -183,7 +183,7 @@ interface MessageNotificationProp extends DownProps {
 
 // 날짜를 표시하는 등 채팅방의 경계를 나타냅니다.
 export const SeparationBlock: React.FC<SeparationBlockProps> = ({
-  content
+  content,
 }) => {
   return (
     <BorderBlock>
@@ -193,7 +193,7 @@ export const SeparationBlock: React.FC<SeparationBlockProps> = ({
 };
 
 // 친구가 아닐 경우, 상단에 경고 창이 뜨게 됩니다.
-export const NotFriendWarning: React.FC<NotFriendWariningProps> = props => {
+export const NotFriendWarning: React.FC<NotFriendWariningProps> = (props) => {
   const { onAddFriendClick } = props;
   return (
     <WarningAreaBlock>
@@ -206,7 +206,7 @@ export const NotFriendWarning: React.FC<NotFriendWariningProps> = props => {
         <WarningBlock>
           <i className="fas fa-exclamation-triangle" />
           <p>
-            {' '}
+            {" "}
             친구로 등록되지 않은 사용자입니다. 금전 요구 등으로 인한 피해를 입지
             않도록 주의해주세요.
           </p>
@@ -217,7 +217,7 @@ export const NotFriendWarning: React.FC<NotFriendWariningProps> = props => {
 };
 
 // 채팅방의 스크롤이 일정 이상 올라가면 나타나는 Down 버튼입니다.
-export const DownBtn: React.FC<DownProps> = props => {
+export const DownBtn: React.FC<DownProps> = (props) => {
   const { onDownClick } = props;
   return (
     <DownBtnWrapper onClick={onDownClick}>
@@ -227,7 +227,9 @@ export const DownBtn: React.FC<DownProps> = props => {
 };
 
 // 채팅방의 스크롤이 일정 이상 올라가 있는 상태에서, 메시지가 도착하면 이를 알려주는 컴포넌트 입니다.
-export const MessageNotification: React.FC<MessageNotificationProp> = props => {
+export const MessageNotification: React.FC<MessageNotificationProp> = (
+  props,
+) => {
   const { msg } = props;
   const user = props.user as UserResponseDto;
   const { onDownClick } = props;

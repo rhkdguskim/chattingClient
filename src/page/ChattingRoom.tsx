@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import { ChattingRoomContainer } from '../containers';
+import React from "react";
+import styled from "styled-components";
+import { ChattingRoomContainer } from "../containers";
 
 const Wrapper = styled.div`
   width: 100%;

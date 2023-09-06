@@ -1,8 +1,8 @@
-import React, { ChangeEvent, MouseEvent } from 'react';
-import styled from 'styled-components';
-import { UserResponseDto, ProfileChangeRequestDto } from '../../dto/user';
-import { uploadImageFile } from '../../apis/user';
-import { BASE_IMG_URL } from '../../config';
+import React, { ChangeEvent, MouseEvent } from "react";
+import styled from "styled-components";
+import { UserResponseDto, ProfileChangeRequestDto } from "../../dto/user";
+import { uploadImageFile } from "../../apis/user";
+import { BASE_IMG_URL } from "../../config";
 
 const BgImageSettingWrapper = styled.div`
   position: absolute;
@@ -82,15 +82,15 @@ export const BgImageSetting: React.FC<SettingProps> = ({
   userData,
   isShowSetting,
   showSetting,
-  changeProfile
+  changeProfile,
 }) => {
-  const settingClassName = `bgSetting ${!isShowSetting ? 'hideSetting' : ''}`;
+  const settingClassName = `bgSetting ${!isShowSetting ? "hideSetting" : ""}`;
   const id = userData.id;
   const changeImage = async (imageUrl: string) => {
     await changeProfile({ id, background_img_url: imageUrl });
   };
   const changeToInitImage = async () => {
-    await changeProfile({ id, background_img_url: '' });
+    await changeProfile({ id, background_img_url: "" });
   };
   return (
     <BgImageSettingWrapper>
@@ -109,17 +109,17 @@ export const ProfileImageSetting: React.FC<SettingProps> = ({
   userData,
   isShowSetting,
   showSetting,
-  changeProfile
+  changeProfile,
 }) => {
   const settingClassName = `profileSetting ${
-    !isShowSetting ? 'hideSetting' : ''
+    !isShowSetting ? "hideSetting" : ""
   }`;
   const id = userData.id;
   const changeImage = async (imageUrl: string) => {
     await changeProfile({ id, profile_img_url: imageUrl });
   };
   const changeToInitImage = async () => {
-    await changeProfile({ id, profile_img_url: '' });
+    await changeProfile({ id, profile_img_url: "" });
   };
   return (
     <ProfileImageSettingWrapper>
@@ -139,7 +139,7 @@ export const ProfileImageSetting: React.FC<SettingProps> = ({
 };
 
 export const FriendProfileImage: React.FC<{ userData: UserResponseDto }> = ({
-  userData
+  userData,
 }) => {
   return (
     <FriendProfileImageWrapper>
@@ -153,10 +153,10 @@ const Setting: React.FC<SettingBlockProps> = ({
   className,
   showSetting,
   changeImage,
-  changeToInitImage
+  changeToInitImage,
 }) => {
-  const settingName = className === 'bgSetting' ? '배경 변경' : '사진 변경';
-  const validFileType = ['image/bmp', 'image/png', 'image/jpg', 'image/jpeg'];
+  const settingName = className === "bgSetting" ? "배경 변경" : "사진 변경";
+  const validFileType = ["image/bmp", "image/png", "image/jpg", "image/jpeg"];
 
   // 이미지 이외의 파일은 받지 않습니다.
   const selectFile = async (event: ChangeEvent<HTMLInputElement>) => {
@@ -167,7 +167,7 @@ const Setting: React.FC<SettingBlockProps> = ({
         // 서버로 업로드
         const imageUrl = await uploadImageFile(file);
         await changeImage(imageUrl);
-      } else alert('이미지 파일만 가능합니다.');
+      } else alert("이미지 파일만 가능합니다.");
     }
   };
 

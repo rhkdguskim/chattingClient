@@ -1,5 +1,5 @@
-import React, { useState, ChangeEvent, FormEvent } from 'react';
-import styled from 'styled-components';
+import React, { useState, ChangeEvent, FormEvent } from "react";
+import styled from "styled-components";
 
 const SettingBg = styled.div`
   position: absolute;
@@ -70,7 +70,7 @@ const ProfileInputWindow: React.FC<Props> = ({
   currentValue,
   maxLength,
   showWindow,
-  changeProfile
+  changeProfile,
 }) => {
   const [value, setValue] = useState(currentValue);
   const onValueChange = (event: ChangeEvent<HTMLInputElement>) => {

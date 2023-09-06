@@ -1,17 +1,17 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { UserProfile, Menu } from '../../components/profile';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { RootState } from '../../store/reducers';
-import { ProfileActions } from '../..//store/actions/profile';
-import { UserActions } from '../..//store/actions/user';
-import { ChatActions } from '../../store/actions/chatting';
-import Modal from '../../page/Modal';
-import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
-import { AddFriendRequestDto } from '../../dto/friend';
-import { addFriendRequest } from '../../apis/friend';
-import { createRoom } from '../../apis/chatting';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { UserProfile, Menu } from "../../components/profile";
+import { connect } from "react-redux";
+import { Dispatch, bindActionCreators } from "redux";
+import { RootState } from "../../store/reducers";
+import { ProfileActions } from "../..//store/actions/profile";
+import { UserActions } from "../..//store/actions/user";
+import { ChatActions } from "../../store/actions/chatting";
+import Modal from "../../page/Modal";
+import { CreateRoomRequestDto, RoomListResponseDto } from "../../dto/chatting";
+import { AddFriendRequestDto } from "../../dto/friend";
+import { addFriendRequest } from "../../apis/friend";
+import { createRoom } from "../../apis/chatting";
 
 const Wrapper = styled.main`
   width: 360px;
@@ -58,7 +58,7 @@ class ProfileContainer extends Component<Props> {
     const chatState = this.props.rootState.chat;
     const isMe = profileState.id === userState.id;
     const isFriend = !!userState.friends_list.find(
-      friend => friend.id === profileState.id
+      (friend) => friend.id === profileState.id,
     );
 
     const { hideProfile } = this.props.profileActions;
@@ -66,21 +66,21 @@ class ProfileContainer extends Component<Props> {
     const setBackground = profileState.background_img_url ? (
       <img src={profileState.background_img_url} alt="bg_image" />
     ) : (
-      ''
+      ""
     );
     if (!profileState.isProfileShown) return null;
 
-    const onChatClick = async (isSingle : boolean) => {
+    const onChatClick = async (isSingle: boolean) => {
       const participant = isSingle ? [profileState] : [profileState, userState];
       const roomObj: CreateRoomRequestDto = {
-        room_name: '',
+        room_name: "",
         participant,
       };
       const room = await createRoom(roomObj);
-      const roomObjChanged : RoomListResponseDto = {
+      const roomObjChanged: RoomListResponseDto = {
         ...room,
-        participant
-      } 
+        participant,
+      };
 
       await hideProfile();
       if (chatState.isChattingRoomShown) {
@@ -99,7 +99,7 @@ class ProfileContainer extends Component<Props> {
         await addFriendRequest(request);
         await addFriend({ ...profileState });
       } catch (err) {
-        alert('친구 추가 실패');
+        alert("친구 추가 실패");
       }
     };
     return (
@@ -121,13 +121,13 @@ class ProfileContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   userActions: bindActionCreators(UserActions, dispatch),
   profileActions: bindActionCreators(ProfileActions, dispatch),
-  chatActions: bindActionCreators(ChatActions, dispatch)
+  chatActions: bindActionCreators(ChatActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(ProfileContainer);

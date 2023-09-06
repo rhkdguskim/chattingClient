@@ -1,6 +1,6 @@
-import React from 'react';
-import styled from 'styled-components';
-import SignupContainer from '../containers/signup/SignupContainer';
+import React from "react";
+import styled from "styled-components";
+import SignupContainer from "../containers/signup/SignupContainer";
 
 const Wrapper = styled.div`
   display: flex;

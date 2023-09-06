@@ -1,10 +1,14 @@
-import React, { useState, useEffect } from 'react';
-import styled from 'styled-components';
-import { CreateRoomRequestDto, RoomListResponseDto, RoomType } from '../../dto/chatting';
-import { UserDataDto, UserResponseDto } from '../../dto/user';
-import { BASE_IMG_URL } from '../../config';
-import { findUserUsingId } from '../../apis/user';
-import { Notification, MainContent } from '../../styles/BaseStyle';
+import React, { useState, useEffect } from "react";
+import styled from "styled-components";
+import {
+  CreateRoomRequestDto,
+  RoomListResponseDto,
+  RoomType,
+} from "../../dto/chatting";
+import { UserDataDto, UserResponseDto } from "../../dto/user";
+import { BASE_IMG_URL } from "../../config";
+import { findUserUsingId } from "../../apis/user";
+import { Notification, MainContent } from "../../styles/BaseStyle";
 const Wrapper = styled(MainContent)`
   & li {
     padding: 10px 20px 10px 180px;
@@ -53,7 +57,7 @@ interface RoomRowProps {
 }
 
 // 채팅방 목록
-const RoomRow: React.FC<RoomRowProps> = props => {
+const RoomRow: React.FC<RoomRowProps> = (props) => {
   const {
     onImgClick,
     onDoubleClick,
@@ -61,7 +65,7 @@ const RoomRow: React.FC<RoomRowProps> = props => {
     updatedAt,
     roomImg,
     last_chat,
-    not_read_chat
+    not_read_chat,
   } = props;
   // 마지막 채팅 시간
   const getUpdatetAt = (date: Date) => {
@@ -79,18 +83,18 @@ const RoomRow: React.FC<RoomRowProps> = props => {
   const showNotReadChat =
     not_read_chat > 0 ? (
       <Notification>
-        {not_read_chat <= 300 ? not_read_chat : '300+'}
+        {not_read_chat <= 300 ? not_read_chat : "300+"}
       </Notification>
     ) : null;
 
   return (
     <li onDoubleClick={onDoubleClick}>
       <img src={roomImg} alt="profile Image" onClick={onImgClick} />
-      <p className="room-block-top" style={{ textAlign: 'left' }}>
+      <p className="room-block-top" style={{ textAlign: "left" }}>
         <b>{room_name}</b>
         <span>{getUpdatetAt(updatedAt)}</span>
       </p>
-      <p className="preview" style={{ textAlign: 'left' }}>
+      <p className="preview" style={{ textAlign: "left" }}>
         {last_chat}
         {showNotReadChat}
       </p>
@@ -98,10 +102,10 @@ const RoomRow: React.FC<RoomRowProps> = props => {
   );
 };
 
-const Content: React.FC<Props> = props => {
+const Content: React.FC<Props> = (props) => {
   const { intoRoom, showProfile, userState, search } = props;
   const roomList = userState.room_list.sort((a, b) =>
-    b.updatedAt.toLocaleString().localeCompare(a.updatedAt.toLocaleString())
+    b.updatedAt.toLocaleString().localeCompare(a.updatedAt.toLocaleString()),
   );
   const friendList = userState.friends_list;
 
@@ -112,22 +116,22 @@ const Content: React.FC<Props> = props => {
     userState(내 정보, 친구 정보, 방 정보 등)이 바뀔 때, 채팅방 참가자 정보를 바꿈.*/
   useEffect(() => {
     const getParticipants = async () => {
-      const getRoomList : Array<RoomListResponseDto> = await Promise.all(
-        roomList.map(async room => {
+      const getRoomList: Array<RoomListResponseDto> = await Promise.all(
+        roomList.map(async (room) => {
           const participant = await Promise.all(
             room.participant.map(async (val) => {
               // 참가자가 나 자신인가?
               if (userState.id === val.id) return userState;
               // 참가자가 친구 목록에 있는가?
               const findParticipant = friendList.find(
-                friend => friend.id === val.id
+                (friend) => friend.id === val.id,
               );
               if (findParticipant) {
                 return findParticipant;
               }
               // 참가자가 기존에 친구 아닌 목록에 있는가?
               const findNotFriends = notFriends.find(
-                person => person.id === val.id
+                (person) => person.id === val.id,
               );
               if (findNotFriends) {
                 return findNotFriends;
@@ -136,10 +140,10 @@ const Content: React.FC<Props> = props => {
               const user = await findUserUsingId(val.id);
               await setNotFriends([...notFriends, user]);
               return user;
-            })
+            }),
           );
           return { ...room, participant };
-        })
+        }),
       );
       await setRooms([...getRoomList]);
     };
@@ -150,37 +154,37 @@ const Content: React.FC<Props> = props => {
   const onDoubleClick = (room: RoomListResponseDto) => {
     intoRoom({ ...room });
   };
-  const renderRoomList = rooms.map(room => {
-  const participant : UserResponseDto[] =
-    room.participant.length > 0 ? room.participant : [userState];
-  // 채팅 참가자 중, 찾는 사람이 있는 방만 보여줍니다. 검색을 안하면 채팅방 전부 보여줌
-  const reg_exp = new RegExp(`^.*${search}.*$`);
-  const findRoom = participant.find(person => {
-    return person.name.replace(/ /g, '').match(reg_exp);
-  });
-  if (!findRoom && !room.room_name.replace(/ /g, '').match(reg_exp)) {
-    return null;
-  }
-  let room_name: string = '';
-  if(room.room_name) {
-    room_name = room.room_name;
-  } else {
-      const participantNames = participant.map(user => user.name).join(' ');
-      room_name +=  participantNames + ' ';
-  }
-  
-  return (
-    <RoomRow
-      room_name={room_name}
-      roomImg={participant[0].profile_img_url || BASE_IMG_URL}
-      updatedAt={room.updatedAt}
-      last_chat={room.last_chat}
-      not_read_chat={room.not_read_chat}
-      onImgClick={() => showProfile(participant[0])}
-      onDoubleClick={() => onDoubleClick(room)}
-      key={room.id}
-    />
-  );
+  const renderRoomList = rooms.map((room) => {
+    const participant: UserResponseDto[] =
+      room.participant.length > 0 ? room.participant : [userState];
+    // 채팅 참가자 중, 찾는 사람이 있는 방만 보여줍니다. 검색을 안하면 채팅방 전부 보여줌
+    const reg_exp = new RegExp(`^.*${search}.*$`);
+    const findRoom = participant.find((person) => {
+      return person.name.replace(/ /g, "").match(reg_exp);
+    });
+    if (!findRoom && !room.room_name.replace(/ /g, "").match(reg_exp)) {
+      return null;
+    }
+    let room_name: string = "";
+    if (room.room_name) {
+      room_name = room.room_name;
+    } else {
+      const participantNames = participant.map((user) => user.name).join(" ");
+      room_name += participantNames + " ";
+    }
+
+    return (
+      <RoomRow
+        room_name={room_name}
+        roomImg={participant[0].profile_img_url || BASE_IMG_URL}
+        updatedAt={room.updatedAt}
+        last_chat={room.last_chat}
+        not_read_chat={room.not_read_chat}
+        onImgClick={() => showProfile(participant[0])}
+        onDoubleClick={() => onDoubleClick(room)}
+        key={room.id}
+      />
+    );
   });
 
   return <Wrapper>{renderRoomList}</Wrapper>;

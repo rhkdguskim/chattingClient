@@ -1,12 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import {
-  MyChat,
-  FriendChat,
-  FriendChatWithThumbnail
-} from './ChatBlock';
-import { ChattingResponseDto } from '../../dto/chatting';
-import { UserResponseDto } from '../../dto/user';
+import React from "react";
+import styled from "styled-components";
+import { MyChat, FriendChat, FriendChatWithThumbnail } from "./ChatBlock";
+import { ChattingResponseDto } from "../../dto/chatting";
+import { UserResponseDto } from "../../dto/user";
 
 const Wrapper = styled.main`
   position: absolute;
@@ -27,10 +23,10 @@ interface Props {
   children: React.ReactNode;
 }
 
-const Content: React.FC<Props> = props => {
-    const { myId, chattingList, participant, children, messageRef } = props;
-    const { showProfile } = props;
-    const renderChatting = chattingList.map((chat, idx) => {
+const Content: React.FC<Props> = (props) => {
+  const { myId, chattingList, participant, children, messageRef } = props;
+  const { showProfile } = props;
+  const renderChatting = chattingList.map((chat, idx) => {
     const createdAt = new Date(chat.createdAt);
     const localeTime = createdAt.toLocaleTimeString();
     const localeDate = createdAt.toLocaleDateString();
@@ -38,38 +34,38 @@ const Content: React.FC<Props> = props => {
     const senderId = chat.user_id;
 
     const prevChat = idx >= 1 ? chattingList[idx - 1] : undefined;
-    const prevCreatedAt = prevChat ? new Date(prevChat.createdAt) : '';
+    const prevCreatedAt = prevChat ? new Date(prevChat.createdAt) : "";
     const prevLocaleDate = prevCreatedAt
       ? prevCreatedAt.toLocaleDateString()
-      : '';
+      : "";
     const prevLocaleTime = prevCreatedAt
       ? prevCreatedAt.toLocaleTimeString()
-      : '';
+      : "";
     const prevRemoveSecond = prevLocaleTime
       ? prevLocaleTime.substring(0, prevLocaleTime.length - 3)
-      : '';
+      : "";
     const isPrevSender = prevChat ? prevChat.user_id === senderId : false;
     const isSameDate = prevLocaleDate === localeDate;
     const sender = participant.find(
-      person => person.id === senderId
+      (person) => person.id === senderId,
     ) as UserResponseDto;
 
     // 채팅한 날짜를 표시
     const getDate = () => {
       let weekday = new Array(7);
-      weekday[0] = '일요일';
-      weekday[1] = '월요일';
-      weekday[2] = '화요일';
-      weekday[3] = '수요일';
-      weekday[4] = '목요일';
-      weekday[5] = '금요일';
-      weekday[6] = '토요일';
-      const splitDate = localeDate.split('.');
+      weekday[0] = "일요일";
+      weekday[1] = "월요일";
+      weekday[2] = "화요일";
+      weekday[3] = "수요일";
+      weekday[4] = "목요일";
+      weekday[5] = "금요일";
+      weekday[6] = "토요일";
+      const splitDate = localeDate.split(".");
       const day = weekday[createdAt.getDay()];
       return `${splitDate[0].trim()}년 ${splitDate[1].trim()}월 ${splitDate[2].trim()}일 ${day}`;
     };
     // 지금 채팅 날짜가 이전에 채팅 날짜와 다르면 날짜 표시
-    const date = isSameDate ? '' : getDate();
+    const date = isSameDate ? "" : getDate();
     // 마지막 채팅인 경우
     if (idx === chattingList.length - 1) {
       // 내가 보낸 채팅인 경우
@@ -120,7 +116,7 @@ const Content: React.FC<Props> = props => {
     const afterLocaleTime = afterCreateAt.toLocaleTimeString();
     const afterRemoveSecond = afterLocaleTime.substring(
       0,
-      afterLocaleTime.length - 3
+      afterLocaleTime.length - 3,
     );
     const isSameTimeWithAfterTime = afterRemoveSecond === removeSecond;
     const isSameDateWithAfterTime = afterLocaleDate === localeDate;
@@ -129,7 +125,7 @@ const Content: React.FC<Props> = props => {
       !isSameTimeWithAfterTime ||
       !isSameDateWithAfterTime
         ? removeSecond
-        : '';
+        : "";
     // 내가 보낸 경우
     if (senderId === myId) {
       return (

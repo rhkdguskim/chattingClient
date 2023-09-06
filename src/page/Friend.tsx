@@ -1,7 +1,7 @@
-import FriendContainer from '../containers/friend/FriendContainer';
-import styled from 'styled-components';
-import { ProfileContainer } from '../containers';
-import { MenuContainer } from '../containers'
+import FriendContainer from "../containers/friend/FriendContainer";
+import styled from "styled-components";
+import { ProfileContainer } from "../containers";
+import { MenuContainer } from "../containers";
 const Wrapper = styled.div`
   display: flex;
   justify-content: center;
@@ -13,13 +13,11 @@ const Wrapper = styled.div`
 `;
 
 const Friend: React.FC = () => {
-    return (
-        <Wrapper>
-            <MenuContainer />
-        </Wrapper>
-         
-    )
-}
-
+  return (
+    <Wrapper>
+      <MenuContainer />
+    </Wrapper>
+  );
+};
 
 export default Friend;

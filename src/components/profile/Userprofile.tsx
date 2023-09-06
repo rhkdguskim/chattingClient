@@ -1,16 +1,16 @@
-import React, { useState } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { RootState } from '../../store/reducers';
-import { ProfileActions } from '../../store/actions/profile';
-import { UserActions } from '../../store/actions/user';
-import ProfileInputWindow from './ProfileInputWindow';
+import React, { useState } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { Dispatch, bindActionCreators } from "redux";
+import { RootState } from "../../store/reducers";
+import { ProfileActions } from "../../store/actions/profile";
+import { UserActions } from "../../store/actions/user";
+import ProfileInputWindow from "./ProfileInputWindow";
 import {
   BgImageSetting,
   ProfileImageSetting,
-  FriendProfileImage
-} from './SettingBlock';
+  FriendProfileImage,
+} from "./SettingBlock";
 
 const Wrapper = styled.section`
   width: 100%;
@@ -55,13 +55,13 @@ interface Props {
   userActions: typeof UserActions;
 }
 
-const UserProfile: React.FC<Props> = props => {
+const UserProfile: React.FC<Props> = (props) => {
   const { changeProfile, changeFriendName } = props.profileActions;
   const loginUserData = props.rootState.user;
   const profileData = props.rootState.profile;
   const isMe = loginUserData.id === profileData.id;
   const isFriend = !!loginUserData.friends_list.find(
-    friend => friend.id === profileData.id
+    (friend) => friend.id === profileData.id,
   );
   const [isShowBgSetting, showBgSetting] = useState(false);
   const [isShowProfileSetting, showProfileSetting] = useState(false);
@@ -76,7 +76,7 @@ const UserProfile: React.FC<Props> = props => {
     isShowBgSetting || isShowProfileSetting ? (
       <SettingOverlay onClick={onSettingBgClick} />
     ) : (
-      ''
+      ""
     );
 
   // 이름이나 상태 메시지 변경 창
@@ -84,17 +84,16 @@ const UserProfile: React.FC<Props> = props => {
     const user_profile_id = profileData.id;
     const changeName = async (name: string) => {
       name = name.trim();
-      const isExistName = name.replace(/ /g, '');
+      const isExistName = name.replace(/ /g, "");
       // 공백이 입력되면 이름을 변경하지 않습니다.
       if (isExistName) {
         if (isMe) {
           await changeProfile({ id: user_profile_id, name });
         } else {
-          await changeFriendName(
-            {
-            my_id:loginUserData.id,
+          await changeFriendName({
+            my_id: loginUserData.id,
             friend_id: user_profile_id,
-            friend_name: name
+            friend_name: name,
           });
         }
       }
@@ -108,7 +107,7 @@ const UserProfile: React.FC<Props> = props => {
     if (isShowNameChange) {
       return (
         <ProfileInputWindow
-          currentValue={profileData.name || ''}
+          currentValue={profileData.name || ""}
           maxLength={20}
           showWindow={showNameChange}
           changeProfile={changeName}
@@ -117,14 +116,14 @@ const UserProfile: React.FC<Props> = props => {
     } else if (isShowStatusMsgChange) {
       return (
         <ProfileInputWindow
-          currentValue={profileData.status_msg || ''}
+          currentValue={profileData.status_msg || ""}
           maxLength={60}
           showWindow={showStatusMsgChange}
           changeProfile={changeStatusMsg}
         />
       );
     }
-    return '';
+    return "";
   };
   return (
     <React.Fragment>
@@ -173,12 +172,12 @@ const UserProfile: React.FC<Props> = props => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   profileActions: bindActionCreators(ProfileActions, dispatch),
-  userActions: bindActionCreators(UserActions, dispatch)
+  userActions: bindActionCreators(UserActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(UserProfile);

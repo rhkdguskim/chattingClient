@@ -1,20 +1,20 @@
-import React, { useEffect, useState } from 'react';
-import styled from 'styled-components';
-import { Navigate } from 'react-router-dom';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { Socket } from 'socket.io-client';
-import { MenuRoute } from '../../routes/';
-import { MenuSideBar } from '../../components/menu/';
-import { AuthActions } from '../../store/actions/auth';
-import { UserActions } from '../../store/actions/user';
-import { ChatActions } from '../../store/actions/chatting';
-import { RootState } from '../../store/reducers';
-import { PAGE_PATHS } from '../../config';
-import { Auth } from '../../dto/auth';
-import { ProfileContainer, ChattingRoomContainer } from '../';
-import { ChattingResponseDto, UpdateRoomListDto } from '../../dto/chatting';
-import { ChattingContainer,FriendsContainer } from '../';
+import React, { useEffect, useState } from "react";
+import styled from "styled-components";
+import { Navigate } from "react-router-dom";
+import { connect } from "react-redux";
+import { Dispatch, bindActionCreators } from "redux";
+import { Socket } from "socket.io-client";
+import { MenuRoute } from "../../routes/";
+import { MenuSideBar } from "../../components/menu/";
+import { AuthActions } from "../../store/actions/auth";
+import { UserActions } from "../../store/actions/user";
+import { ChatActions } from "../../store/actions/chatting";
+import { RootState } from "../../store/reducers";
+import { PAGE_PATHS } from "../../config";
+import { Auth } from "../../dto/auth";
+import { ProfileContainer, ChattingRoomContainer } from "../";
+import { ChattingResponseDto, UpdateRoomListDto } from "../../dto/chatting";
+import { ChattingContainer, FriendsContainer } from "../";
 
 const Wrapper = styled.main`
   width: 100%;
@@ -28,7 +28,7 @@ interface Props {
   chatActions: typeof ChatActions;
 }
 
-const MenuContainer :React.FC<Props> = (props) => {
+const MenuContainer: React.FC<Props> = (props) => {
   const { authActions, chatActions, userActions } = props;
   const chatState = props.rootState.chat;
   const [currentView, setCurrentView] = useState("Friend");
@@ -42,14 +42,13 @@ const MenuContainer :React.FC<Props> = (props) => {
       props.userActions.fetchUser(auth.user_id);
       props.userActions.fetchFriends(auth.id);
       props.userActions.fetchRoomList(auth.id);
-      if (socket)
-      {
-        socket.on('connect', ()=> {
-          console.log("소켓이 재 연결되어 다시 Join 합니다.")
-          socket.emit('Join');
-        })
-        socket.emit('Join');
-        socket.on('SendMessage', (response: ChattingResponseDto) => {
+      if (socket) {
+        socket.on("connect", () => {
+          console.log("소켓이 재 연결되어 다시 Join 합니다.");
+          socket.emit("Join");
+        });
+        socket.emit("Join");
+        socket.on("SendMessage", (response: ChattingResponseDto) => {
           updateRooms(response);
         });
       }
@@ -58,10 +57,9 @@ const MenuContainer :React.FC<Props> = (props) => {
     // useEffect의 반환값으로 해제 함수를 반환
     return () => {
       if (socket) {
-        socket.off('SendMessage');
+        socket.off("SendMessage");
       }
     };
-
   }, []);
 
   useEffect(() => {
@@ -69,9 +67,9 @@ const MenuContainer :React.FC<Props> = (props) => {
       setPrevChatRoomId(chatState.id);
       const socket = props.rootState.auth.socket;
       const { addChatting } = props.chatActions;
-      if(socket) {
-        socket.emit('Join'); // 채팅방생성시에 리로딩
-        socket.on('SendMessage', async (response : ChattingResponseDto) => {
+      if (socket) {
+        socket.emit("Join"); // 채팅방생성시에 리로딩
+        socket.on("SendMessage", async (response: ChattingResponseDto) => {
           if (response.room_id === chatState.id) {
             await addChatting(response);
           }
@@ -81,17 +79,16 @@ const MenuContainer :React.FC<Props> = (props) => {
     }
     return () => {
       if (socket) {
-        socket.off('SendMessage');
+        socket.off("SendMessage");
       }
     };
-    
   }, [chatState.id]);
 
-  const onShowView = (view : string) => {
+  const onShowView = (view: string) => {
     setCurrentView(view);
   };
 
-  const updateRooms = async (response : ChattingResponseDto) => {
+  const updateRooms = async (response: ChattingResponseDto) => {
     const userState = props.rootState.user;
     const roomList = userState.room_list;
     const { fetchRoomList, updateRoomList } = props.userActions;
@@ -138,19 +135,23 @@ const MenuContainer :React.FC<Props> = (props) => {
           logout={authActions.logout}
           onShowView={onShowView}
         />
-        {currentView === "Friend" ? <FriendsContainer /> : <ChattingContainer/>}
+        {currentView === "Friend" ? (
+          <FriendsContainer />
+        ) : (
+          <ChattingContainer />
+        )}
       </Wrapper>
     </React.Fragment>
   );
 };
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   authActions: bindActionCreators(AuthActions, dispatch),
   userActions: bindActionCreators(UserActions, dispatch),
-  chatActions: bindActionCreators(ChatActions, dispatch)
+  chatActions: bindActionCreators(ChatActions, dispatch),
 });
 
 export default connect(mapStateToProps, mapDispatchToProps)(MenuContainer);

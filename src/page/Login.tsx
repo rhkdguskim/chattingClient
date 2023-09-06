@@ -1,5 +1,5 @@
-import LoginContainer from '../containers/login/LoginContainer'
-import styled from 'styled-components';
+import LoginContainer from "../containers/login/LoginContainer";
+import styled from "styled-components";
 
 const Wrapper = styled.div`
   display: flex;
@@ -12,13 +12,11 @@ const Wrapper = styled.div`
 `;
 
 const Login: React.FC = () => {
-    return (
-        <Wrapper>
-            <LoginContainer />
-        </Wrapper>
-         
-    )
-}
-
+  return (
+    <Wrapper>
+      <LoginContainer />
+    </Wrapper>
+  );
+};
 
 export default Login;

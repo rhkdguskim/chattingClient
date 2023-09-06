@@ -1,9 +1,9 @@
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 import { UserResponseDto } from "./user";
 export enum RoomType {
-    Individual,
-    two,
-    Group
+  Individual,
+  two,
+  Group,
 }
 
 export enum ChatType {
@@ -23,35 +23,35 @@ export interface ChattingDto {
 }
 
 export interface RoomListResponseDto {
-    id: number;
-    owner_id:string;
-    type: RoomType;
-    room_name: string;
-    participant: Array<UserResponseDto>;
-    last_chat: string;
-    not_read_chat: number;
-    last_read_chat_id: number;
-    updatedAt: Date;
-  }
+  id: number;
+  owner_id: string;
+  type: RoomType;
+  room_name: string;
+  participant: Array<UserResponseDto>;
+  last_chat: string;
+  not_read_chat: number;
+  last_read_chat_id: number;
+  updatedAt: Date;
+}
 
-  export interface CreateRoomRequestDto {
-    room_name: string;
-    participant: Array<UserResponseDto>;
-  }
+export interface CreateRoomRequestDto {
+  room_name: string;
+  participant: Array<UserResponseDto>;
+}
 
-  // 서버에서 채팅방 정보 가져옴
-  export interface CreateRoomResponseDto {
-    id: number;
-    type: RoomType;
-    owner_id: string;
-    room_name: string;
-    last_chat: string;
-    not_read_chat: number;
-    last_read_chat_id: number;
-    updatedAt: Date;
-  }
+// 서버에서 채팅방 정보 가져옴
+export interface CreateRoomResponseDto {
+  id: number;
+  type: RoomType;
+  owner_id: string;
+  room_name: string;
+  last_chat: string;
+  not_read_chat: number;
+  last_read_chat_id: number;
+  updatedAt: Date;
+}
 
-  // 채팅방 리스트의 채팅방들 정보를 바꿀 때 요청
+// 채팅방 리스트의 채팅방들 정보를 바꿀 때 요청
 export interface UpdateRoomListDto {
   id: number;
   room_name?: string;
@@ -68,7 +68,7 @@ export interface ChattingRequestDto {
   participant: Array<UserResponseDto>;
   user_id: number;
   message: string;
-  messageType : ChatType;
+  messageType: ChatType;
 }
 
 // 채팅 수신

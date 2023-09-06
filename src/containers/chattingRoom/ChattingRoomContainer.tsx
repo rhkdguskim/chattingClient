@@ -1,13 +1,13 @@
-import React, { Component } from 'react';
-import styled from 'styled-components';
-import { Dispatch, bindActionCreators } from 'redux';
-import { connect } from 'react-redux';
-import { Header, Content, Footer } from '../../components/chattingRoom';
-import { Portal } from '../../page/Modal';
-import { RootState } from '../../store/reducers';
-import { ChatActions } from '../../store/actions/chatting';
-import { ProfileActions } from '../../store/actions/profile';
-import { UserActions } from '../../store/actions/user';
+import React, { Component } from "react";
+import styled from "styled-components";
+import { Dispatch, bindActionCreators } from "redux";
+import { connect } from "react-redux";
+import { Header, Content, Footer } from "../../components/chattingRoom";
+import { Portal } from "../../page/Modal";
+import { RootState } from "../../store/reducers";
+import { ChatActions } from "../../store/actions/chatting";
+import { ProfileActions } from "../../store/actions/profile";
+import { UserActions } from "../../store/actions/user";
 import {
   ChangeChattingRoomDto,
   CreateRoomRequestDto,
@@ -17,18 +17,18 @@ import {
   ReadChatRequestDto,
   ReadChatResponseDto,
   UpdateRoomListDto,
-  ChatType
-} from '../../dto/chatting';
-import { createRoom } from '../../apis/chatting';
-import { AddFriendRequestDto } from '../../dto/friend';
-import { UserResponseDto } from '../../dto/user';
-import { addFriendRequest } from '../../apis/friend';
+  ChatType,
+} from "../../dto/chatting";
+import { createRoom } from "../../apis/chatting";
+import { AddFriendRequestDto } from "../../dto/friend";
+import { UserResponseDto } from "../../dto/user";
+import { addFriendRequest } from "../../apis/friend";
 import {
   NotFriendWarning,
   DownBtn,
-  MessageNotification
-} from '../../components/chattingRoom/InfoBlock';
-import { Socket } from 'socket.io-client';
+  MessageNotification,
+} from "../../components/chattingRoom/InfoBlock";
+import { Socket } from "socket.io-client";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -54,7 +54,7 @@ class ChattingRoomContainer extends Component<Props> {
   state = {
     isShowDownBtn: false,
     sendUserId: undefined,
-    msg: ''
+    msg: "",
   };
   constructor(props: Props) {
     super(props);
@@ -63,9 +63,7 @@ class ChattingRoomContainer extends Component<Props> {
     const userState = props.rootState.user;
     const chatState = props.rootState.chat;
     const roomList = userState.room_list;
-    const findRoom = roomList.find(
-      room => room.id === chatState.id
-    );
+    const findRoom = roomList.find((room) => room.id === chatState.id);
     const participant = chatState.participant;
 
     const { changeChattingRoomInfo, fetchChatting } = props.chatActions;
@@ -75,30 +73,30 @@ class ChattingRoomContainer extends Component<Props> {
       // 해당 채팅방의 모든 채팅을 읽었다고 표시합니다.
       const updateRoomObj: UpdateRoomListDto = {
         id: findRoom.id,
-        not_read_chat: 0
+        not_read_chat: 0,
       };
       updateRoomList(updateRoomObj);
       const roomObj: ChangeChattingRoomDto = {
         ...findRoom,
-        participant
+        participant,
       };
       changeChattingRoomInfo(roomObj);
       // 서버에서 해당 채팅방의 채팅 목록을 가져옵니다.
       fetchChatting({
         room_id: findRoom.id,
-        cursor: null
+        cursor: null,
       });
     }
     // 없다면 서버에 채팅방을 만들게 요청하고, 만들어진 채팅방의 정보를 얻습니다.
     else {
       const createRoomObj: CreateRoomRequestDto = {
-        room_name: '',
-        participant
+        room_name: "",
+        participant,
       };
-      createRoom(createRoomObj).then(room => {
+      createRoom(createRoomObj).then((room) => {
         const roomObj: ChangeChattingRoomDto = {
           ...room,
-          participant
+          participant,
         };
         changeChattingRoomInfo(roomObj);
       });
@@ -106,13 +104,13 @@ class ChattingRoomContainer extends Component<Props> {
   }
 
   componentDidMount() {
-    this.messageRef.current!.addEventListener('scroll', this.handleScroll);
+    this.messageRef.current!.addEventListener("scroll", this.handleScroll);
   }
   componentWillUnmount() {
     const socket = this.props.rootState.auth.socket;
-    this.messageRef.current!.removeEventListener('scroll', this.handleScroll);
-    if(socket) {
-      socket?.off('readChat');
+    this.messageRef.current!.removeEventListener("scroll", this.handleScroll);
+    if (socket) {
+      socket?.off("readChat");
     }
 
     this.updateRoom();
@@ -135,7 +133,7 @@ class ChattingRoomContainer extends Component<Props> {
     if (!chatState.isFetchChattingLoading && scrollTop === 0) {
       const requestObj: ChattingRequestByCursorDto = {
         room_id: chatState.id,
-        cursor: chatting[0].id
+        cursor: chatting[0].id,
       };
       fetchChatting(requestObj);
       prevScrollHeight = messageRef.scrollHeight;
@@ -148,14 +146,14 @@ class ChattingRoomContainer extends Component<Props> {
     ) {
       this.setState({
         ...this.state,
-        isShowDownBtn: true
+        isShowDownBtn: true,
       });
     } else {
       this.setState({
         ...this.state,
         isShowDownBtn: false,
         sendUserId: undefined,
-        msg: ''
+        msg: "",
       });
     }
   };
@@ -198,7 +196,7 @@ class ChattingRoomContainer extends Component<Props> {
               ...this.state,
               isShowDownBtn: true,
               sendUserId: currLastChat.user_id,
-              msg: currLastChat.message
+              msg: currLastChat.message,
             });
           }
         }
@@ -214,9 +212,9 @@ class ChattingRoomContainer extends Component<Props> {
     if (prevFriendList !== currentFriendList) {
       const chatState = this.props.rootState.chat;
       const { changeChattingRoomInfo } = this.props.chatActions;
-      const participants = chatState.participant.map(participant => {
+      const participants = chatState.participant.map((participant) => {
         const find = currentFriendList.find(
-          friend => friend.id === participant.id
+          (friend) => friend.id === participant.id,
         );
         return find || participant;
       });
@@ -247,7 +245,7 @@ class ChattingRoomContainer extends Component<Props> {
         if (lastChat.user_id !== userState.id) {
           // 마지막으로 읽은 채팅 id 변경
           const roomObj: ChangeChattingRoomDto = {
-            last_read_chat_id: lastChat.id
+            last_read_chat_id: lastChat.id,
           };
           changeChattingRoomInfo(roomObj);
 
@@ -258,26 +256,25 @@ class ChattingRoomContainer extends Component<Props> {
             room_id: chatState.id,
             type: chatState.type as RoomType,
             participant: chatState.participant,
-            last_read_chat_id_range: currRange
+            last_read_chat_id_range: currRange,
           };
 
           // 채팅 참가자들에게 채팅을 읽었다는 신호를 보냅니다.
           if (socket) {
-            socket!.emit('readChat', obj);
+            socket!.emit("readChat", obj);
           }
-
         } else {
           // 마지막 채팅이 내가 보낸 거라면, 마지막으로 읽은 채팅 id만 변경
           const roomObj: ChangeChattingRoomDto = {
-            last_read_chat_id: lastChat.id
+            last_read_chat_id: lastChat.id,
           };
           changeChattingRoomInfo(roomObj);
         }
 
         // 다른 대화 상대가 메시지를 읽었다는 신호가 오면, 해당 메시지의 안 읽은 채팅 수를 줄입니다.
-        if(socket) {
-          socket!.off('readChat');
-          socket!.on('readChat', (res: ReadChatResponseDto) => {
+        if (socket) {
+          socket!.off("readChat");
+          socket!.on("readChat", (res: ReadChatResponseDto) => {
             if (chatState.id === res.room_id) {
               const range = res.last_read_chat_id_range;
               readChatting(range);
@@ -297,7 +294,7 @@ class ChattingRoomContainer extends Component<Props> {
     if (chattingLen > 0) {
       updateRoomList({
         id: chatState.id,
-        last_read_chat_id: chatting[chattingLen - 1].id
+        last_read_chat_id: chatting[chattingLen - 1].id,
       });
     }
   };
@@ -325,14 +322,13 @@ class ChattingRoomContainer extends Component<Props> {
         participant: chatState.participant,
         user_id: userState.id,
         message: msg,
-        messageType : ChatType.text,
+        messageType: ChatType.text,
       };
       // 채팅방 참여자들에게 해당 메시지를 보냅니다.
-      if(authState.socket) {
-        authState.socket.emit('SendMessage', chattingRequset);
-      }
-      else {
-        console.log("Socket Error")
+      if (authState.socket) {
+        authState.socket.emit("SendMessage", chattingRequset);
+      } else {
+        console.log("Socket Error");
       }
     };
 
@@ -340,7 +336,7 @@ class ChattingRoomContainer extends Component<Props> {
       isGroup ||
       isMe ||
       !!userState.friends_list.find(
-        friend => friend.id === chatState.participant[0].id
+        (friend) => friend.id === chatState.participant[0].id,
       );
 
     const onAddFriendClick = async (friend: UserResponseDto) => {
@@ -352,7 +348,7 @@ class ChattingRoomContainer extends Component<Props> {
         await addFriendRequest(request);
         await addFriend(friend);
       } catch (err) {
-        alert('친구 추가 실패');
+        alert("친구 추가 실패");
       }
     };
 
@@ -361,12 +357,12 @@ class ChattingRoomContainer extends Component<Props> {
       participant: chatState.participant,
       chattingList: chatState.chatting,
       messageRef: this.messageRef,
-      showProfile
+      showProfile,
     };
     const renderNotification = () => {
       if (!!this.state.sendUserId) {
         const findSendUser = chatState.participant.find(
-          person => person.id === this.state.sendUserId
+          (person) => person.id === this.state.sendUserId,
         );
         return (
           <MessageNotification
@@ -402,16 +398,16 @@ class ChattingRoomContainer extends Component<Props> {
 }
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   chatActions: bindActionCreators(ChatActions, dispatch),
   profileActions: bindActionCreators(ProfileActions, dispatch),
-  userActions: bindActionCreators(UserActions, dispatch)
+  userActions: bindActionCreators(UserActions, dispatch),
 });
 
 export default connect(
   mapStateToProps,
-  mapDispatchToProps
+  mapDispatchToProps,
 )(ChattingRoomContainer);

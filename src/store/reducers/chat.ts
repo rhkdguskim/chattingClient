@@ -1,5 +1,5 @@
-import { ChatTypes, ChatActionTypes } from '../actions/chatting';
-import { ChattingDto } from '../../dto/chatting';
+import { ChatTypes, ChatActionTypes } from "../actions/chatting";
+import { ChattingDto } from "../../dto/chatting";
 
 export interface ChatState extends ChattingDto {
   isChattingRoomShown: boolean;
@@ -9,12 +9,12 @@ export interface ChatState extends ChattingDto {
 const initialState: ChatState = {
   id: -1,
   type: undefined,
-  room_name: '',
+  room_name: "",
   participant: [],
   chatting: [],
   last_read_chat_id: -1,
   isChattingRoomShown: false,
-  isFetchChattingLoading: false
+  isFetchChattingLoading: false,
 };
 
 const chatReducer = (state = initialState, action: ChatActionTypes) => {
@@ -23,7 +23,7 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
       return {
         ...state,
         ...action.payload,
-        isChattingRoomShown: true
+        isChattingRoomShown: true,
       };
     case ChatTypes.HIDE_CHATTING_ROOM:
       return {
@@ -33,17 +33,17 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
         participant: [],
         chatting: [],
         isChattingRoomShown: false,
-        isFetchChattingLoading: false
+        isFetchChattingLoading: false,
       };
     case ChatTypes.CHANGE_CHATTING_ROOM_INFO:
       return {
         ...state,
-        ...action.payload
+        ...action.payload,
       };
     case ChatTypes.ADD_CHATTING:
       return {
         ...state,
-        chatting: [...state.chatting, action.payload]
+        chatting: [...state.chatting, action.payload],
       };
     case ChatTypes.READ_CHATTING:
       const len = state.chatting.length - 1;
@@ -58,24 +58,24 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
         }
       }
       return {
-        ...state
+        ...state,
       };
     case ChatTypes.FETCH_CHATTING_REQUEST:
       return {
         ...state,
-        isFetchChattingLoading: true
+        isFetchChattingLoading: true,
       };
     case ChatTypes.FETCH_CHATTING_SUCCESS:
       if (action.payload.length === 0) {
         return {
           ...state,
-          isFetchChattingLoading: true
+          isFetchChattingLoading: true,
         };
       }
       return {
         ...state,
         chatting: [...action.payload, ...state.chatting],
-        isFetchChattingLoading: false
+        isFetchChattingLoading: false,
       };
     default:
       return state;

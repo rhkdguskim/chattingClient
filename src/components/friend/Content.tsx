@@ -1,14 +1,13 @@
-import React from 'react';
-import styled from 'styled-components';
-import { MainContent } from '../../styles/BaseStyle';
+import React from "react";
+import styled from "styled-components";
+import { MainContent } from "../../styles/BaseStyle";
 // import { UserData, UserResponseDto } from '../../dto';
 // import { CreateRoomRequest } from '~/types/chatting';
-import { BASE_IMG_URL } from '../../config';
-import { UserDataDto, UserResponseDto} from '../../dto/user';
-import { CreateRoomRequestDto, RoomListResponseDto } from '../../dto/chatting';
-import { createRoom } from '../../apis/chatting';
-import { changeChattingRoomInfo } from '../../store/actions/chatting';
-
+import { BASE_IMG_URL } from "../../config";
+import { UserDataDto, UserResponseDto } from "../../dto/user";
+import { CreateRoomRequestDto, RoomListResponseDto } from "../../dto/chatting";
+import { createRoom } from "../../apis/chatting";
+import { changeChattingRoomInfo } from "../../store/actions/chatting";
 
 const MyProfileBlock = styled.div`
   position: relative;
@@ -67,7 +66,7 @@ interface FriendRowProps {
 }
 
 // 친구 목록
-const FriendRow: React.FC<FriendRowProps> = props => {
+const FriendRow: React.FC<FriendRowProps> = (props) => {
   const { name, status_msg, profile_img_url } = props;
   const { profileImgClick, onDoubleClick } = props;
   return (
@@ -90,37 +89,36 @@ const Content: React.FC<Props> = ({
   search,
   userData,
   showProfile,
-  showChattingRoom
+  showChattingRoom,
 }) => {
   // 검색된 친구들만 보여줍니다. 검색을 안 할 경우 모든 찬구를 보여줍니다.
-  const searchRemoveBlank = search.replace(/ /g, '');
+  const searchRemoveBlank = search.replace(/ /g, "");
   const reg_exp = new RegExp(`^.*${searchRemoveBlank}.*$`);
   const friendsList = userData.friends_list.sort((a, b) => {
     return a.name.localeCompare(b.name);
   });
-  const searchedFriends = friendsList.filter(friend => {
-    return friend.name.replace(/ /g, '').match(reg_exp);
+  const searchedFriends = friendsList.filter((friend) => {
+    return friend.name.replace(/ /g, "").match(reg_exp);
   });
-  const renderFriends = searchedFriends.map(friend => {
+  const renderFriends = searchedFriends.map((friend) => {
     const roomObj: CreateRoomRequestDto = {
-      room_name: '',
-      participant: [userData, { ...friend }]
+      room_name: "",
+      participant: [userData, { ...friend }],
     };
     return (
       <FriendRow
         {...friend}
         key={friend.id}
         profileImgClick={() => showProfile(friend)}
-        onDoubleClick={ async () => {
-          const room = await createRoom(roomObj)
-          const roomObjChange : RoomListResponseDto = {
+        onDoubleClick={async () => {
+          const room = await createRoom(roomObj);
+          const roomObjChange: RoomListResponseDto = {
             ...room,
             room_name: friend.name,
-            participant: [userData, { ...friend }]
-          }
-          showChattingRoom(roomObjChange)
-          }
-        }
+            participant: [userData, { ...friend }],
+          };
+          showChattingRoom(roomObjChange);
+        }}
       />
     );
   });
@@ -128,13 +126,13 @@ const Content: React.FC<Props> = ({
   const onMyBlockDoubleClick = async () => {
     const roomObj: CreateRoomRequestDto = {
       room_name: userData.name,
-      participant: [userData]
+      participant: [userData],
     };
-    const room = await createRoom(roomObj)
-    const roomObjChange : RoomListResponseDto = {
+    const room = await createRoom(roomObj);
+    const roomObjChange: RoomListResponseDto = {
       ...room,
-      participant: [userData]
-    }
+      participant: [userData],
+    };
     showChattingRoom(roomObjChange);
   };
   return (
@@ -153,9 +151,9 @@ const Content: React.FC<Props> = ({
         </MyProfileBlock>
       )}
       <FriendsBorder>
-        <p style={{ textAlign: 'left' }}>{`친구 ${renderFriends.length}`}</p>
+        <p style={{ textAlign: "left" }}>{`친구 ${renderFriends.length}`}</p>
       </FriendsBorder>
-      <ul style={{ textAlign: 'left' }}>{renderFriends}</ul>
+      <ul style={{ textAlign: "left" }}>{renderFriends}</ul>
     </MainContent>
   );
 };

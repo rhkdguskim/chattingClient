@@ -1,16 +1,25 @@
-import React, { MouseEvent } from 'react';
-import styled from 'styled-components';
-import { connect } from 'react-redux';
-import { Dispatch, bindActionCreators } from 'redux';
-import { UserResponseDto } from '../../dto/user';
-import { BASE_IMG_URL } from '../../config';
-import { addFriendRequest } from '../../apis/friend';
-import { AddFriendRequestDto } from '../../dto/friend';
-import { UserActions } from '../../store/actions/user';
-import { RootState } from '../../store/reducers';
-import { ChangeChattingRoomDto, CreateRoomRequestDto, RoomListResponseDto, RoomType } from '../../dto/chatting';
-import { ChatActions, changeChattingRoomInfo, fetchChatting } from '../../store/actions/chatting';
-import { createRoom } from '../../apis/chatting';
+import React, { MouseEvent } from "react";
+import styled from "styled-components";
+import { connect } from "react-redux";
+import { Dispatch, bindActionCreators } from "redux";
+import { UserResponseDto } from "../../dto/user";
+import { BASE_IMG_URL } from "../../config";
+import { addFriendRequest } from "../../apis/friend";
+import { AddFriendRequestDto } from "../../dto/friend";
+import { UserActions } from "../../store/actions/user";
+import { RootState } from "../../store/reducers";
+import {
+  ChangeChattingRoomDto,
+  CreateRoomRequestDto,
+  RoomListResponseDto,
+  RoomType,
+} from "../../dto/chatting";
+import {
+  ChatActions,
+  changeChattingRoomInfo,
+  fetchChatting,
+} from "../../store/actions/chatting";
+import { createRoom } from "../../apis/chatting";
 
 const FoundUserProfile = styled.div`
   margin-top: 50px;
@@ -58,14 +67,14 @@ interface Props {
 }
 
 // 친구 찾기 창에서 친구를 찾았을 때 나타나는 친구 정보
-const FoundFriendProfile: React.FC<Props> = props => {
+const FoundFriendProfile: React.FC<Props> = (props) => {
   const {
     findUserId,
     foundUser,
     onClose,
     rootState,
     userActions,
-    chatActions
+    chatActions,
   } = props;
   const userData = rootState.user;
   if (foundUser) {
@@ -73,7 +82,7 @@ const FoundFriendProfile: React.FC<Props> = props => {
     const friend_id = foundUser.id;
     const friend_name = foundUser.name;
     const friendsList = userData.friends_list;
-    const existFriend = friendsList.find(friend => friend.id === friend_id);
+    const existFriend = friendsList.find((friend) => friend.id === friend_id);
     const isMe = my_id === friend_id;
     const { addFriend } = userActions;
     const { showChattingRoom } = chatActions;
@@ -86,29 +95,28 @@ const FoundFriendProfile: React.FC<Props> = props => {
         await addFriend(foundUser);
         await onClose();
       } catch (err) {
-        alert('친구 추가 실패');
+        alert("친구 추가 실패");
       }
     };
 
     const onChatClick = () => {
       const roomObj: CreateRoomRequestDto = {
         room_name: foundUser.name,
-        participant: existFriend ? [existFriend, userData] : [userData]
+        participant: existFriend ? [existFriend, userData] : [userData],
       };
-      createRoom(roomObj).then(room => {
-        if(room) {
+      createRoom(roomObj).then((room) => {
+        if (room) {
           const createRoomObj: CreateRoomRequestDto = {
             room_name: room.room_name,
-            participant : existFriend ? [existFriend, userData] : [userData]
+            participant: existFriend ? [existFriend, userData] : [userData],
           };
           const roomObj: RoomListResponseDto = {
             ...room,
-            participant : existFriend ? [existFriend, userData] : [userData]
+            participant: existFriend ? [existFriend, userData] : [userData],
           };
           showChattingRoom(roomObj);
         }
-      }
-      );
+      });
       onClose();
     };
 
@@ -147,11 +155,11 @@ const FoundFriendProfile: React.FC<Props> = props => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  rootState: state
+  rootState: state,
 });
 const mapDispatchToProps = (dispatch: Dispatch) => ({
   userActions: bindActionCreators(UserActions, dispatch),
-  chatActions: bindActionCreators(ChatActions, dispatch)
+  chatActions: bindActionCreators(ChatActions, dispatch),
 });
 
-export default connect(mapStateToProps, mapDispatchToProps)(FoundFriendProfile)
+export default connect(mapStateToProps, mapDispatchToProps)(FoundFriendProfile);

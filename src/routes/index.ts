@@ -1,1 +1,1 @@
-export { default as MenuRoute } from './MenuRoute';
+export { default as MenuRoute } from "./MenuRoute";

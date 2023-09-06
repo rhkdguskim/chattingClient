@@ -1,8 +1,8 @@
-import React from 'react';
-import styled from 'styled-components';
-import { UserResponseDto } from '../../dto/user';
-import { BASE_IMG_URL } from '../../config';
-import { SeparationBlock } from './InfoBlock';
+import React from "react";
+import styled from "styled-components";
+import { UserResponseDto } from "../../dto/user";
+import { BASE_IMG_URL } from "../../config";
+import { SeparationBlock } from "./InfoBlock";
 
 // 채팅방에서 채팅을 나타내는 컴포넌트
 const ChatWrapper = styled.div`
@@ -105,13 +105,13 @@ export const Chat: React.FC<ChatProps> = ({ msg, localeTime, notRead }) => {
     <ChatWrapper>
       {msg}
       <span className="time">{localeTime}</span>
-      <span className="not-read">{notRead > 0 ? notRead : ''}</span>
+      <span className="not-read">{notRead > 0 ? notRead : ""}</span>
     </ChatWrapper>
   );
 };
 
 // 내가 보낸 채팅
-export const MyChat: React.FC<ChatProps> = props => {
+export const MyChat: React.FC<ChatProps> = (props) => {
   const { content } = props;
   return (
     <React.Fragment>
@@ -126,7 +126,7 @@ export const MyChat: React.FC<ChatProps> = props => {
 };
 
 // 다른 사람이 보낸 채팅
-export const FriendChat: React.FC<ChatProps> = props => {
+export const FriendChat: React.FC<ChatProps> = (props) => {
   return (
     <LeftBlock>
       <div>
@@ -137,13 +137,13 @@ export const FriendChat: React.FC<ChatProps> = props => {
 };
 
 // 다른 사람이 보냈으며, 프로필 사진을 포함하는 채팅
-export const FriendChatWithThumbnail: React.FC<FriendChatProps> = props => {
+export const FriendChatWithThumbnail: React.FC<FriendChatProps> = (props) => {
   const { user, content, onImgClick } = props;
-  
+
   if (!user) {
     return null; // 사용자가 없을 때 아무것도 렌더링하지 않음
   }
-  
+
   return (
     <React.Fragment>
       {content ? <SeparationBlock content={content} /> : null}
