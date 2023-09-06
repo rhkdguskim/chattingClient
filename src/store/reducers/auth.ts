@@ -36,7 +36,6 @@ if (initialState.access_token) {
   // token에서 회원 정보를 얻습니다.
   initialState.auth = jwtDecode(initialState.access_token) as Auth;
   initialState.socket?.disconnect();
-  console.log(`${API_HOST}?token=${initialState.access_token}`);
   initialState.socket = socketio.connect(
     `${API_HOST}?token=${initialState.access_token}`,
   );

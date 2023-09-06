@@ -44,7 +44,6 @@ export const removeRefreshToken = () => {
 export const getUserID = async () => {
   const access_token = getAccessToken();
   const result: Auth = await jwtDecode(access_token as string);
-  console.log(result);
   return result.id;
 };
 
@@ -73,11 +72,9 @@ export const RequestAuthAPI = <T, R>(apiCall: ApiCallFunction<T, R>) => {
           await refreshtoken();
           return await apiCall(args);
         } catch (err) {
-          console.log(err);
           throw err;
         }
       } else {
-        console.log(err);
         throw err;
       }
     }

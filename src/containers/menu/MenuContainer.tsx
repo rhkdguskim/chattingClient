@@ -44,7 +44,6 @@ const MenuContainer: React.FC<Props> = (props) => {
       props.userActions.fetchRoomList(auth.id);
       if (socket) {
         socket.on("connect", () => {
-          console.log("소켓이 재 연결되어 다시 Join 합니다.");
           socket.emit("Join");
         });
         socket.emit("Join");

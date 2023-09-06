@@ -37,6 +37,5 @@ export const uploadImageFile = async (image: File) => {
     formData,
     { withCredentials: true },
   );
-  console.log(imageUrl.data);
   return `${API_HOST}/${imageUrl.data}`;
 };

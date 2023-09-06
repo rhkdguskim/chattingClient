@@ -4,7 +4,6 @@ const OAuthRedirect: React.FC = () => {
   useEffect(() => {
     const url = new URL(window.location.href);
     const code = url.searchParams.get("code");
-    console.log(window.location.origin);
     if (code) {
       window.opener.postMessage({ code: code }, window.location.origin);
       window.close();

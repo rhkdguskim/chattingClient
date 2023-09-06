@@ -328,7 +328,6 @@ class ChattingRoomContainer extends Component<Props> {
       if (authState.socket) {
         authState.socket.emit("SendMessage", chattingRequset);
       } else {
-        console.log("Socket Error");
       }
     };
 
