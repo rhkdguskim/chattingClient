@@ -54,7 +54,7 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
         if (id <= range[0]) {
           break;
         } else if (id <= range[1]) {
-          state.chatting[i].not_read--;
+          state.chatting[i].not_read_chat--;
         }
       }
       return {

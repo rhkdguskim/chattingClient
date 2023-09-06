@@ -77,7 +77,7 @@ export interface ChattingResponseDto {
   room_id: number;
   user_id: number;
   message: string;
-  not_read: number;
+  not_read_chat: number;
   createdAt: Date;
 }
 

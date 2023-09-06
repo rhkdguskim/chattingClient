@@ -73,7 +73,7 @@ const Content: React.FC<Props> = (props) => {
         return (
           <MyChat
             msg={chat.message}
-            notRead={chat.not_read}
+            notRead={chat.not_read_chat}
             localeTime={removeSecond}
             content={date}
             key={chat.id}
@@ -86,7 +86,7 @@ const Content: React.FC<Props> = (props) => {
         return (
           <FriendChat
             msg={chat.message}
-            notRead={chat.not_read}
+            notRead={chat.not_read_chat}
             localeTime={removeSecond}
             key={chat.id}
           />
@@ -97,7 +97,7 @@ const Content: React.FC<Props> = (props) => {
         <FriendChatWithThumbnail
           msg={chat.message}
           user={sender}
-          notRead={chat.not_read}
+          notRead={chat.not_read_chat}
           localeTime={removeSecond}
           content={date}
           onImgClick={() => showProfile(sender)}
@@ -131,7 +131,7 @@ const Content: React.FC<Props> = (props) => {
       return (
         <MyChat
           msg={chat.message}
-          notRead={chat.not_read}
+          notRead={chat.not_read_chat}
           localeTime={time}
           content={date}
           key={chat.id}
@@ -143,7 +143,7 @@ const Content: React.FC<Props> = (props) => {
       return (
         <FriendChat
           msg={chat.message}
-          notRead={chat.not_read}
+          notRead={chat.not_read_chat}
           localeTime={time}
           key={chat.id}
         />
@@ -153,7 +153,7 @@ const Content: React.FC<Props> = (props) => {
       <FriendChatWithThumbnail
         msg={chat.message}
         user={sender}
-        notRead={chat.not_read}
+        notRead={chat.not_read_chat}
         localeTime={time}
         content={date}
         onImgClick={() => showProfile(sender)}
