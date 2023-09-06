@@ -161,6 +161,21 @@ const Content :React.FC<Props>  = (props)  => {
         break;
         case 'google':
           popup = window.open(`https://accounts.google.com/o/oauth2/v2/auth?client_id=${GOOGLE_REST_API_KEY}&redirect_uri=${GOOGLE_REDIRECT_URL}&response_type=code&scope=${GOOGLE_SCOPE}`, 'googleAuth', 'width=500,height=500');
+          const handleMessage3 = (event : any) => {
+            event.preventDefault()
+            if (event.origin !== window.location.origin) return; // 원본 주소 확인
+    
+            const code = event.data.code;
+            soicalloginData.code = code
+            if (code) {
+              Sociallogin(soicalloginData);
+            }
+            // 이벤트 리스너 제거
+            window.removeEventListener('message', handleMessage3);
+          };
+    
+          window.addEventListener('message', handleMessage3, false);
+          break;
     }
     
   };
