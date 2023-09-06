@@ -11,7 +11,11 @@ import { Navigate } from "react-router-dom";
 const Wrapper = styled.div`
   width: 360px;
   height: 700px;
-  background-color: #ffeb33;
+  background-color: rgba(255, 235, 51, 0.9);  // 투명도 조절
+  border-radius: 15px;  // 둥근 모서리
+  border: 2px solid #e1d700;  // 테두리 스타일링
+  box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);  // 그림자 효과 추가
+  }
 `;
 
 interface Props {

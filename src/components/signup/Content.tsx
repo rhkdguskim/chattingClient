@@ -68,11 +68,12 @@ const Content: React.FC = () => {
     setUserId(value);
   };
 
-  const onPasswordChange = (event: ChangeEvent<HTMLInputElement>): void => {
+  const onPwChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     const value = event.target.value;
     setPw(value);
   };
+  
   const onCheckPwChange = (event: ChangeEvent<HTMLInputElement>): void => {
     event.preventDefault();
     const value = event.target.value;
@@ -165,51 +166,55 @@ const Content: React.FC = () => {
 
   return (
     <Wrapper>
-      <Box
-        component="form"
-        sx={{
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          "& > :not(style)": { m: 1, width: "25ch" },
-        }}
-        noValidate
-        autoComplete="off"
-      >
-        <TextField
-          id="standard-basic"
-          label="아이디"
-          variant="standard"
-          onChange={onUserIdChange}
-        />
-        <TextField
-          id="standard-basic"
-          label="비밀번호"
-          type="password"
-          variant="standard"
-          onChange={onPasswordChange}
-          onBlur={onPwBlur}
-        />
-        <TextField
-          id="standard-basic"
-          label="비밀번호 재확인"
-          type="password"
-          variant="standard"
-          onChange={onCheckPwChange}
-          onBlur={onCheckPwBlur}
-        />
-
-        <TextField
-          id="standard-basic"
-          label="이름"
-          variant="standard"
-          onChange={onNameChange}
-          onBlur={onNameBlur}
-        />
-        <Button variant="contained" sx={{ width: "25ch" }} onClick={onSubmit}>
-          회원가입
-        </Button>
-      </Box>
+      <label>
+        <h3>아이디</h3>
+        <span>
+          <input
+            type="text"
+            maxLength={MAX_LEN}
+            onChange={onUserIdChange}
+            onBlur={onUserIdBlur}
+          />
+        </span>
+        <p>{userIdWarningMsg}</p>
+      </label>
+      <label>
+        <h3>비밀번호</h3>
+        <span>
+          <input
+            type="password"
+            maxLength={MAX_LEN}
+            onChange={onPwChange}
+            onBlur={onPwBlur}
+          />
+        </span>
+        <p>{pwWarningMsg}</p>
+      </label>
+      <label>
+        <h3>비밀번호 재확인</h3>
+        <span>
+          <input
+            type="password"
+            maxLength={MAX_LEN}
+            onChange={onCheckPwChange}
+            onBlur={onCheckPwBlur}
+          />
+        </span>
+        <p>{checkPwWarningMsg}</p>
+      </label>
+      <label>
+        <h3>이름</h3>
+        <span>
+          <input
+            type="text"
+            maxLength={MAX_LEN}
+            onChange={onNameChange}
+            onBlur={onNameBlur}
+          />
+        </span>
+        <p>{nameWarningMsg}</p>
+      </label>
+      <button onClick={onSubmit}>가입하기</button>
     </Wrapper>
   );
 };
