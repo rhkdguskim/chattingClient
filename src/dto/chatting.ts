@@ -96,15 +96,14 @@ export interface ChangeChattingRoomDto {
 
 // 채팅 읽었음을 알려줄 떄 사용
 export interface ReadChatRequestDto {
-  user_id: number;
-  room_id: number;
-  type: RoomType;
-  participant: Array<UserResponseDto>;
-  last_read_chat_id_range: Array<number>;
+  id : number;
+  user_id: number; // 사용자 ID
+  room_id: number; // 방 ID
 }
 
 // 상대방이 채팅 읽었음을 알려 올 때 사용
 export interface ReadChatResponseDto {
-  room_id: number;
-  last_read_chat_id_range: Array<number>;
+  id : number;
+  user_id: number; // 사용자 ID
+  room_id: number; // 방 ID
 }

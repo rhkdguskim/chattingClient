@@ -39,7 +39,7 @@ export interface AddChattingAction {
 
 export interface ReadChattingAction {
   type: ChatTypes.READ_CHATTING;
-  payload: Array<number>;
+  payload: number;
 }
 
 export interface FetchChattingAction {
@@ -87,9 +87,9 @@ export const addChatting = (chat: ChattingResponseDto): AddChattingAction => ({
 });
 
 // 채팅방에 채팅 읽음 숫자를 줄임
-export const readChatting = (range: Array<number>): ReadChattingAction => ({
+export const readChatting = (room_id: number): ReadChattingAction => ({
   type: ChatTypes.READ_CHATTING,
-  payload: range,
+  payload: room_id,
 });
 
 // 서버에서 해당 방의 채팅 가져옴

@@ -250,20 +250,23 @@ class ChattingRoomContainer extends Component<Props> {
           changeChattingRoomInfo(roomObj);
 
           // 안 읽은 채팅 수(채팅방 노란색 숫자)를 줄입니다.
-          readChatting(currRange);
-          const obj: ReadChatRequestDto = {
-            user_id: userState.id,
-            room_id: chatState.id,
-            type: chatState.type as RoomType,
-            participant: chatState.participant,
-            last_read_chat_id_range: currRange,
-          };
+          readChatting(50);
 
-          // 채팅 참가자들에게 채팅을 읽었다는 신호를 보냅니다.
-          if (socket) {
-            socket!.emit("readChat", obj);
-          }
-        } else {
+          chatState.chatting.forEach(chat => {
+            const obj: ReadChatRequestDto = {
+              id : chat.id,
+              user_id: userState.id,
+              room_id: chatState.id,
+            };
+
+            // 채팅 참가자들에게 채팅을 읽었다는 신호를 보냅니다.
+            if (socket) {
+              socket!.emit("ReadSingle", obj);
+            }
+            
+          })
+        }
+        else {
           // 마지막 채팅이 내가 보낸 거라면, 마지막으로 읽은 채팅 id만 변경
           const roomObj: ChangeChattingRoomDto = {
             last_read_chat_id: lastChat.id,
@@ -273,11 +276,10 @@ class ChattingRoomContainer extends Component<Props> {
 
         // 다른 대화 상대가 메시지를 읽었다는 신호가 오면, 해당 메시지의 안 읽은 채팅 수를 줄입니다.
         if (socket) {
-          socket!.off("readChat");
-          socket!.on("readChat", (res: ReadChatResponseDto) => {
+          socket!.off("ReadSingle");
+          socket!.on("ReadSingle", (res: ReadChatResponseDto) => {
             if (chatState.id === res.room_id) {
-              const range = res.last_read_chat_id_range;
-              readChatting(range);
+              readChatting(res.id);
             }
           });
         }

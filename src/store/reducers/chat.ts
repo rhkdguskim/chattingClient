@@ -1,5 +1,6 @@
 import { ChatTypes, ChatActionTypes } from "../actions/chatting";
 import { ChattingDto } from "../../dto/chatting";
+import { act } from "react-dom/test-utils";
 
 export interface ChatState extends ChattingDto {
   isChattingRoomShown: boolean;
@@ -47,13 +48,12 @@ const chatReducer = (state = initialState, action: ChatActionTypes) => {
       };
     case ChatTypes.READ_CHATTING:
       const len = state.chatting.length - 1;
-      const range = action.payload;
-      // range에 포함되는 채팅만 숫자를 줄임
+      const id = action.payload;
+      // const range = action.payload;
+      // // range에 포함되는 채팅만 숫자를 줄임
       for (let i = len; i >= 0; i--) {
-        const id = state.chatting[i].id;
-        if (id <= range[0]) {
-          break;
-        } else if (id <= range[1]) {
+        if (state.chatting[i].id == id)
+        {
           state.chatting[i].not_read_chat--;
         }
       }
