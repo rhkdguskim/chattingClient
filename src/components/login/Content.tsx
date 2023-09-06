@@ -73,12 +73,12 @@ const Wrapper = styled.main`
 `;
 
 const LoginButton = styled.button`
-  width: 200px;  // 원하는 크기로 조정
-  height: 50px; // 원하는 크기로 조정
+  width: 230px;
+  height: 50px;
   background-size: cover;
   border: none;
   cursor: pointer;
-  color: transparent; // 버튼의 텍스트를 숨깁니다.
+  color: transparent;
   transition: opacity 0.3s;
 
   &:hover {
