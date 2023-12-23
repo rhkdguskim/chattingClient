@@ -2,11 +2,15 @@ import axios from "axios";
 import { API_HOST } from "../config";
 import { UserResponseDto, ProfileChangeRequestDto } from "../dto/user";
 import { ApiResponse } from "../dto/base";
+import {getRefreshToken} from "./base";
 // 서버에서 User ID를 통해 해당 유저의 정보를 가져옴, 회원 가입 여부 등에 사용
 export const findUser = async (userId: string): Promise<UserResponseDto> => {
   const foundUser: ApiResponse<UserResponseDto> = await axios.get(
-    `${API_HOST}/users/user_id/${userId}`,
-    { withCredentials: true },
+    `${API_HOST}/users/${userId}`,
+      { withCredentials: true,
+        headers : {
+          'authorization': `${getRefreshToken()}`,
+        }},
   );
   return foundUser.data;
 };
@@ -15,16 +19,22 @@ export const findUser = async (userId: string): Promise<UserResponseDto> => {
 export const findUserUsingId = async (id: number) => {
   const foundUser: ApiResponse<UserResponseDto> = await axios.get(
     `${API_HOST}/users/${id}`,
-    { withCredentials: true },
+      { withCredentials: true,
+        headers : {
+          'authorization': `${getRefreshToken()}`,
+        }},
   );
   return foundUser.data;
 };
 
 // 프로필 변경(사진, 배경, 이름 등등)
 export const changeProfile = async (profileData: ProfileChangeRequestDto) => {
-  await axios.put(`${API_HOST}/users/${profileData.id}`, profileData, {
-    withCredentials: true,
-  });
+  await axios.put(`${API_HOST}/users/${profileData.id}`, profileData,
+      { withCredentials: true,
+        headers : {
+          'authorization': `${getRefreshToken()}`,
+        }},
+  );
   return profileData;
 };
 
@@ -35,7 +45,10 @@ export const uploadImageFile = async (image: File) => {
   const imageUrl: ApiResponse<string> = await axios.post(
     `${API_HOST}/file/`,
     formData,
-    { withCredentials: true },
+      { withCredentials: true,
+        headers : {
+          'authorization': `${getRefreshToken()}`,
+        }},
   );
   return `${API_HOST}/${imageUrl.data}`;
 };

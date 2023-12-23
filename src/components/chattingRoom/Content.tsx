@@ -31,7 +31,7 @@ const Content: React.FC<Props> = (props) => {
     const localeTime = createdAt.toLocaleTimeString();
     const localeDate = createdAt.toLocaleDateString();
     const removeSecond = localeTime.substring(0, localeTime.length - 3);
-    const senderId = chat.user_id;
+    const senderId = chat.user.id;
 
     const prevChat = idx >= 1 ? chattingList[idx - 1] : undefined;
     const prevCreatedAt = prevChat ? new Date(prevChat.createdAt) : "";
@@ -44,7 +44,7 @@ const Content: React.FC<Props> = (props) => {
     const prevRemoveSecond = prevLocaleTime
       ? prevLocaleTime.substring(0, prevLocaleTime.length - 3)
       : "";
-    const isPrevSender = prevChat ? prevChat.user_id === senderId : false;
+    const isPrevSender = prevChat ? prevChat.user.id === senderId : false;
     const isSameDate = prevLocaleDate === localeDate;
     const sender = participant.find(
       (person) => person.id === senderId,
@@ -121,7 +121,7 @@ const Content: React.FC<Props> = (props) => {
     const isSameTimeWithAfterTime = afterRemoveSecond === removeSecond;
     const isSameDateWithAfterTime = afterLocaleDate === localeDate;
     const time =
-      afterSender.user_id !== senderId ||
+      afterSender.user.id !== senderId ||
       !isSameTimeWithAfterTime ||
       !isSameDateWithAfterTime
         ? removeSecond

@@ -37,7 +37,7 @@ function* fetchUser$(action: FetchUserAction): any {
 function* fetchFriends$(action: FetchFriendsAction): any {
   try {
     const id = action.payload;
-    const friends = yield call(friendApi.fecthFriendsRequest, id);
+    const friends = yield call(friendApi.fetchFriendsRequest, id);
     yield put({
       type: UserTypes.FETCH_FRIENDS_SUCCESS,
       payload: friends,

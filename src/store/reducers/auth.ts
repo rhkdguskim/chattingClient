@@ -3,7 +3,7 @@ import { AuthTypes, AuthActionTypes } from "../actions/auth";
 import { Auth } from "../../dto/auth";
 import { Socket } from "socket.io-client";
 import * as socketio from "socket.io-client";
-import { API_HOST } from "../../config";
+import {API_HOST, API_WEB_SOCKET_HOST} from "../../config";
 import Cookies from "js-cookie";
 import {
   getAccessToken,
@@ -37,7 +37,7 @@ if (initialState.access_token) {
   initialState.auth = jwtDecode(initialState.access_token) as Auth;
   initialState.socket?.disconnect();
   initialState.socket = socketio.connect(
-    `${API_HOST}?token=${initialState.access_token}`,
+    `${API_WEB_SOCKET_HOST}?token=${initialState.access_token}`,
   );
 }
 
@@ -69,7 +69,7 @@ const authReducer = (state = initialState, action: AuthActionTypes) => {
         access_token: action.payload.access_token,
         refresh_token: action.payload.refresh_token,
         socket: socketio.connect(
-          `${API_HOST}?token=${action.payload.access_token}`,
+          `${API_WEB_SOCKET_HOST}?token=${action.payload.access_token}`,
         ),
       };
     case AuthTypes.LOGIN_FAILURE:

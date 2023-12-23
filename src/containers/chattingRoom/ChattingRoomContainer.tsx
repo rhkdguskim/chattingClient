@@ -181,7 +181,7 @@ class ChattingRoomContainer extends Component<Props> {
         else if (prevLastChat.id !== currLastChat.id) {
           // 채팅 수신 시, 채팅을 내가 보냈거나 스크롤이 밑에 있다면 스크롤을 가장 아래로 내립니다.
           if (
-            currLastChat.user_id === userState.id ||
+            currLastChat.user.id === userState.id ||
             prevScrollHeight - messageRef.scrollTop <=
               messageRef.clientHeight + 100
           ) {
@@ -195,7 +195,7 @@ class ChattingRoomContainer extends Component<Props> {
             this.setState({
               ...this.state,
               isShowDownBtn: true,
-              sendUserId: currLastChat.user_id,
+              sendUserId: currLastChat.user.id,
               msg: currLastChat.message,
             });
           }
@@ -242,7 +242,7 @@ class ChattingRoomContainer extends Component<Props> {
         const currRange = [lastReadChatId, lastChat.id];
 
         // 마지막 채팅이 내가 보낸 채팅이 아닐 경우
-        if (lastChat.user_id !== userState.id) {
+        if (lastChat.user.id !== userState.id) {
           // 마지막으로 읽은 채팅 id 변경
           const roomObj: ChangeChattingRoomDto = {
             last_read_chat_id: lastChat.id,

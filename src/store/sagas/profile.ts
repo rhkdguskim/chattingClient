@@ -35,7 +35,7 @@ function* changeProfile$(action: ChangeProfileAction) {
 }
 
 function* changeFriendName$(action: ChangeFriendNameAction) {
-  const { my_id, friend_name } = action.payload;
+  const { friend_name } = action.payload;
   try {
     yield call(changeFriendNameRequest as any, action.payload);
     yield put({

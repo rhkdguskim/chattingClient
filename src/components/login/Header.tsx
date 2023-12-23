@@ -21,7 +21,7 @@ const Wrapper = styled.header`
 `;
 
 const Header: React.FC = () => {
-  return <Wrapper>Kwang Talk</Wrapper>;
+  return <Wrapper>Chatting Server</Wrapper>;
 };
 
 export default Header;

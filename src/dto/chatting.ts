@@ -34,9 +34,13 @@ export interface RoomListResponseDto {
   updatedAt: Date;
 }
 
+export interface Participant {
+  id : number;
+}
+
 export interface CreateRoomRequestDto {
   room_name: string;
-  participant: Array<UserResponseDto>;
+  participant: Array<Participant>;
 }
 
 // 서버에서 채팅방 정보 가져옴
@@ -70,12 +74,18 @@ export interface ChattingRequestDto {
   message: string;
   messageType: ChatType;
 }
+export interface ChatUserInfo {
+  id : number;
+}
 
+export interface ChatRoomInfo {
+  id : number;
+}
 // 채팅 수신
 export interface ChattingResponseDto {
   id: number;
-  room_id: number;
-  user_id: number;
+  room: ChatRoomInfo;
+  user: ChatUserInfo;
   message: string;
   not_read_chat: number;
   createdAt: Date;

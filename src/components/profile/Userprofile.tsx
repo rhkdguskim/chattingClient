@@ -88,10 +88,9 @@ const UserProfile: React.FC<Props> = (props) => {
       // 공백이 입력되면 이름을 변경하지 않습니다.
       if (isExistName) {
         if (isMe) {
-          await changeProfile({ id: user_profile_id, name });
+          changeProfile({id: user_profile_id, name});
         } else {
-          await changeFriendName({
-            my_id: loginUserData.id,
+          changeFriendName({
             friend_id: user_profile_id,
             friend_name: name,
           });
@@ -100,7 +99,7 @@ const UserProfile: React.FC<Props> = (props) => {
     };
     const changeStatusMsg = async (msg: string) => {
       msg = msg.trim();
-      await changeProfile({ id: user_profile_id, status_msg: msg });
+      changeProfile({id: user_profile_id, status_msg: msg});
     };
 
     // 클릭된 것이 이름 변경인지 상태 메시지 변경인지에 따라 컴포넌트를 render 합니다.

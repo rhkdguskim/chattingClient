@@ -1,13 +1,9 @@
 import React, { useState, FormEvent, KeyboardEvent, ChangeEvent } from "react";
 import styled from "styled-components";
 
-const Wrapper = styled.footer<{ isKeyboardVisible: boolean }>`
-position: fixed;
+const Wrapper = styled.footer`
+  position: fixed;
   bottom: 0px;
-  
-  @media (max-width: 768px) {
-    bottom: ${({ isKeyboardVisible }) => (isKeyboardVisible ? '50%' : '0px')};
-  }
   left: 0px;
   right: 0px;
   width: 100%;
@@ -57,7 +53,6 @@ interface Props {
 }
 const Footer: React.FC<Props> = ({ onChatSumbmit }) => {
   const [message, setMessage] = useState("");
-  const [isKeyboardVisible, setKeyboardVisible] = useState(false);
   // 채팅 내용이 공백이라면, 채팅을 보낼 수 없도록 설정하였습니다.
   const isCanSubmit = !!message.replace(/ |\n/g, "");
   const btnClassName = isCanSubmit ? "canSubmit" : "cannotSubmit";
@@ -72,15 +67,6 @@ const Footer: React.FC<Props> = ({ onChatSumbmit }) => {
       setMessage("");
     }
   };
-
-  const handleFocus = () => {
-    setKeyboardVisible(true);
-  };
-
-  const handleBlur = () => {
-    setKeyboardVisible(false);
-  };
-  
   const onSubmit = (event: FormEvent<HTMLFormElement>) => {
     event.preventDefault();
     requestSubmit();
@@ -93,21 +79,19 @@ const Footer: React.FC<Props> = ({ onChatSumbmit }) => {
     }
   };
   return (
-    <Wrapper isKeyboardVisible={isKeyboardVisible}>
-      <form onSubmit={onSubmit}>
+      <Wrapper>
+        <form onSubmit={onSubmit}>
         <textarea
-          value={message}
-          autoFocus={true}
-          onChange={onMessageChange}
-          onKeyPress={onEnterPress}
-          onFocus={handleFocus}
-          onBlur={handleBlur}
+            value={message}
+            autoFocus={true}
+            onChange={onMessageChange}
+            onKeyPress={onEnterPress}
         />
-        <button className={btnClassName} type="submit">
-          전송
-        </button>
-      </form>
-    </Wrapper>
+          <button className={btnClassName} type="submit">
+            전송
+          </button>
+        </form>
+      </Wrapper>
   );
 };
 

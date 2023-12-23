@@ -1,15 +1,18 @@
 import axios from "axios";
-import { API_HOST } from "../config";
-import { UserResponseDto, ChangeFriendNameRequestDto } from "../dto/user";
-import { AddFriendRequestDto, DelteFriendRequestDto } from "../dto/friend";
-import { ApiResponse } from "../dto/base";
-import { RequestAuthAPI, getUserID } from "./base";
+import {API_HOST} from "../config";
+import {ChangeFriendNameRequestDto, UserResponseDto} from "../dto/user";
+import {AddFriendRequestDto, DelteFriendRequestDto} from "../dto/friend";
+import {ApiResponse} from "../dto/base";
+import {getRefreshToken, getUserID, RequestAuthAPI} from "./base";
 
 // 친구 목록 가져옴
-export const fecthFriendsRequest = RequestAuthAPI(async (id: number) => {
+export const fetchFriendsRequest = RequestAuthAPI(async (id: number) => {
   const friends: ApiResponse<Array<UserResponseDto>> = await axios.get(
     `${API_HOST}/friend/${id}`,
-    { withCredentials: true },
+    { withCredentials: true,
+        headers : {
+            'authorization': `${getRefreshToken()}`,
+        }},
   );
   return friends.data;
 });
@@ -18,12 +21,16 @@ export const fecthFriendsRequest = RequestAuthAPI(async (id: number) => {
 export const addFriendRequest = RequestAuthAPI(
   async (request: AddFriendRequestDto) => {
     const id = await getUserID();
-    const addedFriend: boolean = await axios.post(
-      `${API_HOST}/friend/${id}`,
-      request,
-      { withCredentials: true },
+      return await axios.post(
+        `${API_HOST}/friend/${id}`,
+        request,
+        {
+            withCredentials: true,
+            headers: {
+                'authorization': `${getRefreshToken()}`,
+            }
+        },
     );
-    return addedFriend;
   },
 );
 
@@ -31,12 +38,16 @@ export const addFriendRequest = RequestAuthAPI(
 export const changeFriendNameRequest = RequestAuthAPI(
   async (request: ChangeFriendNameRequestDto) => {
     const id = await getUserID();
-    const response: boolean = await axios.put(
-      `${API_HOST}/friend/${id}`,
-      request,
-      { withCredentials: true },
+      return await axios.put(
+        `${API_HOST}/friend/${id}`,
+        request,
+        {
+            withCredentials: true,
+            headers: {
+                'authorization': `${getRefreshToken()}`,
+            }
+        },
     );
-    return response;
   },
 );
 

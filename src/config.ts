@@ -11,7 +11,9 @@ export enum PAGE_PATHS {
 
 export const HOST = process.env.REACT_APP_HOST || "localhost:3000";
 export const API_HOST =
-  process.env.REACT_APP_API_HOST || "http://localhost:3000";
+  process.env.REACT_APP_API_HOST || "http://localhost:3000/api";
+
+export const API_WEB_SOCKET_HOST = process.env.REACT_APP_API_HOST || "http://localhost:3000/";
 
 export const BASE_IMG_URL = "/asset/base_profile.jpg";
 export const NAVER_IMG_URL = "/asset/naver_login.png";

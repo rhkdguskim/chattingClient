@@ -69,8 +69,8 @@ const MenuContainer: React.FC<Props> = (props) => {
       if (socket) {
         socket.emit("Join"); // 채팅방생성시에 리로딩
         socket.on("SendMessage", async (response: ChattingResponseDto) => {
-          if (response.room_id === chatState.id) {
-            await addChatting(response);
+          if (response.room.id === chatState.id) {
+            addChatting(response);
           }
           await updateRooms(response);
         });
@@ -92,15 +92,17 @@ const MenuContainer: React.FC<Props> = (props) => {
     const roomList = userState.room_list;
     const { fetchRoomList, updateRoomList } = props.userActions;
 
-    const findRoom = roomList.find((room) => room.id === response.room_id);
+
+    const findRoom = roomList.find((room) => room.id === response.room.id);
+
     if (findRoom) {
-      const haveReadChat = response.room_id === chatState.id;
+      const haveReadChat = response.room.id === chatState.id;
       const notReadChat = haveReadChat ? 0 : findRoom.not_read_chat + 1;
       const lastReadChatId = haveReadChat
         ? response.id
         : findRoom.last_read_chat_id;
       const updateRoomObj = {
-        id: response.room_id,
+        id: response.room.id,
         last_chat: response.message,
         updatedAt: response.createdAt,
         not_read_chat: notReadChat,

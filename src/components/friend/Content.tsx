@@ -1,13 +1,10 @@
 import React from "react";
 import styled from "styled-components";
 import { MainContent } from "../../styles/BaseStyle";
-// import { UserData, UserResponseDto } from '../../dto';
-// import { CreateRoomRequest } from '~/types/chatting';
 import { BASE_IMG_URL } from "../../config";
 import { UserDataDto, UserResponseDto } from "../../dto/user";
 import { CreateRoomRequestDto, RoomListResponseDto } from "../../dto/chatting";
 import { createRoom } from "../../apis/chatting";
-import { changeChattingRoomInfo } from "../../store/actions/chatting";
 
 const MyProfileBlock = styled.div`
   position: relative;
@@ -102,8 +99,8 @@ const Content: React.FC<Props> = ({
   });
   const renderFriends = searchedFriends.map((friend) => {
     const roomObj: CreateRoomRequestDto = {
-      room_name: "",
-      participant: [userData, { ...friend }],
+      room_name: `${friend.name}`,
+      participant: [{id:userData.id}, {id:friend.id }],
     };
     return (
       <FriendRow
@@ -126,7 +123,7 @@ const Content: React.FC<Props> = ({
   const onMyBlockDoubleClick = async () => {
     const roomObj: CreateRoomRequestDto = {
       room_name: userData.name,
-      participant: [userData],
+      participant: [{id:userData.id}],
     };
     const room = await createRoom(roomObj);
     const roomObjChange: RoomListResponseDto = {

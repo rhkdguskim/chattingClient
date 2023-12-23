@@ -27,7 +27,7 @@ export const signup = async (signupData: SignupData) => {
     password: signupData.password,
     name: signupData.name,
   };
-  await axios.post(`${API_HOST}/auth/signup`, signupRequest);
+  await axios.post(`${API_HOST}/users`, signupRequest);
 };
 
 // 서버에 로그인 요청
@@ -38,10 +38,12 @@ export const login = async (
     user_id: loginData.user_id,
     password: loginData.password,
   };
+  console.log(request)
   const response: ApiResponse<TokenResponseDto> = await axios.post(
-    `${API_HOST}/auth/login`,
+    `${API_HOST}/auth/signin`,
     request,
-    { withCredentials: true },
+    { withCredentials: true
+    },
   );
   return response.data;
 };

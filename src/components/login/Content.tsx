@@ -26,13 +26,10 @@ const Wrapper = styled.main`
     margin: 0.5rem 0;
     padding: 0.5rem;
     border-radius: 5px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    border: 1px solid #dcdcdc;
     transition:
       box-shadow 0.3s,
       border 0.3s;
     &:focus {
-      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
       border-color: #a2a2a2;
     }
   }
@@ -45,7 +42,6 @@ const Wrapper = styled.main`
     width: 230px;
     border: 1px solid #000;
     color: #fff;
-    background-color: #423630;
     outline: none;
     @keyframes iconLotate {
       0% {
@@ -66,7 +62,6 @@ const Wrapper = styled.main`
       animation: iconLotate 1.5s linear infinite;
     }
     &:hover {
-      background-color: #594941;
       cursor: pointer;
     }
     &:active {
@@ -89,12 +84,11 @@ const Wrapper = styled.main`
 const LoginButton = styled.button`
   width: 230px;
   height: 50px;
-  background-size: cover;
+  background-size: 100% 100%; /* 이미지를 꽉 차게 그리기 */
   border: none;
   cursor: pointer;
   color: transparent;
   transition: opacity 0.3s;
-
   &:hover {
     opacity: 0.8;
   }
