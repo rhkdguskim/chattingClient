@@ -2,29 +2,31 @@ import React, { useState, ChangeEvent, FocusEvent } from "react";
 import styled from "styled-components";
 import Box from "@mui/material/Box";
 import TextField from "@mui/material/TextField";
-import Button from "@mui/material/Button";
-import { LoginData } from "../../dto/auth";
 import { signup } from "../../apis/auth";
+import Button from "@mui/material/Button";
+
 
 const Wrapper = styled.main`
-  width: 100%;
-  & label,
   button {
     display: block;
-    width: 80%;
+    width: 55%;
     margin: 0 auto;
   }
+
   & label span,
   button {
     padding: 16px 5px;
     border: 1px solid #dadada;
   }
+
   & label {
     margin-bottom: 20px;
   }
+
   & label span {
     display: block;
     background-color: #fff;
+
     & input {
       border: none;
       width: 100%;
@@ -32,6 +34,7 @@ const Wrapper = styled.main`
       padding: 0 15px;
     }
   }
+
   & label h3 {
     font-size: 14px;
     font-weight: bold;
@@ -39,11 +42,12 @@ const Wrapper = styled.main`
   }
 
   & button {
-    background-color: #ffeb33;
+    background-color: #b9d4fa;
     font-size: 15px;
     font-weight: bold;
     cursor: pointer;
   }
+
   & p {
     color: red;
   }
@@ -156,8 +160,7 @@ const Content: React.FC = () => {
     if (validId && validPw && validCheckPw && validName) {
       try {
         await signup({ user_id, password: pw, name });
-        await alert("회원 가입 되었습니다.");
-        //await history.replace(PAGE_PATHS.LOGIN);
+        alert("회원 가입 되었습니다.");
       } catch (err: any) {
         alert(err.response.data.message);
       }
@@ -166,55 +169,50 @@ const Content: React.FC = () => {
 
   return (
     <Wrapper>
-      <label>
-        <h3>아이디</h3>
-        <span>
-          <input
+      <Box
+          component="form"
+          sx={{
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            "& > :not(style)": { m: 1, width: "25ch" },
+          }}
+          noValidate
+          autoComplete="off"
+      >
+        <TextField
+            label="아이디"
             type="text"
-            maxLength={MAX_LEN}
+            variant="outlined"
             onChange={onUserIdChange}
             onBlur={onUserIdBlur}
-          />
-        </span>
-        <p>{userIdWarningMsg}</p>
-      </label>
-      <label>
-        <h3>비밀번호</h3>
-        <span>
-          <input
+        />
+
+        <TextField
+            label="비밀번호"
             type="password"
-            maxLength={MAX_LEN}
+            variant="outlined"
             onChange={onPwChange}
             onBlur={onPwBlur}
-          />
-        </span>
-        <p>{pwWarningMsg}</p>
-      </label>
-      <label>
-        <h3>비밀번호 재확인</h3>
-        <span>
-          <input
+        />
+
+        <TextField
+            label="비밀번호 재확인"
             type="password"
-            maxLength={MAX_LEN}
+            variant="outlined"
             onChange={onCheckPwChange}
             onBlur={onCheckPwBlur}
-          />
-        </span>
-        <p>{checkPwWarningMsg}</p>
-      </label>
-      <label>
-        <h3>이름</h3>
-        <span>
-          <input
+        />
+
+        <TextField
+            label="이름"
             type="text"
-            maxLength={MAX_LEN}
+            variant="outlined"
             onChange={onNameChange}
             onBlur={onNameBlur}
-          />
-        </span>
-        <p>{nameWarningMsg}</p>
-      </label>
-      <button onClick={onSubmit}>가입하기</button>
+        />
+      </Box>
+      <Button onClick={onSubmit}>가입하기</Button>
     </Wrapper>
   );
 };

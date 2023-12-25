@@ -34,7 +34,6 @@ const MenuContainer: React.FC<Props> = (props) => {
   const [currentView, setCurrentView] = useState("Friend");
   const [prevChatRoomId, setPrevChatRoomId] = useState(0);
 
-  // 초기 연결시에만 들어옴.
   useEffect(() => {
     const auth = props.rootState.auth.auth;
     if (auth) {
@@ -42,6 +41,7 @@ const MenuContainer: React.FC<Props> = (props) => {
       props.userActions.fetchUser(auth.user_id);
       props.userActions.fetchFriends(auth.id);
       props.userActions.fetchRoomList(auth.id);
+
       if (socket) {
         socket.on("connect", () => {
           socket.emit("Join");
@@ -53,7 +53,6 @@ const MenuContainer: React.FC<Props> = (props) => {
       }
     }
 
-    // useEffect의 반환값으로 해제 함수를 반환
     return () => {
       if (socket) {
         socket.off("SendMessage");
@@ -67,7 +66,7 @@ const MenuContainer: React.FC<Props> = (props) => {
       const socket = props.rootState.auth.socket;
       const { addChatting } = props.chatActions;
       if (socket) {
-        socket.emit("Join"); // 채팅방생성시에 리로딩
+        socket.emit("Join");
         socket.on("SendMessage", async (response: ChattingResponseDto) => {
           if (response.room.id === chatState.id) {
             addChatting(response);
@@ -110,7 +109,7 @@ const MenuContainer: React.FC<Props> = (props) => {
       };
       updateRoomList(updateRoomObj);
     } else {
-      await fetchRoomList(userState.id);
+      fetchRoomList(userState.id);
     }
   };
 

@@ -28,7 +28,6 @@ import {
   DownBtn,
   MessageNotification,
 } from "../../components/chattingRoom/InfoBlock";
-import { Socket } from "socket.io-client";
 
 const Wrapper = styled.div`
   position: fixed;
@@ -312,13 +311,15 @@ class ChattingRoomContainer extends Component<Props> {
     const chatState = this.props.rootState.chat;
     const authState = this.props.rootState.auth;
     const roomName = chatState.room_name;
-    const isMe = chatState.participant[0].id === userState.id;
+    const isMe = !!chatState.participant.find((participant) => {
+      return participant.id === userState.id
+    });
     const isGroup = chatState.type === RoomType.Group;
     const { hideChattingRoom } = this.props.chatActions;
     const { showProfile } = this.props.profileActions;
 
-    const onChatSumbmit = (msg: string) => {
-      const chattingRequset: ChattingRequestDto = {
+    const onChatSubmit = (msg: string) => {
+      const chattingRequest: ChattingRequestDto = {
         room_id: chatState.id,
         type: chatState.type as RoomType,
         participant: chatState.participant,
@@ -328,7 +329,7 @@ class ChattingRoomContainer extends Component<Props> {
       };
       // 채팅방 참여자들에게 해당 메시지를 보냅니다.
       if (authState.socket) {
-        authState.socket.emit("SendMessage", chattingRequset);
+        authState.socket.emit("SendMessage", chattingRequest);
       } else {
       }
     };
@@ -347,7 +348,7 @@ class ChattingRoomContainer extends Component<Props> {
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
         await addFriendRequest(request);
-        await addFriend(friend);
+        addFriend(friend);
       } catch (err) {
         alert("친구 추가 실패");
       }
@@ -391,7 +392,7 @@ class ChattingRoomContainer extends Component<Props> {
             )}
             {renderNotification()}
           </Content>
-          <Footer onChatSumbmit={onChatSumbmit} />
+          <Footer onChatSumbmit={onChatSubmit} />
         </Wrapper>
       </Portal>
     );

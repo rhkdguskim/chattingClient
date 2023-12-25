@@ -1,9 +1,9 @@
 // 서버에서 채팅방 리스트에 대한 정보를 받아올 때
 import { UserResponseDto } from "./user";
 export enum RoomType {
-  Individual,
-  two,
-  Group,
+  Individual = 1,
+  two = 2,
+  Group= 3,
 }
 
 export enum ChatType {

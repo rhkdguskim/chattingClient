@@ -8,13 +8,11 @@ import { RootState } from "../../store/reducers";
 import { AuthState } from "../../store/reducers/auth";
 import { PAGE_PATHS } from "../../config";
 const Wrapper = styled.div`
-  margin: 0 auto;
-  width: 50%;
-  min-height: 95vh;
-  border: 1px solid #dadada;
-  @media only screen and (max-width: 800px) {
-    width: 95%;
-  }
+    width: 360px;
+    height: 700px;
+    background-color: rgba(255, 255, 255, 0.9);  // 투명도 조절
+    border-radius: 15px;  // 둥근 모서리
+    box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);  // 그림자 효과 추가
 `;
 
 interface Props {

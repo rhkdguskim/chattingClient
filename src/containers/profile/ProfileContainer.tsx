@@ -82,11 +82,11 @@ class ProfileContainer extends Component<Props> {
         participant,
       };
 
-      await hideProfile();
+      hideProfile();
       if (chatState.isChattingRoomShown) {
-        await hideChattingRoom();
+        hideChattingRoom();
       }
-      await showChattingRoom(roomObjChanged);
+      showChattingRoom(roomObjChanged);
     };
 
     const onAddFriendClick = async () => {
@@ -97,7 +97,7 @@ class ProfileContainer extends Component<Props> {
       const request: AddFriendRequestDto = { friend_id, friend_name };
       try {
         await addFriendRequest(request);
-        await addFriend({ ...profileState });
+        addFriend({...profileState});
       } catch (err) {
         alert("친구 추가 실패");
       }

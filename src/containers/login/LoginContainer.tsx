@@ -7,6 +7,7 @@ import { Dispatch, bindActionCreators } from "redux";
 import { RootState } from "../../store/reducers";
 import { PAGE_PATHS } from "../../config";
 import { Navigate } from "react-router-dom";
+import React from "react";
 
 const Wrapper = styled.div`
   width: 360px;
@@ -14,7 +15,6 @@ const Wrapper = styled.div`
   background-color: rgba(255, 255, 255, 0.9);  // 투명도 조절
   border-radius: 15px;  // 둥근 모서리
   box-shadow: 0px 4px 15px rgba(0, 0, 0, 0.1);  // 그림자 효과 추가
-  }
 `;
 
 interface Props {
@@ -23,8 +23,8 @@ interface Props {
 }
 
 const LoginContainer: React.FC<Props> = (props) => {
-  const { access_token, loginFailuerMsg, loggingIn } = props.authState; // store에서 state를 가져옴.
-  const { login, Sociallogin, changeMessage } = props.authActions; // store에서 dispatch를 가져옴.
+  const { access_token, loginFailuerMsg, loggingIn } = props.authState;
+  const { login, Sociallogin, changeMessage } = props.authActions;
 
   const contentProps = {
     login,
@@ -45,12 +45,10 @@ const LoginContainer: React.FC<Props> = (props) => {
 };
 
 const mapStateToProps = (state: RootState) => ({
-  // store로부터 state를 가져와서 컴포넌트에 props로 보내준다.
   authState: state.auth,
 });
 
 const mapDispatchToProps = (dispatch: Dispatch) => ({
-  // dispacth를 props로 보내준다.
   authActions: bindActionCreators(AuthActions, dispatch),
 });
 

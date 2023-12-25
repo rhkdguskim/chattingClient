@@ -1,20 +1,27 @@
-import React, { useState } from "react";
-import styled from "styled-components";
-import { Link } from "react-router-dom";
-import { PAGE_PATHS } from "../../config";
+import React from "react";
+import styled, {keyframes} from "styled-components";
+
+const moveAnimation = keyframes`
+  0% { transform: translateY(0); }
+  50% { transform: translateY(-5px); }
+  100% { transform: translateY(0); }
+`;
 
 const Wrapper = styled.header`
   width: 100%;
   height: 200px;
   padding-top: 100px;
-  & img {
-    display: block;
-    margin: 0 auto;
-  }
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 36px;
+  font-weight: bold;
+  color: #333;
+  animation: ${moveAnimation} 2s infinite;
 `;
 
 const Header: React.FC = () => {
-  return <Wrapper></Wrapper>;
+  return <Wrapper>회원가입</Wrapper>;
 };
 
 export default Header;
