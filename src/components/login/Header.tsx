@@ -21,7 +21,7 @@ const Wrapper = styled.header`
 `;
 
 const Header: React.FC = () => {
-  return <Wrapper>Chatting Server</Wrapper>;
+  return <Wrapper>Mirero Test Server</Wrapper>;
 };
 
 export default Header;
