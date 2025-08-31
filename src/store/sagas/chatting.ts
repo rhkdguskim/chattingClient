@@ -1,5 +1,5 @@
 import { put, all, call, takeLatest } from "redux-saga/effects";
-import { ChatTypes, FetchChattingAction } from "../../store/actions/chatting";
+import { ChatTypes, FetchChattingAction } from "../actions/chatting";
 import * as chatApi from "../../apis/chatting";
 export default function* chatSaga() {
   yield all([takeLatest(ChatTypes.FETCH_CHATTING_REQUEST, $fetchChatting)]);

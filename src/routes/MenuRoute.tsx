@@ -5,7 +5,7 @@ import {
   Routes,
 } from "react-router-dom";
 import { PAGE_PATHS } from "../config";
-import { FriendsContainer, ChattingContainer } from "../containers/";
+import { FriendsContainer, ChattingContainer } from "../containers";
 
 const MenuRoute: React.FC = () => {
   return (

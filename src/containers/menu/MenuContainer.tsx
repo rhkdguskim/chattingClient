@@ -4,17 +4,17 @@ import { Navigate } from "react-router-dom";
 import { connect } from "react-redux";
 import { Dispatch, bindActionCreators } from "redux";
 import { Socket } from "socket.io-client";
-import { MenuRoute } from "../../routes/";
-import { MenuSideBar } from "../../components/menu/";
+import { MenuRoute } from "../../routes";
+import { MenuSideBar } from "../../components/menu";
 import { AuthActions } from "../../store/actions/auth";
 import { UserActions } from "../../store/actions/user";
 import { ChatActions } from "../../store/actions/chatting";
 import { RootState } from "../../store/reducers";
 import { PAGE_PATHS } from "../../config";
 import { Auth } from "../../dto/auth";
-import { ProfileContainer, ChattingRoomContainer } from "../";
+import { ProfileContainer, ChattingRoomContainer } from "..";
 import { ChattingResponseDto, UpdateRoomListDto } from "../../dto/chatting";
-import { ChattingContainer, FriendsContainer } from "../";
+import { ChattingContainer, FriendsContainer } from "..";
 
 const Wrapper = styled.main`
   width: 100%;
